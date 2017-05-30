@@ -14,6 +14,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ViewActivityPage {
 
+  private activityID: any = "";
+
+  private creatorID: any = "";
+
+  
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

@@ -7,12 +7,52 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ViewActivity</ion-title>
+    <ion-title>"Saufen" - ansehen</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <div class="picture-container">
+    <img class="activity-profile-picture" src="http://media.istockphoto.com/photos/smiling-and-beautiful-woman-portrait-picture-id526142422">
+  </div>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label class="center-contents">
+        Von Julia Bla Bla
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="center-contents participate-button">
+    <button ion-button outline color="secondary" type="button">Teilnehmen</button>
+  </div>
 
+  <ion-list>
+    <ion-list-header>
+      Informationen zur Aktivität
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Treffpunkt:
+      </ion-label>
+      <ion-label class="text-aligned-right">Wasserturm
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Uhrzeit:
+      </ion-label>
+      <ion-label class="text-aligned-right">15:00 Uhr</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Teilnehmer
+    </ion-list-header>
+    <ion-item>
+      <div class="left-container"><img class="user-profile-picture" src="http://www.istockphoto.com/search/assets/avatar_placeholder.svg"></div>
+      <div class="right-container">
+          Max Mustermann (28)
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>
