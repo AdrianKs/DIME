@@ -29,6 +29,8 @@ plugins/ios.json
 www/
 $RECYCLE.BIN/
 
+src/app/firebaseAppData.ts
+
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate

@@ -3,8 +3,9 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { ViewActivityPage } from '../pages/view-activity/view-activity';
+import { CreateActivityPage } from '../pages/create-activity/create-activity';
+import { SelectCategoryPage } from '../pages/select-category/select-category';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,8 +14,9 @@ import {LoginPage} from "../pages/login/login";
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage,
+    ViewActivityPage,
+    CreateActivityPage,
+    SelectCategoryPage,
     LoginPage
   ],
   imports: [
@@ -24,8 +26,9 @@ import {LoginPage} from "../pages/login/login";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage,
+    ViewActivityPage,
+    CreateActivityPage,
+    SelectCategoryPage,
     LoginPage
   ],
   providers: [

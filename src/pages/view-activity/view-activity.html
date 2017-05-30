@@ -7,12 +7,38 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>ViewActivity</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
+  <ion-list>
+    <div *ngFor="let activityItem of dataActivity">
+      <ion-item (click)="openDetails($event, activityItem)">
+        <div class="itemLeft">
+          <!--Profilbild-->
+          <img src="this.src='assets/icon/favicon.ico'"/>
+        </div>
+        <div class="itemRight">
+          <div class="mainDetails">"{{activityItem.category}}"</div>
+          <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+          <div class="secondaryDetails">{{ activityItem.date }}</div>
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
 
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 </ion-content>
+
+
+
+
+
