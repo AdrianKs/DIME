@@ -14,3 +14,28 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.itemLeft {
+  float: left;
+  margin-top: 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 3px;
+}
+
+.itemRight{
+  padding: 12px 8px 8px 15px;
+  margin-left: 77px;
+  font-size: 14px;
+}
+
+.mainDetails {
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.secondaryDetails{
+  color: dimgrey;
+  font-size: 14px;
+}
