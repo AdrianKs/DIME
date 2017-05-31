@@ -15,6 +15,8 @@ import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
 })
 export class LoginPage {
 
+  fbAccessToken: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public fb: Facebook) {
   }
 
@@ -25,7 +27,13 @@ export class LoginPage {
 
   login() {
     this.fb.login(['public_profile', 'user_friends', 'email'])
-      .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+      .then((res: FacebookLoginResponse) => {
+        let credential;
+        console.log('Logged into Facebook!', res)
+        this.fbAccessToken = res.authResponse.accessToken;
+        console.log(this.fbAccessToken);
+        credential = firebase.auth.FacebookAuthProvider
+      })
       .catch(e => console.log('Error logging into Facebook', e))
 
     //this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
