@@ -19,8 +19,9 @@ export class CreateActivityPage {
     lng: 0
   };
   myDate: String = new Date().toISOString();
+  activityPlaceName: String;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public geofence: Geofence) { }
 
   ionViewDidLoad() {
     this.loadMap();
@@ -138,6 +139,8 @@ export class CreateActivityPage {
         tempLongitude = place.geometry.location.lng();
         this.activityPlace.lat = tempLatitude;
         this.activityPlace.lng = tempLongitude;
+        this.activityPlaceName = place.name;
+        console.log(this.activityPlaceName);
 
         console.log(this.activityPlace);
 
@@ -147,6 +150,28 @@ export class CreateActivityPage {
   }
 
   createActivityOnClick() {
-    console.log("Click")
+    let id = 1;
+
+    let fence = {
+      id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
+      latitude: this.activityPlace.lat, //center of geofence radius
+      longitude: this.activityPlace.lng,
+      radius: 1000, //radius to edge of geofence in meters
+      transitionType: 1, //see 'Transition Types' below
+      notification: { //notification settings
+        id: 1, //any unique ID
+        title: 'Eine neue Aktivität', //notification title
+        text: this.activityPlace + ' ' + this.myDate, //notification body
+        openAppOnClick: true //open app when notification is tapped
+      }
+    }
+
+
+    /*this.geofence.addOrUpdate(fence).then(
+         () => console.log('Geofence added'),
+         (err) => console.log('Geofence failed to add')
+       );*/
+
   }
+
 }
