@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { ViewActivityPage } from '../pages/view-activity/view-activity';
 import { CreateActivityPage } from '../pages/create-activity/create-activity';
 import { SelectCategoryPage } from '../pages/select-category/select-category';
+import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,7 +18,8 @@ import {LoginPage} from "../pages/login/login";
     ViewActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
-    LoginPage
+    LoginPage,
+    ActivityDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,8 @@ import {LoginPage} from "../pages/login/login";
     ViewActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
-    LoginPage
+    LoginPage,
+    ActivityDetailsPage
   ],
   providers: [
     StatusBar,
