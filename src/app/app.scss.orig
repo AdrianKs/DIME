@@ -15,14 +15,14 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+<<<<<<< HEAD
 ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
     padding: 0px;
 }
 
 .ion-app.md [padding], ion-app.md [padding] .scroll-content{
     padding: 0px;
-}
-
+=======
 .itemLeft {
   float: left;
   margin-top: 4px;
@@ -56,4 +56,5 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   display: inline-block;
   width: 100%;
   white-space: normal;
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
 }

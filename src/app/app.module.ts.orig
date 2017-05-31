@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { ViewActivityPage } from '../pages/view-activity/view-activity';
+import { CreateActivityPage } from '../pages/create-activity/create-activity';
 import { SelectCategoryPage } from '../pages/select-category/select-category';
 import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
 
@@ -13,17 +14,23 @@ import { Geofence } from '@ionic-native/geofence';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LoginPage} from "../pages/login/login";
-import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
 
 @NgModule({
   declarations: [
     MyApp,
+<<<<<<< HEAD
+    HomePage,
+    ListPage,
+    LoginPage,
+    CreateActivityPage
+=======
     ViewActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
     ActivityDetailsPage
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
   ],
   imports: [
     BrowserModule,
@@ -32,16 +39,22 @@ import {CreateActivityPage} from "../pages/create-activity/create-activity";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+<<<<<<< HEAD
+    HomePage,
+    ListPage,
+    LoginPage,
+    CreateActivityPage
+=======
     ViewActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
     ActivityDetailsPage
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    Facebook,
     Geolocation,
     Geofence,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
