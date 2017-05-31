@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Geofence } from '@ionic-native/geofence';
+import { Utilities } from '../../app/utilities';
 
 declare var google;
 
@@ -20,10 +21,13 @@ export class CreateActivityPage {
   };
   myDate: String = new Date().toISOString();
   activityPlaceName: String;
+  categories: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public geofence: Geofence) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) { }
 
   ionViewDidLoad() {
+    this.categories = this.utilities.categories;
+    console.log(this.categories);
     this.loadMap();
   }
 

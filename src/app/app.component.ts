@@ -4,12 +4,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
 
-import {firebaseConfig} from "./firebaseAppData";
-import {ViewActivityPage} from "../pages/view-activity/view-activity";
-import {SelectCategoryPage} from "../pages/select-category/select-category";
-import {LoginPage} from "../pages/login/login";
+import { firebaseConfig } from "./firebaseAppData";
+import { ViewActivityPage } from "../pages/view-activity/view-activity";
+import { SelectCategoryPage } from "../pages/select-category/select-category";
+import { LoginPage } from "../pages/login/login";
 import firebase from 'firebase';
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
+
+import { Utilities } from './utilities';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -33,7 +35,8 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [Utilities]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -42,17 +45,17 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public utilities: Utilities) {
     this.initializeApp();
 
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Aktivität erstellen', component: CreateActivityPage },
- 	    { title: 'Aktivitäten', component: ViewActivityPage },
+      { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage }
     ];
-     
+
   }
 
   initializeApp() {

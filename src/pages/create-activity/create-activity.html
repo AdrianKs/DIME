@@ -11,11 +11,8 @@
   <div class="choose-category">
     <ion-item>
       <ion-label>Kategorie</ion-label>
-      <ion-select [(ngModel)]="category">
-        <ion-option value="t">Trinken</ion-option>
-        <ion-option value="k">Kino</ion-option>
-        <ion-option value="s">Sport</ion-option>
-        <ion-option value="p">Party</ion-option>
+      <ion-select [(ngModel)]="categories">
+        <ion-option *ngFor="let item of categories; let i = index;" value="item.name">{{item.name}}</ion-option>
       </ion-select>
     </ion-item>
   </div>
