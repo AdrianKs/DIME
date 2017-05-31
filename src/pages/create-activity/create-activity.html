@@ -26,7 +26,7 @@
   <div class="set-information">
     <ion-item>
       <ion-label color="primary">Max. Teilnehmer</ion-label>
-      <ion-input placeholder="Text Input"></ion-input>
+      <ion-input class="info-label" placeholder="Personen"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Datum und Uhrzeit</ion-label>
@@ -34,11 +34,11 @@
     </ion-item>
     <ion-item>
       <ion-label color="primary">Informationen</ion-label>
-      <ion-input placeholder="Text Input"></ion-input>
+      <ion-input class="info-label" placeholder="Notizen"></ion-input>
     </ion-item>
   </div>
   <div class="submit-information">
-    <button ion-button block outline>Aktivität erstellen</button>
+    <button ion-button block outline (click)="createActivityOnClick()">Aktivität erstellen</button>
   </div>
 
 </ion-content>
