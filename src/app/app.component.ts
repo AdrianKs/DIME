@@ -22,8 +22,7 @@ firebase.auth().onAuthStateChanged((user) => {
     //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
     //utilities.loggedIn = false;
     //utilities.user = {};
-    //this.rootPage = LoginPage;
-    this.rootPage = ViewActivityPage;
+    this.rootPage = LoginPage;
   } else {
     if (this.nav.getActive() == undefined) {
       this.rootPage = ViewActivityPage;

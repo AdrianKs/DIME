@@ -1,31 +1,24 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
+import { Injectable } from '@angular/core';
+import 'rxjs/add/operator/map';
 import firebase from 'firebase';
+import {MenuController} from "ionic-angular";
+import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
+/*
+  Generated class for the AuthData provider.
 
-/**
- * Generated class for the LoginPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-@IonicPage()
-@Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
-})
-export class LoginPage {
-
+  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+  for more info on providers and Angular 2 DI.
+*/
+@Injectable()
+export class AuthData {
+  public fireAuth: any;
   fbAccessToken: any;
-  userProfile = firebase.database().ref('user');
+  public userProfile = firebase.database().ref('user');
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public fb: Facebook) {
+  constructor(public menuCtrl: MenuController, public fb: Facebook) {
+    this.fireAuth = firebase.auth();
+    this.userProfile = firebase.database().ref('user');
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
-
 
   login() {
     this.fb.login(['public_profile', 'user_friends', 'email'])
@@ -61,15 +54,15 @@ export class LoginPage {
       if(response.status == 'connected'){
         this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,picture', [])
           .then((res) => {
-          //alert(JSON.stringify(res));
-          console.log(res);
-          console.log(JSON.stringify(res));
-          console.log("solltejetzt in DB schreiben");
-          this.writeUserInDB(user, res)
+            //alert(JSON.stringify(res));
+            console.log(res);
+            console.log(JSON.stringify(res));
+            console.log("solltejetzt in DB schreiben");
+            this.writeUserInDB(user, res)
           })
           .catch((error) => {
-          console.log("facebook api error");
-          console.log(error);
+            console.log("facebook api error");
+            console.log(error);
           })
       }
     });
@@ -98,6 +91,28 @@ export class LoginPage {
       }
     });
 
+  }
+
+  deleteUser(password: string): any{
+    let that = this;
+    let credentials = firebase.auth.EmailAuthProvider.credential(
+      this.fireAuth.currentUser.email,
+      password
+    );
+
+    return this.fireAuth.currentUser.reauthenticate(credentials).then(function() {
+      that.fireAuth.currentUser.delete().then(function() {
+        // User deleted.
+      }, function(error) {
+        alert(error.message);
+      });
+    });
+  }
+
+  logoutUser(): any {
+    this.menuCtrl.close('mainMenu');
+    console.log("nach menu close");
+    return this.fireAuth.signOut();
   }
 
 }
