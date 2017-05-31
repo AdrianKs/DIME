@@ -80,5 +80,6 @@ export class MyApp {
 
   logout() {
    this.authData.logout();
+   this.nav.setRoot(LoginPage);
   }
 }
