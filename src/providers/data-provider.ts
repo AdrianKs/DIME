@@ -14,9 +14,7 @@ export class DataProvider {
     }
 
     setActivity() {
-        console.log("WHATWHAT")
         return firebase.database().ref('activity').once('value', snapshot => {
-            console.log("YAYAYA")
             let activityArray = [];
             let counter = 0;
             for (let i in snapshot.val()) {
