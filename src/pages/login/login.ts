@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
+import firebase from 'firebase';
 
 /**
  * Generated class for the LoginPage page.
@@ -29,10 +30,21 @@ export class LoginPage {
     this.fb.login(['public_profile', 'user_friends', 'email'])
       .then((res: FacebookLoginResponse) => {
         let credential;
+        let user;
         console.log('Logged into Facebook!', res)
         this.fbAccessToken = res.authResponse.accessToken;
         console.log(this.fbAccessToken);
-        credential = firebase.auth.FacebookAuthProvider
+        credential = firebase.auth.FacebookAuthProvider.credential(
+          res.authResponse.accessToken
+        );
+        firebase.auth().signInWithCredential(credential)
+          .then((returnMessage) => {
+            user = firebase.auth().currentUser;
+            console.log(returnMessage);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
       })
       .catch(e => console.log('Error logging into Facebook', e))
 
