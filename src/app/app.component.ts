@@ -3,10 +3,9 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import {firebaseConfig} from "./firebaseAppData";
 import {ViewActivityPage} from "../pages/view-activity/view-activity";
+import {SelectCategoryPage} from "../pages/select-category/select-category";
 import {LoginPage} from "../pages/login/login";
 import firebase from 'firebase';
 
@@ -37,17 +36,18 @@ firebase.auth().onAuthStateChanged((user) => {
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = ViewActivityPage;
 
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
+
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Aktivitäten', component: ViewActivityPage },
+      { title: 'Kategorie', component: SelectCategoryPage }
     ];
 
   }
