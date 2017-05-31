@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
 import { Geolocation } from '@ionic-native/geolocation';
+import { Geofence } from '@ionic-native/geofence';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,6 +38,7 @@ import {CreateActivityPage} from "../pages/create-activity/create-activity";
     StatusBar,
     SplashScreen,
     Geolocation,
+    Geofence,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
