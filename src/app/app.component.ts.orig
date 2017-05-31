@@ -4,12 +4,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
 
+<<<<<<< HEAD
+import { HomePage } from '../pages/home/home';
+import { ListPage } from '../pages/list/list';
+import { CreateActivityPage } from "../pages/create-activity/create-activity";
+=======
 import {firebaseConfig} from "./firebaseAppData";
 import {ViewActivityPage} from "../pages/view-activity/view-activity";
 import {SelectCategoryPage} from "../pages/select-category/select-category";
 import {LoginPage} from "../pages/login/login";
 import firebase from 'firebase';
-import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -31,6 +35,7 @@ firebase.auth().onAuthStateChanged((user) => {
     }
   }
 });
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
 
 @Component({
   templateUrl: 'app.html'
@@ -48,11 +53,15 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
+<<<<<<< HEAD
+      { title: 'Home', component: HomePage },
+      { title: 'List', component: ListPage },
       { title: 'Aktivität erstellen', component: CreateActivityPage },
- 	  { title: 'Aktivitäten', component: ViewActivityPage },
+=======
+      { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage }
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
     ];
-     
   }
 
   initializeApp() {

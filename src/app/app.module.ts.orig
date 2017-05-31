@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { ViewActivityPage } from '../pages/view-activity/view-activity';
+import { CreateActivityPage } from '../pages/create-activity/create-activity';
 import { SelectCategoryPage } from '../pages/select-category/select-category';
 import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
 
@@ -18,11 +19,18 @@ import {CreateActivityPage} from "../pages/create-activity/create-activity";
 @NgModule({
   declarations: [
     MyApp,
+<<<<<<< HEAD
+    HomePage,
+    ListPage,
+    LoginPage,
+    CreateActivityPage
+=======
     ViewActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
     ActivityDetailsPage
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
   ],
   imports: [
     BrowserModule,
@@ -31,11 +39,18 @@ import {CreateActivityPage} from "../pages/create-activity/create-activity";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+<<<<<<< HEAD
+    HomePage,
+    ListPage,
+    LoginPage,
+    CreateActivityPage
+=======
     ViewActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
     ActivityDetailsPage
+>>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
   ],
   providers: [
     StatusBar,
