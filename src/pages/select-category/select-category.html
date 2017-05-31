@@ -16,21 +16,12 @@
 </ion-header>
 
 <ion-content padding>
-  <!--<ion-list>
+  <ion-list>
     <div *ngFor="let categoryItem of dataCategoryy">
-      <ion-item (click)="openDetails($event, categoryItem)">
-        <div class="itemLeft">
-          <!--<img src="this.src='assets/icon/favicon.ico'"/>
-        </div>
-        <div class="itemRight">
-          <div class="mainDetails">"{{categoryItem.category}}"</div>
-          <div class="secondaryDetails">{{ categoryItem.locationName }}</div>
-          <div class="secondaryDetails">{{ categoryItem.date }}</div>
-        </div>
-      </ion-item>
+      <button ion-button *ngIf="beer==false" class="cubic-button column-100" color="danger" (click)="approveCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
+      <button ion-button *ngIf="beer==true" class="cubic-button column-100" color="secondary" (click)="disableCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
     </div>
-  </ion-list>-->
-  <!--<button (click)=doStuff()>Click</button>-->
+  </ion-list>
 
   <button ion-button *ngIf="beer==false" class="cubic-button column-100" color="danger" (click)="approveCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
   <button ion-button *ngIf="beer==true" class="cubic-button column-100" color="secondary" (click)="disableCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>

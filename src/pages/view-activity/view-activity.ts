@@ -32,12 +32,10 @@ export class ViewActivityPage {
   }
 
   loadData(showLoading: boolean, event): void {
-    /*if (showLoading) {
+    if (showLoading) {
       this.createAndShowLoading();
     }
-    console.log("geht los")
     this.dataProvider.setCategory().then((data) => {
-      console.log("FJFIJIFJ")
       this.dataCategory = this.dataProvider.dataCategory;
       console.log(this.dataProvider.dataCategory);
       if (showLoading) {
@@ -51,9 +49,7 @@ export class ViewActivityPage {
         this.createAndShowErrorAlert(error);
       }
     });
-    console.log("commence")
     this.dataProvider.setActivity().then((data) => {
-      console.log("fuck")
       this.dataActivity = this.dataProvider.dataActivity;
       console.log(this.dataProvider.dataActivity);
       if (showLoading) {
@@ -66,7 +62,7 @@ export class ViewActivityPage {
       if (showLoading) {
         this.createAndShowErrorAlert(error);
       }
-    });*/
+    });
   }
 
   createAndShowErrorAlert(error) {

@@ -29,24 +29,13 @@
           <img src="this.src='assets/icon/favicon.ico'"/>
         </div>
         <div class="itemRight">
-          <div class="mainDetails">"{{activityItem.category}}"</div>
+          <div class="mainDetails">{{activityItem.category}}</div>
           <div class="secondaryDetails">{{ activityItem.locationName }}</div>
           <div class="secondaryDetails">{{ activityItem.date }}</div>
         </div>
       </ion-item>
     </div>
   </ion-list>
-  <ion-item (click)="openDetails($event, activityItem)">
-    <div class="itemLeft">
-      <!--Profilbild-->
-      <img src="this.src='assets/icon/favicon.ico'"/>
-    </div>
-    <div class="itemRight">
-      <div class="mainDetails">Kategorie</div>
-      <div class="secondaryDetails">Standort</div>
-      <div class="secondaryDetails">Datum</div>
-    </div>
-  </ion-item>
 
 
   <ion-fab right bottom>

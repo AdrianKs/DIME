@@ -23,9 +23,6 @@ export class SelectCategoryPage {
 
   dataActivity: any;
   dataCategory: any;
-  beer: boolean = false;
-  sports: boolean = false;
-  icecream: boolean = false;
   loading: any;
 
   constructor(public navCtrl: NavController,
@@ -40,13 +37,14 @@ export class SelectCategoryPage {
   }
 
   loadData(showLoading: boolean, event): void {
-    /*if (showLoading) {
+    if (showLoading) {
       this.createAndShowLoading();
     }
-    console.log("geht los")
     this.dataProvider.setCategory().then((data) => {
-      console.log("FJFIJIFJ")
       this.dataCategory = this.dataProvider.dataCategory;
+      for (let i in this.dataCategory){
+        
+      }
       console.log(this.dataProvider.dataCategory);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
@@ -59,7 +57,7 @@ export class SelectCategoryPage {
         this.createAndShowErrorAlert(error);
       }
     });
-    /*console.log("commence")
+    console.log("commence")
     this.dataProvider.setActivity().then((data) => {
       console.log("fuck")
       this.dataActivity = this.dataProvider.dataActivity;
@@ -74,7 +72,7 @@ export class SelectCategoryPage {
       if (showLoading) {
         this.createAndShowErrorAlert(error);
       }
-    });*/
+    });
   }
 
   doStuff(){
