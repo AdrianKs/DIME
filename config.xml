@@ -6,6 +6,7 @@
     <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
+    <allow-navigation href="http://192.168.178.29:8100" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -84,18 +85,18 @@
     </platform>
     <engine name="android" spec="^6.2.3" />
     <engine name="browser" spec="^4.1.0" />
+    <plugin name="cordova-plugin-browsertab" spec="~0.2.0" />
+    <plugin name="cordova-plugin-buildinfo" spec="~1.1.0" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.0">
         <variable name="APP_ID" value="1138878222819929" />
         <variable name="APP_NAME" value="DIME" />
     </plugin>
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.7.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.2" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.1" />
-    <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-universal-links-plugin" spec="~1.2.1" />
-    <plugin name="cordova-plugin-buildinfo" spec="~1.1.0" />
-    <plugin name="cordova-plugin-inappbrowser" spec="~1.7.1" />
-    <plugin name="cordova-plugin-browsertab" spec="~0.2.0" />
+    <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
 </widget>

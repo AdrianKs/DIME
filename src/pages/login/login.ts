@@ -29,7 +29,7 @@ export class LoginPage {
   }
 
   login() {
-    this.fb.login(['public_profile', 'user_friends', 'email'])
+    this.fb.login(['public_profile', 'user_friends', 'email', 'user_birthday'])
       .then((res: FacebookLoginResponse) => {
         let credential;
         let user;
@@ -79,7 +79,8 @@ export class LoginPage {
   writeUserInDB(user, facebookRes) {
     console.log("in writeUserInDB");
     let dataObject = {
-      name: facebookRes.name,
+      firstname: facebookRes.first_name,
+      lastname: facebookRes.last_name,
       gender: facebookRes.gender,
       minAge: facebookRes.age_range.min,
       picURL: facebookRes.picture.data.url
@@ -94,8 +95,9 @@ export class LoginPage {
     this.navCtrl.setRoot(ViewActivityPage);
   }
 
+
   firebaseLogin() {
-    this.authData.firebaseLogin();
+    this.authData.browserFacebookLogin();
   }
 
 }

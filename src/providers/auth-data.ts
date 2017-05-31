@@ -1,7 +1,7 @@
-import {Injectable, ViewChild, Inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import firebase from 'firebase';
-import {Nav, MenuController, IonicApp, NavController, Platform, App} from "ionic-angular";
+import {MenuController} from "ionic-angular";
 import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
 import {ViewActivityPage} from "../pages/view-activity/view-activity";
 /*
@@ -26,9 +26,12 @@ export class AuthData {
   firebaseLogin() {
     console.log("in firebase login");
     let provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithRedirect(provider).then(() => {
+    firebase.auth().signInWithRedirect(provider)
+      .then(() => {
       console.log("in sign in");
-      firebase.auth().getRedirectResult().then((result) => {
+      return firebase.auth().getRedirectResult()
+    })
+      .then((result) => {
         console.log("in get result");
         // This gives you a Google Access Token.
         // You can use it to access the Google API.
@@ -42,18 +45,45 @@ export class AuthData {
         var user = result.user;
         // ...
       }).catch(function(error) {
-        // Handle Errors here.
-        var errorMessage = error.message;
-      });
+      // Handle Errors here.
+      var errorMessage = error.message;
+    });
+  }
+
+  browserFacebookLogin() {
+    let provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      console.log(result);
+      this.writeUserDataToDB(result);
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  writeUserDataToDB(userData: any){
+    //ToDo: Bisher kommt noch eine Fehlermeldung bei der Beantragung weiterer Rechte.
+    //      Hier muss ein Weg gefunden werden, um das Profilbild und Geburtsdatum zu laden.
+    console.log("in write to DB");
+    let profileInfo = userData.additionalUserInfo.profile;
+    //let profilePicture = userData.additionalUserInfo.profile.picture.data;
+    console.log("hier sollte das Profilbild kommen");
+    console.log(profileInfo.picture);
+
+    this.userProfile.child(userData.user.uid).set({
+      firstname: profileInfo.first_name,
+      lastname: profileInfo.last_name,
+      gender: profileInfo.gender,
+      minAge: profileInfo.age_range.min,
+      picURL: profileInfo.picture.data.url
     });
   }
 
 
   logout() {
     this.fireAuth.signOut();
-    this.fb.getLoginStatus().then((response) => {
+    /*this.fb.getLoginStatus().then((response) => {
       if(response.status == 'connected'){
-        this.fb.logout()
+        /this.fb.logout()
           .then(response => {
             console.log(JSON.stringify(response));
             this.menuCtrl.close('mainMenu');
@@ -61,7 +91,7 @@ export class AuthData {
             return this.fireAuth.signOut();
           })
       }
-    })
+    })*/
   }
 
   deleteUser(password: string): any{
