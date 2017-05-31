@@ -16,6 +16,7 @@ export class AuthData {
   public fireAuth: any;
   fbAccessToken: any;
   public userProfile = firebase.database().ref('user');
+  firebaseCallback: any;
 
   constructor(public menuCtrl: MenuController, public fb: Facebook) {
     this.fireAuth = firebase.auth();
@@ -23,12 +24,20 @@ export class AuthData {
   }
 
   firebaseLogin() {
+    console.log("in firebase login");
     let provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithRedirect(provider).then(function() {
-      firebase.auth().getRedirectResult().then(function(result) {
+    firebase.auth().signInWithRedirect(provider).then(() => {
+      console.log("in sign in");
+      firebase.auth().getRedirectResult().then((result) => {
+        console.log("in get result");
         // This gives you a Google Access Token.
         // You can use it to access the Google API.
         var token = result.credential.accessToken;
+        console.log("hier sollte das result kommen");
+        console.log(result);
+        this.userProfile.push(result);
+        this.firebaseCallback = result;
+        alert(JSON.stringify(result));
         // The signed-in user info.
         var user = result.user;
         // ...

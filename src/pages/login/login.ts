@@ -82,7 +82,7 @@ export class LoginPage {
       name: facebookRes.name,
       gender: facebookRes.gender,
       minAge: facebookRes.age_range.min,
-      picture: facebookRes.picture.data.url
+      picURL: facebookRes.picture.data.url
     };
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() !== null){
