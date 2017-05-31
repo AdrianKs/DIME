@@ -49,7 +49,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Aktivität erstellen', component: CreateActivityPage },
- 	  { title: 'Aktivitäten', component: ViewActivityPage },
+ 	    { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage }
     ];
      
