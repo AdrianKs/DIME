@@ -39,3 +39,13 @@
   color: dimgrey;
   font-size: 14px;
 }
+
+.container{
+   white-space: nowrap;
+}
+
+.column-100{
+  display: inline-block;
+  width: 100%;
+  white-space: normal;
+}

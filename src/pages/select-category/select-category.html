@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>SelectCategory</ion-title>
+    <ion-title>Kategorien</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -31,14 +31,15 @@
     </div>
   </ion-list>-->
   <!--<button (click)=doStuff()>Click</button>-->
-  <div>
-  <button ion-button *ngIf="beer==false" class="cubic-button" color="danger" (click)="approveCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
-  <button ion-button *ngIf="beer==true" class="cubic-button" color="secondary" (click)="disableCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
-  <button ion-button *ngIf="icecream==false" class="cubic-button" color="danger" (click)="approveCategory('icecream')" icon-only item-left large><ion-icon name="ice-cream"></ion-icon></button>
-  <button ion-button *ngIf="icecream==true" class="cubic-button" color="secondary" (click)="disableCategory('icecream')" icon-only item-left large><ion-icon name="ice-cream"></ion-icon></button>
-  <button ion-button *ngIf="sports==false" class="cubic-button" color="danger" (click)="approveCategory('sports')" icon-only item-right large><ion-icon name="football"></ion-icon></button>
-  <button ion-button *ngIf="sports==true" class="cubic-button" color="secondary" (click)="disableCategory('sports')" icon-only item-right large><ion-icon name="football"></ion-icon></button>
-  </div>
+
+  <button ion-button *ngIf="beer==false" class="cubic-button column-100" color="danger" (click)="approveCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
+  <button ion-button *ngIf="beer==true" class="cubic-button column-100" color="secondary" (click)="disableCategory('beer')" icon-only item-left large><ion-icon name="beer"></ion-icon></button>
+  <button ion-button *ngIf="icecream==false" class="cubic-button column-100" color="danger" (click)="approveCategory('icecream')" icon-only item-left large><ion-icon name="ice-cream"></ion-icon></button>
+  <button ion-button *ngIf="icecream==true" class="cubic-button column-100" color="secondary" (click)="disableCategory('icecream')" icon-only item-left large><ion-icon name="ice-cream"></ion-icon></button>
+  <button ion-button *ngIf="sports==false" class="cubic-button column-100" color="danger" (click)="approveCategory('sports')" icon-only item-right large><ion-icon name="football"></ion-icon></button>
+  <button ion-button *ngIf="sports==true" class="cubic-button column-100" color="secondary" (click)="disableCategory('sports')" icon-only item-right large><ion-icon name="football"></ion-icon></button>
+  <!-- cinema recording, outdoor sunny, party wine, coffee cafe, food pizza -->
+
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>

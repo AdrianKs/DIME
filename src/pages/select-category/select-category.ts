@@ -78,9 +78,7 @@ export class SelectCategoryPage {
   }
 
   doStuff(){
-    console.log("komm schon")
     return firebase.database().ref('category').once('value', snapshot => {
-        console.log("digga")
         let categoryArray = [];
         let counter = 0;
         for (let i in snapshot.val()) {
@@ -89,7 +87,6 @@ export class SelectCategoryPage {
             counter++;
         }
         this.dataCategory = categoryArray;
-        console.log(this.dataCategory);
     });
   }
 

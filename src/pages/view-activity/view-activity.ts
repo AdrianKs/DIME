@@ -31,10 +31,6 @@ export class ViewActivityPage {
               private loadingCtrl: LoadingController){
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ApproveQuotes');
-  }
-
   loadData(showLoading: boolean, event): void {
     /*if (showLoading) {
       this.createAndShowLoading();
@@ -87,6 +83,42 @@ export class ViewActivityPage {
       spinner: 'ios'
     })
     this.loading.present();
+  }
+
+  openSettings(){
+    let alert = this.alertCtrl.create({
+        title: 'Entfernung einstellen',
+        inputs: [
+          {
+            name: 'radius',
+            placeholder: 'Radius in km', //placeholder km
+            type: 'radius'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Abbrechen',
+            role: 'cancel',
+            handler: data => {
+            }
+          },
+          {
+            text: 'Übernehmen',
+            handler: data => {
+              //radius anpassen
+            }
+          }
+        ]
+      });
+      alert.present();
+  }
+
+  createActivity(event, value){
+
+  }
+
+  openDetails(event){
+    //navparam open DetailComponent
   }
 
   doRefresh(refresher) {
