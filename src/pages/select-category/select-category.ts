@@ -23,6 +23,9 @@ export class SelectCategoryPage {
 
   dataActivity: any;
   dataCategory: any;
+  beer: boolean = false;
+  sports: boolean = false;
+  icecream: boolean = false;
   loading: any;
 
   constructor(public navCtrl: NavController,
@@ -57,7 +60,6 @@ export class SelectCategoryPage {
         this.createAndShowErrorAlert(error);
       }
     });
-    console.log("commence")
     this.dataProvider.setActivity().then((data) => {
       console.log("fuck")
       this.dataActivity = this.dataProvider.dataActivity;
