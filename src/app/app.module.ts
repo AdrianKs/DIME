@@ -6,16 +6,21 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
+import { Geolocation } from '@ionic-native/geolocation';
+import { Geofence } from '@ionic-native/geofence';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LoginPage} from "../pages/login/login";
+import {CreateActivityPage} from "../pages/create-activity/create-activity";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    LoginPage
+    LoginPage,
+    CreateActivityPage
   ],
   imports: [
     BrowserModule,
@@ -26,11 +31,14 @@ import {LoginPage} from "../pages/login/login";
     MyApp,
     HomePage,
     ListPage,
-    LoginPage
+    LoginPage,
+    CreateActivityPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
+    Geofence,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
