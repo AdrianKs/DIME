@@ -9,11 +9,8 @@ import {ViewActivityPage} from "../pages/view-activity/view-activity";
 import {SelectCategoryPage} from "../pages/select-category/select-category";
 import {LoginPage} from "../pages/login/login";
 import firebase from 'firebase';
-<<<<<<< HEAD
 import {AuthData} from "../providers/auth-data";
-=======
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
->>>>>>> dev
 
 firebase.initializeApp(firebaseConfig);
 
@@ -26,16 +23,11 @@ firebase.initializeApp(firebaseConfig);
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-<<<<<<< HEAD
-  rootPage: any;
-=======
   rootPage: any = ViewActivityPage;
->>>>>>> dev
 
   pages: Array<{ title: string, component: any }>;
 
-<<<<<<< HEAD
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public authData: AuthData) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public authData: AuthData, public geofence: Geofence) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -58,22 +50,12 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'Login', component: LoginPage }
-=======
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence) {
-    this.initializeApp();
-
-
-    // used for an example of ngFor and navigation
-    this.pages = [
       { title: 'Aktivität erstellen', component: CreateActivityPage },
- 	    { title: 'Aktivitäten', component: ViewActivityPage },
-      { title: 'Kategorie', component: SelectCategoryPage }
->>>>>>> dev
+      { title: 'Aktivitäten', component: ViewActivityPage },
+      { title: 'Kategorie', component: SelectCategoryPage },
+      { title: 'Login', component: LoginPage }
     ];
-     
+
   }
 
   initializeApp() {
