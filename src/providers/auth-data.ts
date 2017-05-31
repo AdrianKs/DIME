@@ -70,20 +70,20 @@ export class AuthData {
     console.log(profileInfo.picture);
 
     this.userProfile.child(userData.user.uid).set({
-      firstname: profileInfo.first_name,
-      lastname: profileInfo.last_name,
+      name: profileInfo.name,
       gender: profileInfo.gender,
       minAge: profileInfo.age_range.min,
-      picURL: profileInfo.picture.data.url
+      picURL: profileInfo.picture.data.url,
+      birthday: 0
     });
   }
 
 
   logout() {
     this.fireAuth.signOut();
-    /*this.fb.getLoginStatus().then((response) => {
+    this.fb.getLoginStatus().then((response) => {
       if(response.status == 'connected'){
-        /this.fb.logout()
+        this.fb.logout()
           .then(response => {
             console.log(JSON.stringify(response));
             this.menuCtrl.close('mainMenu');
@@ -91,7 +91,7 @@ export class AuthData {
             return this.fireAuth.signOut();
           })
       }
-    })*/
+    })
   }
 
   deleteUser(password: string): any{

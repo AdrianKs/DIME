@@ -79,11 +79,11 @@ export class LoginPage {
   writeUserInDB(user, facebookRes) {
     console.log("in writeUserInDB");
     let dataObject = {
-      firstname: facebookRes.first_name,
-      lastname: facebookRes.last_name,
+      name: facebookRes.name,
       gender: facebookRes.gender,
       minAge: facebookRes.age_range.min,
-      picURL: facebookRes.picture.data.url
+      picURL: facebookRes.picture.data.url,
+      birthday: facebookRes.birthday
     };
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() !== null){
