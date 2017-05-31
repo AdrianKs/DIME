@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data-provider';
-
+import { ActivityDetailsPage } from '../activity-details/activity-details';
 /**
  * Generated class for the ViewActivityPage page.
  *
@@ -114,7 +114,7 @@ export class ViewActivityPage {
   }
 
   openDetails(event, value){
-    //this.navCtrl.push(QuoteDetail, { activityItem: activityItem});
+    this.navCtrl.push(ActivityDetailsPage, { activityItem: value});
  
   }
 

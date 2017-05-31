@@ -1,5 +1,5 @@
 <!--
-  Generated template for the LoginPage page.
+  Generated template for the ViewActivityPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,12 +7,52 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>View Activity Details</ion-title>
+    <ion-title>"Saufen" - ansehen</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <div class="picture-container">
+    <img class="activity-profile-picture" src="http://media.istockphoto.com/photos/smiling-and-beautiful-woman-portrait-picture-id526142422">
+  </div>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label class="center-contents">
+        Von {{creatorName}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="center-contents participate-button">
+    <button ion-button outline color="secondary" type="button">Teilnehmen</button>
+  </div>
 
+  <ion-list>
+    <ion-list-header>
+      Informationen zur Aktivität
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Treffpunkt:
+      </ion-label>
+      <ion-label class="text-aligned-right">{{locationName}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Uhrzeit:
+      </ion-label>
+      <ion-label class="text-aligned-right">{{activityTime}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Teilnehmer
+    </ion-list-header>
+    <ion-item *ngFor='let p of attendees'>
+      <div class="left-container"><img class="user-profile-picture" src="http://www.istockphoto.com/search/assets/avatar_placeholder.svg"></div>
+      <div class="right-container">
+          {{p.name}} ({{p.age}})
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>
