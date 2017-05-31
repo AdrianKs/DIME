@@ -60,21 +60,6 @@ export class SelectCategoryPage {
         this.createAndShowErrorAlert(error);
       }
     });
-    this.dataProvider.setActivity().then((data) => {
-      console.log("fuck")
-      this.dataActivity = this.dataProvider.dataActivity;
-      console.log(this.dataProvider.dataActivity);
-      if (showLoading) {
-        this.loading.dismiss().catch((error) => console.log(error));
-      }
-      if(event!=null){
-        event.complete();
-      }
-    }).catch(function (error) {
-      if (showLoading) {
-        this.createAndShowErrorAlert(error);
-      }
-    });
   }
 
   doStuff(){

@@ -49,6 +49,20 @@ export class ViewActivityPage {
         this.createAndShowErrorAlert(error);
       }
     });
+    this.dataProvider.setActivity().then((data) => {
+      this.dataActivity = this.dataProvider.dataActivity;
+      console.log(this.dataProvider.dataActivity);
+      if (showLoading) {
+        this.loading.dismiss().catch((error) => console.log(error));
+      }
+      if(event!=null){
+        event.complete();
+      }
+    }).catch(function (error) {
+      if (showLoading) {
+        this.createAndShowErrorAlert(error);
+      }
+    });
   }
 
   createAndShowErrorAlert(error) {
@@ -95,12 +109,13 @@ export class ViewActivityPage {
       alert.present();
   }
 
-  createActivity(event, value){
-
+  createActivity(event){
+    //this.navCtrl.push(CreateActivityPage);
   }
 
-  openDetails(event){
-    //navparam open DetailComponent
+  openDetails(event, value){
+    //this.navCtrl.push(QuoteDetail, { activityItem: activityItem});
+ 
   }
 
   doRefresh(refresher) {
