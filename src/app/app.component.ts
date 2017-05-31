@@ -9,39 +9,43 @@ import {firebaseConfig} from "./firebaseAppData";
 import {ViewActivityPage} from "../pages/view-activity/view-activity";
 import {LoginPage} from "../pages/login/login";
 import firebase from 'firebase';
+import {AuthData} from "../providers/auth-data";
 
 firebase.initializeApp(firebaseConfig);
 
-firebase.auth().onAuthStateChanged((user) => {
-  //utilities.user = user;
 
-  if (user != undefined) {
-    //Speicher hier userdaten in Utilities oder so
-  }
-  if (!user) {
-    //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
-    //utilities.loggedIn = false;
-    //utilities.user = {};
-    this.rootPage = LoginPage;
-  } else {
-    if (this.nav.getActive() == undefined) {
-      this.rootPage = ViewActivityPage;
-    }
-  }
-});
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [AuthData]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public authData: AuthData) {
     this.initializeApp();
+
+    firebase.auth().onAuthStateChanged((user) => {
+      //utilities.user = user;
+
+      if (user != undefined) {
+        //Speicher hier userdaten in Utilities oder so
+      }
+      if (!user) {
+        //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
+        //utilities.loggedIn = false;
+        //utilities.user = {};
+        this.rootPage = LoginPage;
+      } else {
+        if (this.nav.getActive() == undefined) {
+          this.rootPage = ViewActivityPage;
+        }
+      }
+    });
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -65,5 +69,9 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  logout() {
+   this.authData.logout();
   }
 }

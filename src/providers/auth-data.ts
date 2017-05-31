@@ -69,10 +69,18 @@ export class AuthData {
   }
 
   logout() {
-    this.fb.logout()
-      .then(response => {
-        alert(JSON.stringify(response));
-      })
+    this.fireAuth.signOut();
+    this.fb.getLoginStatus().then((response) => {
+      if(response.status == 'connected'){
+        this.fb.logout()
+          .then(response => {
+            console.log(JSON.stringify(response));
+            this.menuCtrl.close('mainMenu');
+            console.log("nach menu close");
+            return this.fireAuth.signOut();
+          })
+      }
+    })
   }
 
   writeUserInDB(user, facebookRes) {
@@ -107,12 +115,6 @@ export class AuthData {
         alert(error.message);
       });
     });
-  }
-
-  logoutUser(): any {
-    this.menuCtrl.close('mainMenu');
-    console.log("nach menu close");
-    return this.fireAuth.signOut();
   }
 
 }

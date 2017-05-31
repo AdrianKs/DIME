@@ -10,13 +10,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LoginPage} from "../pages/login/login";
 import {Facebook} from "@ionic-native/facebook";
+import {ViewActivityPage} from "../pages/view-activity/view-activity";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    LoginPage
+    LoginPage,
+    ViewActivityPage
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,8 @@ import {Facebook} from "@ionic-native/facebook";
     MyApp,
     HomePage,
     ListPage,
-    LoginPage
+    LoginPage,
+    ViewActivityPage
   ],
   providers: [
     StatusBar,
