@@ -5,6 +5,31 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import {firebaseConfig} from "./firebaseAppData";
+import {ViewActivityPage} from "../pages/view-activity/view-activity";
+import {LoginPage} from "../pages/login/login";
+import firebase from 'firebase';
+
+firebase.initializeApp(firebaseConfig);
+
+firebase.auth().onAuthStateChanged((user) => {
+  //utilities.user = user;
+
+  if (user != undefined) {
+    //Speicher hier userdaten in Utilities oder so
+  }
+  if (!user) {
+    //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
+    //utilities.loggedIn = false;
+    //utilities.user = {};
+    //this.rootPage = LoginPage;
+    this.rootPage = ViewActivityPage;
+  } else {
+    if (this.nav.getActive() == undefined) {
+      this.rootPage = ViewActivityPage;
+    }
+  }
+});
 
 @Component({
   templateUrl: 'app.html'
