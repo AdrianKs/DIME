@@ -11,11 +11,8 @@
   <div class="choose-category">
     <ion-item>
       <ion-label>Kategorie</ion-label>
-      <ion-select [(ngModel)]="category">
-        <ion-option value="t">Trinken</ion-option>
-        <ion-option value="k">Kino</ion-option>
-        <ion-option value="s">Sport</ion-option>
-        <ion-option value="p">Party</ion-option>
+      <ion-select [(ngModel)]="selectedCategory">
+        <ion-option *ngFor="let item of categories" value="{{item.name}}">{{item.name}}</ion-option>
       </ion-select>
     </ion-item>
   </div>
@@ -26,15 +23,15 @@
   <div class="set-information">
     <ion-item>
       <ion-label color="primary">Max. Teilnehmer</ion-label>
-      <ion-input class="info-label" placeholder="Personen"></ion-input>
+      <ion-input class="info-label" placeholder="Personen" [(ngModel)]="maxPersonen"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Datum und Uhrzeit</ion-label>
-      <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
+      <ion-datetime displayFormat="DD.MM.YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="primary">Informationen</ion-label>
-      <ion-input class="info-label" placeholder="Notizen"></ion-input>
+      <ion-input class="info-label" placeholder="Notizen" [(ngModel)]="description"></ion-input>
     </ion-item>
   </div>
   <div class="submit-information">

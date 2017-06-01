@@ -4,21 +4,21 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
 
-import {firebaseConfig} from "./firebaseAppData";
-import {ViewActivityPage} from "../pages/view-activity/view-activity";
-import {SelectCategoryPage} from "../pages/select-category/select-category";
-import {LoginPage} from "../pages/login/login";
+import { firebaseConfig } from "./firebaseAppData";
+import { ViewActivityPage } from "../pages/view-activity/view-activity";
+import { SelectCategoryPage } from "../pages/select-category/select-category";
+import { LoginPage } from "../pages/login/login";
 import firebase from 'firebase';
-import {AuthData} from "../providers/auth-data";
+import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
+
+import { Utilities } from './utilities';
 
 firebase.initializeApp(firebaseConfig);
 
-
-
 @Component({
   templateUrl: 'app.html',
-  providers: [AuthData]
+  providers: [Utilities, AuthData]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -27,7 +27,7 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public authData: AuthData, public geofence: Geofence) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -79,7 +79,7 @@ export class MyApp {
   }
 
   logout() {
-   this.authData.logout();
-   this.nav.setRoot(LoginPage);
+    this.authData.logout();
+    this.nav.setRoot(LoginPage);
   }
 }

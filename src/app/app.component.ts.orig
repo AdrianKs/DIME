@@ -4,41 +4,33 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
 
-<<<<<<< HEAD
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { CreateActivityPage } from "../pages/create-activity/create-activity";
-=======
-import {firebaseConfig} from "./firebaseAppData";
-import {ViewActivityPage} from "../pages/view-activity/view-activity";
-import {SelectCategoryPage} from "../pages/select-category/select-category";
-import {LoginPage} from "../pages/login/login";
+import { firebaseConfig } from "./firebaseAppData";
+import { ViewActivityPage } from "../pages/view-activity/view-activity";
+import { SelectCategoryPage } from "../pages/select-category/select-category";
+import { LoginPage } from "../pages/login/login";
 import firebase from 'firebase';
+import { AuthData } from "../providers/auth-data";
+import { CreateActivityPage } from "../pages/create-activity/create-activity";
+
+import { Utilities } from './utilities';
+<<<<<<< HEAD
+=======
 
 firebase.initializeApp(firebaseConfig);
 
 firebase.auth().onAuthStateChanged((user) => {
   //utilities.user = user;
+>>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
 
-  if (user != undefined) {
-    //Speicher hier userdaten in Utilities oder so
-  }
-  if (!user) {
-    //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
-    //utilities.loggedIn = false;
-    //utilities.user = {};
-    //this.rootPage = LoginPage;
-    this.rootPage = ViewActivityPage;
-  } else {
-    if (this.nav.getActive() == undefined) {
-      this.rootPage = ViewActivityPage;
-    }
-  }
-});
->>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
+firebase.initializeApp(firebaseConfig);
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+<<<<<<< HEAD
+  providers: [Utilities, AuthData]
+=======
+  providers: [Utilities]
+>>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -47,21 +39,43 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence) {
+<<<<<<< HEAD
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData) {
+=======
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public utilities: Utilities) {
+>>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
     this.initializeApp();
 
+    firebase.auth().onAuthStateChanged((user) => {
+      //utilities.user = user;
+
+      if (user != undefined) {
+        //Speicher hier userdaten in Utilities oder so
+      }
+      if (!user) {
+        //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
+        //utilities.loggedIn = false;
+        //utilities.user = {};
+        this.rootPage = LoginPage;
+      } else {
+        if (this.nav.getActive() == undefined) {
+          this.rootPage = ViewActivityPage;
+        }
+      }
+    });
 
     // used for an example of ngFor and navigation
     this.pages = [
-<<<<<<< HEAD
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
       { title: 'Aktivität erstellen', component: CreateActivityPage },
-=======
       { title: 'Aktivitäten', component: ViewActivityPage },
+<<<<<<< HEAD
+      { title: 'Kategorie', component: SelectCategoryPage },
+      { title: 'Login', component: LoginPage }
+=======
       { title: 'Kategorie', component: SelectCategoryPage }
->>>>>>> 392ff62850ac19caf059fd3ebce2aeb86e6d2177
+>>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
     ];
+
   }
 
   initializeApp() {
@@ -82,5 +96,10 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  logout() {
+    this.authData.logout();
+    this.nav.setRoot(LoginPage);
   }
 }
