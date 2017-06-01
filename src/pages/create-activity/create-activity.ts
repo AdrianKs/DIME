@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Geofence } from '@ionic-native/geofence';
 import { Utilities } from '../../app/utilities';
@@ -28,7 +28,7 @@ export class CreateActivityPage {
   selectedCategory
   newPostKey: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) { }
 
   ionViewDidLoad() {
     this.categories = this.utilities.categories;
@@ -36,9 +36,8 @@ export class CreateActivityPage {
   }
 
   loadMap() {
-    this.geolocation.getCurrentPosition().then((position) => {
-
-      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    this.utilities.getUserPosition().then(()=>{
+      let latLng = new google.maps.LatLng(this.utilities.userPositionLat, this.utilities.userPositionLng);
 
       let mapOptions = {
         center: latLng,
@@ -54,9 +53,7 @@ export class CreateActivityPage {
       this.addMarker();
       this.initAutocomplete();
 
-    }, (err) => {
-      console.log(err);
-    });
+    })
   }
 
   addMarker() {
@@ -67,9 +64,7 @@ export class CreateActivityPage {
     });
 
     let content = "<h4>Information!</h4>";
-
     this.addInfoWindow(marker, content);
-
   }
 
   addInfoWindow(marker, content) {
@@ -148,38 +143,31 @@ export class CreateActivityPage {
         this.activityPlace.lat = tempLatitude;
         this.activityPlace.lng = tempLongitude;
         this.activityPlaceName = place.name;
-  
+
       });
       map.fitBounds(bounds);
     });
   }
 
   createActivityOnClick() {
-    this.writeGeofenceToDatabase().then(() => {
-      let fence = {
-        id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
-        latitude: this.activityPlace.lat, //center of geofence radius
-        longitude: this.activityPlace.lng,
-        radius: 1000, //radius to edge of geofence in meters
-        transitionType: 1, //see 'Transition Types' below
-        notification: { //notification settings
-          id: 1, //any unique ID
-          title: 'Eine neue Aktivität', //notification title
-          text: this.activityPlace + ' ' + this.myDate, //notification body
-          openAppOnClick: true //open app when notification is tapped
-        }
-      }
-      this.geofence.addOrUpdate(fence).then(
-        () => console.log('Geofence added'),
-        (err) => console.log('Geofence failed to add')
-      );
-    }).catch((err) => {
-      console.log(err);
-    });
+    if (this.activityPlaceName == undefined || this.activityPlace.lat == 0 || this.activityPlace.lng == 0 || this.maxPersonen == undefined || this.description == undefined) {
+      let alert = this.alertCtrl.create({
+        title: 'Fehlende Informationen',
+        subTitle: 'Sie müssen alle Felder ausfüllen, damit eine Aktivität erstellt werden kann.',
+        buttons: ['OK']
+      });
+      alert.present();
+    } else {
+      this.writeGeofenceToDatabase().then(() => {
+        console.log('Aktivität eingetragen');
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 
   writeGeofenceToDatabase() {
-   this.newPostKey = firebase.database().ref('activity').push().key;
+    this.newPostKey = firebase.database().ref('activity').push().key;
     return firebase.database().ref('activity').child(this.newPostKey).set({
       attendees: [],
       category: this.selectedCategory,
