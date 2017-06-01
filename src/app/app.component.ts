@@ -9,14 +9,12 @@ import { ViewActivityPage } from "../pages/view-activity/view-activity";
 import { SelectCategoryPage } from "../pages/select-category/select-category";
 import { LoginPage } from "../pages/login/login";
 import firebase from 'firebase';
-import {AuthData} from "../providers/auth-data";
+import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 import { Utilities } from './utilities';
 
 firebase.initializeApp(firebaseConfig);
-
-
 
 @Component({
   templateUrl: 'app.html',
@@ -52,11 +50,11 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Kategorie', component: SelectCategoryPage }
+      { title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage },
       { title: 'Login', component: LoginPage }
-    ];     
+    ];
 
   }
 
@@ -81,7 +79,7 @@ export class MyApp {
   }
 
   logout() {
-   this.authData.logout();
-   this.nav.setRoot(LoginPage);
+    this.authData.logout();
+    this.nav.setRoot(LoginPage);
   }
 }
