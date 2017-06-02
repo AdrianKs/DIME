@@ -1,18 +1,41 @@
-<!--
-  Generated template for the CreateActivityPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>CreateActivity</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Aktivität erstellen</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
+  <div class="choose-category">
+    <ion-item>
+      <ion-label>Kategorie</ion-label>
+      <ion-select [(ngModel)]="selectedCategory">
+        <ion-option *ngFor="let item of categories" value="{{item.name}}">{{item.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div #map id='map'></div>
+
+  <div class="set-information">
+    <ion-item>
+      <ion-label color="primary">Max. Teilnehmer</ion-label>
+      <ion-input class="info-label" placeholder="Personen" [(ngModel)]="maxPersonen"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Datum und Uhrzeit</ion-label>
+      <ion-datetime displayFormat="DD.MM.YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary">Informationen</ion-label>
+      <ion-input class="info-label" placeholder="Notizen" [(ngModel)]="description"></ion-input>
+    </ion-item>
+  </div>
+  <div class="submit-information">
+    <button ion-button block outline (click)="createActivityOnClick()">Aktivität erstellen</button>
+  </div>
 
 </ion-content>

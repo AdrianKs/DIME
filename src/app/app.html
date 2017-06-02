@@ -1,8 +1,11 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" id="mainMenu">
   <ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
     </ion-toolbar>
+    <button ion-button (click)="logout()" class="menuBtnLogout" clear icon-only>
+      <ion-icon name="log-out"></ion-icon>
+    </button>
   </ion-header>
 
   <ion-content>
