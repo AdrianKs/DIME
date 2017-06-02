@@ -25,11 +25,12 @@
     <div *ngFor="let activityItem of dataActivity">
       <ion-item (click)="openDetails($event, activityItem)">
         <div class="itemLeft">
-          <!--Profilbild-->
-          <img src="this.src='assets/icon/favicon.ico'"/>
+          <div *ngFor="let userItem of dataUser">
+            <img *ngIf="userItem.id==activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
+          </div>
         </div>
         <div class="itemRight">
-          <div class="mainDetails">"{{activityItem.category}}"</div>
+          <div class="mainDetails">{{activityItem.category}}</div>
           <div class="secondaryDetails">{{ activityItem.locationName }}</div>
           <div class="secondaryDetails">{{ activityItem.date }}</div>
         </div>

@@ -7,6 +7,9 @@ import { Geolocation } from '@ionic-native/geolocation';
 @Injectable()
 export class Utilities {
 
+    user: any;
+    userData: any = {};
+    userLoaded: boolean = false;
     categories: any[];
     userPositionLat: number = 0;
     userPositionLng: number = 0;
@@ -16,6 +19,16 @@ export class Utilities {
 
     constructor(public geofence: Geofence, public geolocation: Geolocation) {
         this.getCategory();
+    }
+
+    setUserData(user): void {
+    firebase.database().ref('user/' + user.uid).once('value', snapshot => {
+        if (snapshot.val() != null) {
+            console.log("in snapshot");
+            this.userData = snapshot.val();
+            this.userLoaded = true;
+        }
+        });
     }
 
     getUserPosition() {

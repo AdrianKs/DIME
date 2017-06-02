@@ -27,7 +27,7 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -35,6 +35,7 @@ export class MyApp {
 
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
+        this.utilities.setUserData(user);
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities

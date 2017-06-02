@@ -22,6 +22,7 @@ export class ViewActivityPage {
 
   dataActivity: any;
   dataCategory: any;
+  dataUser: any;
   loading: any;
 
   constructor(public navCtrl: NavController,
@@ -52,6 +53,20 @@ export class ViewActivityPage {
     this.dataProvider.setActivity().then((data) => {
       this.dataActivity = this.dataProvider.dataActivity;
       console.log(this.dataProvider.dataActivity);
+      if (showLoading) {
+        this.loading.dismiss().catch((error) => console.log(error));
+      }
+      if(event!=null){
+        event.complete();
+      }
+    }).catch(function (error) {
+      if (showLoading) {
+        this.createAndShowErrorAlert(error);
+      }
+    });
+    this.dataProvider.setUser().then((data) => {
+      this.dataUser = this.dataProvider.dataUser;
+      console.log(this.dataProvider.dataUser);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }

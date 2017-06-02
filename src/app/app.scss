@@ -57,3 +57,11 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   width: 100%;
   white-space: normal;
 }
+
+.player-item-image {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  background-color: grey;
+  padding: 2px;
+}

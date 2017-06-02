@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data-provider';
+import { Utilities } from '../../app/utilities';
 import firebase from 'firebase';
 
 /**
@@ -18,10 +19,13 @@ import firebase from 'firebase';
 export class SelectCategoryPage {
 
   ionViewWillEnter() {
+    this.loggedInUserData = this.utilities.userData;
+    console.log(this.loggedInUserData);
     this.loadData(true, null);
   }
 
-  dataActivity: any;
+  loggedInUserData: any;
+  dataUser: any;
   dataCategory: any;
   beer: boolean = false;
   sports: boolean = false;
@@ -30,13 +34,10 @@ export class SelectCategoryPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private dataProvider: DataProvider, 
+              private dataProvider: DataProvider,
+              private utilities: Utilities, 
               private alertCtrl: AlertController, 
               private loadingCtrl: LoadingController){
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ApproveQuotes');
   }
 
   loadData(showLoading: boolean, event): void {
@@ -45,10 +46,27 @@ export class SelectCategoryPage {
     }
     this.dataProvider.setCategory().then((data) => {
       this.dataCategory = this.dataProvider.dataCategory;
-      for (let i in this.dataCategory){
-        
+      if (showLoading) {
+        this.loading.dismiss().catch((error) => console.log(error));
       }
-      console.log(this.dataProvider.dataCategory);
+      if(event!=null){
+        event.complete();
+      }
+    }).catch(function (error) {
+      if (showLoading) {
+        this.createAndShowErrorAlert(error);
+      }
+    });
+    this.dataProvider.setUser().then((data) => {
+      this.dataUser= this.dataProvider.dataUser;
+      console.log("DataUser:")
+      console.log(this.dataProvider.dataUser);
+      for (let i in this.dataUser){
+        for (let j in this.dataUser[i].categories){
+          console.log(this.dataUser[i].categories);
+        }
+      }
+      console.log(this.dataUser[0].categories);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }
@@ -75,25 +93,14 @@ export class SelectCategoryPage {
     });
   }
 
-  approveCategory(category){
-    category = category.toString();
-    if (category == 'beer'){
-      this.beer = true;
-    } else if (category == 'icecream'){
-      this.icecream = true;
-    } else {
-      this.sports = true;
-    }
+  approveCategory(userItem, categoryId){
+    userItem.categories[categoryId] = true;
+    firebase.database().ref('user/' + userItem.id + '/categories/'+ categoryId).set(true);
   }
 
-  disableCategory(category){
-  if (category == 'beer'){
-      this.beer = false;
-    } else if (category == 'icecream'){
-      this.icecream = false;
-    } else {
-      this.sports = false;
-    }
+  disableCategory(userItem, categoryId){
+    userItem.categories[categoryId] = false;
+    firebase.database().ref('user/' + userItem.id + '/categories/' + categoryId).remove();
   }
 
   createAndShowErrorAlert(error) {
