@@ -7,6 +7,7 @@ export class DataProvider {
 
     dataActivity: Array<any>;
     dataCategory: Array<any>;
+    dataUser: Array<any>;
 
 
     constructor() {
@@ -36,6 +37,19 @@ export class DataProvider {
                 counter++;
             }
             this.dataCategory = categoryArray;
+        });
+    }
+
+    setUser() {
+        return firebase.database().ref('user').once('value', snapshot => {
+            let userArray = [];
+            let counter = 0;
+            for (let i in snapshot.val()) {
+                userArray[counter] = snapshot.val()[i];
+                userArray[counter].id = i;
+                counter++;
+            }
+            this.dataUser = userArray;
         });
     }
 
