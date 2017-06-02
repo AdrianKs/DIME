@@ -27,7 +27,7 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData) {
+  constructor(public platform: Platform, public utilities: Utilities, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
