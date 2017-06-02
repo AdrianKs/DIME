@@ -21,7 +21,7 @@ export class SelectCategoryPage {
     this.loadData(true, null);
   }
 
-  dataActivity: any;
+  dataUser: any;
   dataCategory: any;
   beer: boolean = false;
   sports: boolean = false;
@@ -35,20 +35,33 @@ export class SelectCategoryPage {
               private loadingCtrl: LoadingController){
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ApproveQuotes');
-  }
-
   loadData(showLoading: boolean, event): void {
     if (showLoading) {
       this.createAndShowLoading();
     }
     this.dataProvider.setCategory().then((data) => {
       this.dataCategory = this.dataProvider.dataCategory;
-      for (let i in this.dataCategory){
-        
+      if (showLoading) {
+        this.loading.dismiss().catch((error) => console.log(error));
       }
-      console.log(this.dataProvider.dataCategory);
+      if(event!=null){
+        event.complete();
+      }
+    }).catch(function (error) {
+      if (showLoading) {
+        this.createAndShowErrorAlert(error);
+      }
+    });
+    this.dataProvider.setUser().then((data) => {
+      this.dataUser= this.dataProvider.dataUser;
+      console.log("DataUser:")
+      console.log(this.dataProvider.dataUser);
+      for (let i in this.dataUser){
+        for (let j in this.dataUser[i].categories){
+          console.log(this.dataUser[i].categories);
+        }
+      }
+      console.log(this.dataUser[0].categories);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }
@@ -75,25 +88,14 @@ export class SelectCategoryPage {
     });
   }
 
-  approveCategory(category){
-    category = category.toString();
-    if (category == 'beer'){
-      this.beer = true;
-    } else if (category == 'icecream'){
-      this.icecream = true;
-    } else {
-      this.sports = true;
-    }
+  approveCategory(userItem, categoryId){
+    userItem.categories[categoryId] = true;
+    firebase.database().ref('user/' + userItem.id + '/categories/'+ categoryId).set(true);
   }
 
-  disableCategory(category){
-  if (category == 'beer'){
-      this.beer = false;
-    } else if (category == 'icecream'){
-      this.icecream = false;
-    } else {
-      this.sports = false;
-    }
+  disableCategory(userItem, categoryId){
+    userItem.categories[categoryId] = false;
+    firebase.database().ref('user/' + userItem.id + '/categories/' + categoryId).remove();
   }
 
   createAndShowErrorAlert(error) {
