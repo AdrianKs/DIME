@@ -36,16 +36,14 @@ export class MyApp {
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
         this.utilities.setUserData(user);
+        this.rootPage = ViewActivityPage;
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
         //utilities.loggedIn = false;
         //utilities.user = {};
         this.rootPage = LoginPage;
-      } else {
-        if (this.nav.getActive() == undefined) {
-          this.rootPage = ViewActivityPage;
-        }
+        this.utilities.setUserData({});
       }
     });
 
