@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data-provider';
+import { Utilities } from '../../app/utilities';
 import firebase from 'firebase';
 
 /**
@@ -18,9 +19,12 @@ import firebase from 'firebase';
 export class SelectCategoryPage {
 
   ionViewWillEnter() {
+    this.loggedInUserData = this.utilities.userData;
+    console.log(this.loggedInUserData);
     this.loadData(true, null);
   }
 
+  loggedInUserData: any;
   dataUser: any;
   dataCategory: any;
   beer: boolean = false;
@@ -30,7 +34,8 @@ export class SelectCategoryPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private dataProvider: DataProvider, 
+              private dataProvider: DataProvider,
+              private utilities: Utilities, 
               private alertCtrl: AlertController, 
               private loadingCtrl: LoadingController){
   }
