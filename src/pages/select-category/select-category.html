@@ -16,25 +16,22 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
+  <!--<ion-list>
     <div *ngFor="let categoryItem of dataCategory" text-center>
-      <!--Nutzerabfrage für die eigene ID-->
-      <div *ngFor="let userItem of dataUser">
-        <div *ngIf="userItem.id == 1">
-        <button ion-button *ngIf="userItem.categories[categoryItem.id]!=true" class="cubic-button column-100" color="danger" (click)="approveCategory(userItem, categoryItem.id)" icon-only item-left large><ion-icon name={{categoryItem.icon}}></ion-icon></button>
-        <button ion-button *ngIf="userItem.categories[categoryItem.id]==true" class="cubic-button column-100" color="secondary" (click)="disableCategory(userItem, categoryItem.id)" icon-only item-left large><ion-icon name={{categoryItem.icon}}></ion-icon></button>
-        <ion-card>
-          <img src="img/card-saopaolo.png"/>
-          <div class="card-title"><ion-icon name={{categoryItem.icon}}></ion-icon></div>
-          <div class="card-subtitle">{{categoryItem.name}}</div>
-        </ion-card>
+        <button ion-button *ngIf="!(categoryBoolean[categoryItem.id])" class="cubic-button column-100" color="danger" (click)="approveCategory(categoryItem.id)" icon-only item-left large><ion-icon name={{categoryItem.icon}}></ion-icon></button>
+        <button ion-button *ngIf="categoryBoolean[categoryItem.id]==true" class="cubic-button column-100" color="secondary" (click)="disableCategory(categoryItem.id)" icon-only item-left large><ion-icon name={{categoryItem.icon}}></ion-icon></button>
         
-        </div>
-      </div>
     </div>
-  </ion-list>
+  </ion-list>-->
+  <div *ngFor="let categoryItem of dataCategory" class="categoryField">
+    <ion-card *ngIf="categoryBoolean[categoryItem.id]==true" class="green-ion-card"(click)="disableCategory(categoryItem.id)">
+      <div class="card-title"><ion-icon name={{categoryItem.icon}}></ion-icon></div>
+      <div class="card-subtitle">{{categoryItem.name}}</div>
+    </ion-card>
+    <ion-card *ngIf="!(categoryBoolean[categoryItem.id])" class="red-ion-card" (click)="approveCategory(categoryItem.id)">
+      <div class="card-title"><ion-icon name={{categoryItem.icon}}></ion-icon></div>
+      <div class="card-subtitle">{{categoryItem.name}}</div>
+    </ion-card>
+  </div>
 
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
 </ion-content>

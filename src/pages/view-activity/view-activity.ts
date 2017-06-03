@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data-provider';
+import { CreateActivityPage } from '../create-activity/create-activity'
+import { Utilities} from '../../app/utilities';
 
 /**
  * Generated class for the ViewActivityPage page.
@@ -18,8 +20,11 @@ export class ViewActivityPage {
 
   ionViewWillEnter() {
     this.loadData(true, null);
+    this.loggedInUserID = this.utilities.user.uid;
   }
 
+  activityOwner: String = "other";
+  loggedInUserID: any;
   dataActivity: any;
   dataCategory: any;
   dataUser: any;
@@ -27,7 +32,8 @@ export class ViewActivityPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private dataProvider: DataProvider, 
+              private dataProvider: DataProvider,
+              private utilities: Utilities, 
               private alertCtrl: AlertController, 
               private loadingCtrl: LoadingController){
   }
@@ -37,8 +43,8 @@ export class ViewActivityPage {
       this.createAndShowLoading();
     }
     this.dataProvider.setCategory().then((data) => {
-      this.dataActivity = this.dataProvider.dataActivity;
-      console.log(this.dataProvider.dataActivity);
+      this.dataCategory = this.dataProvider.dataCategory;
+      console.log(this.dataProvider.dataCategory);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }
@@ -125,7 +131,7 @@ export class ViewActivityPage {
   }
 
   createActivity(event){
-    //this.navCtrl.push(CreateActivityPage);
+    this.navCtrl.push(CreateActivityPage);
   }
 
   openDetails(event, value){

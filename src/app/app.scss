@@ -31,6 +31,12 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   padding-left: 3px;
 }
 
+.iconLeft {
+  font-size: 4.0rem;
+  margin-top: 6px;
+  padding-left: 20px;
+}
+
 .itemRight{
   padding: 12px 8px 8px 15px;
   margin-left: 77px;
@@ -48,14 +54,10 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   font-size: 14px;
 }
 
-.container{
-   white-space: nowrap;
-}
 
-.column-100{
-  display: inline-block;
-  width: 100%;
-  white-space: normal;
+.categoryField{
+  width: 50%;
+  float: left;
 }
 
 .player-item-image {

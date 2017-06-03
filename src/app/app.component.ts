@@ -35,7 +35,8 @@ export class MyApp {
 
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
-        this.utilities.setUserData(user);
+        this.utilities.user = user;
+        this.utilities.setUserData();
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
@@ -51,7 +52,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Aktivität erstellen', component: CreateActivityPage },
+      //{ title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage },
       { title: 'Login', component: LoginPage }

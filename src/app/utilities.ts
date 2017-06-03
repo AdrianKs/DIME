@@ -21,8 +21,8 @@ export class Utilities {
         this.getCategory();
     }
 
-    setUserData(user): void {
-    firebase.database().ref('user/' + user.uid).once('value', snapshot => {
+    setUserData(): void {
+    firebase.database().ref('user/' + this.user.uid).once('value', snapshot => {
         if (snapshot.val() != null) {
             console.log("in snapshot");
             this.userData = snapshot.val();
