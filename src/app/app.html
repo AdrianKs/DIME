@@ -1,11 +1,24 @@
 <ion-menu [content]="content" id="mainMenu">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
+  <ion-header class="menuHeader">
+    <ion-toolbar class="menuToolbar">
+      <div class="menuHeaderContent">
+        <div>
+          <div menuClose (click)="openPage(myProfilePage)">
+            <div>
+              <img src="{{utilities.userData.picURL}}" class="menuHeaderPic picture-click" onError="this.src='assets/images/user-shape-64.png'"/>
+            </div>
+            <div class="menuBtnHeader">
+              <div class="mainPlayerContent">
+                {{utilities.userData.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <button ion-button (click)="logout()" class="menuBtnLogout" clear icon-only>
+          <ion-icon name="log-out"></ion-icon>
+        </button>
+      </div>
     </ion-toolbar>
-    <button ion-button (click)="logout()" class="menuBtnLogout" clear icon-only>
-      <ion-icon name="log-out"></ion-icon>
-    </button>
   </ion-header>
 
   <ion-content>
