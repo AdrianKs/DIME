@@ -7,6 +7,9 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Profile</ion-title>
   </ion-navbar>
 
@@ -14,5 +17,27 @@
 
 
 <ion-content padding>
+  <div>
+    <div class="picture-container">
+      <img class="profile-image picture-click picture-border" src="{{this.utilities.userData.picURL}}"
+           onError="this.src='assets/images/user-shape-256.png'">
+    </div>
+    <div class="name-container">
+      {{this.utilities.userData.name}}
+    </div>
+    <div class="moreInformation-container">
+      <div clase="moreInformationHeading">
+        Mehr Informationen hier:
+      </div>
+      <div class="facebookLink">
+        <a href="{{this.utilities.userData.profileURL}}">Facebook Profil</a>
+      </div>
+    </div>
+    <div class="rating-container">
+      <ion-icon name="thumbs-down" large></ion-icon>
+      {{calculateRating()}}
+      <ion-icon name="thumbs-up" large></ion-icon>
+    </div>
+  </div>
 
 </ion-content>

@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {LoginPage} from "../pages/login/login";
 import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
+import {ProfilePage} from "../pages/profile/profile";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {CreateActivityPage} from "../pages/create-activity/create-activity";
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
-    ActivityDetailsPage
+    ActivityDetailsPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import {CreateActivityPage} from "../pages/create-activity/create-activity";
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
-    ActivityDetailsPage
+    ActivityDetailsPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Utilities} from "../../app/utilities";
 
 /**
  * Generated class for the ProfilePage page.
@@ -14,11 +15,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  calculateRating() {
+    let userData = this.utilities.userData;
+    if(userData.ratingNeg == 0 && userData.ratingPos == 0){
+      return "n.a.";
+    }
+    else if(userData.ratingNeg == 0){
+      return "100%";
+    }
+    else {
+      return userData.ratingPos/userData.ratingNeg + "%";
+    }
+
   }
 
 }

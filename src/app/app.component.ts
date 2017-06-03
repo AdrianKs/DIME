@@ -13,6 +13,7 @@ import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 import { Utilities } from './utilities';
+import {ProfilePage} from "../pages/profile/profile";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -24,6 +25,11 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = ViewActivityPage;
+
+  myProfilePage: any = {
+    title: "Mein Profil",
+    component: ProfilePage
+  };
 
   pages: Array<{ title: string, component: any }>;
 

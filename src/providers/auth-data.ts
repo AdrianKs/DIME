@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import {MenuController, Platform} from "ionic-angular";
 import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
 import {ViewActivityPage} from "../pages/view-activity/view-activity";
+import {Utilities} from "../app/utilities";
 /*
   Generated class for the AuthData provider.
 
@@ -18,7 +19,7 @@ export class AuthData {
   public userProfile = firebase.database().ref('user');
   firebaseCallback: any;
 
-  constructor(public menuCtrl: MenuController, public fb: Facebook, public platform: Platform) {
+  constructor(public menuCtrl: MenuController, public fb: Facebook, public platform: Platform, public utilities: Utilities) {
     this.fireAuth = firebase.auth();
     this.userProfile = firebase.database().ref('user');
   }
@@ -54,7 +55,8 @@ export class AuthData {
     let provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then((result) => {
       console.log(result);
-      this.writeBrowserLoginDataToDB(result);
+      //this.writeBrowserLoginDataToDB(result);
+      this.writeFacebookUserInDB(result.user, result.additionalUserInfo.profile);
     }).catch(function(error) {
       console.log(error);
     });
@@ -92,7 +94,7 @@ export class AuthData {
     console.log("in get details");
     this.fb.getLoginStatus().then((response) => {
       if(response.status == 'connected'){
-        this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,picture', [])
+        this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,picture,link', [])
           .then((res) => {
             //alert(JSON.stringify(res));
             console.log(res);
@@ -109,38 +111,34 @@ export class AuthData {
   }
 
   writeFacebookUserInDB(user, facebookRes) {
-    console.log("in writeFacebookUserInDB");
     let dataObject = {
       name: facebookRes.name,
       gender: facebookRes.gender,
       minAge: facebookRes.age_range.min,
       picURL: facebookRes.picture.data.url,
-      birthday: facebookRes.birthday
+      birthday: 0,
+      profileURL: facebookRes.link,
+      ratingPos: 0,
+      ratingNeg: 0,
     };
+    let updateObject = {
+      minAge: dataObject.minAge,
+      picURL: dataObject.picURL,
+      profileURL: dataObject.profileURL
+    };
+    if(facebookRes.birthday){
+      console.log("es gibt birthday");
+      dataObject.birthday = facebookRes.birthday;
+      updateObject = Object.assign ({}, updateObject, {birthday: facebookRes.birthday});
+    }
     this.userProfile.child(user.uid).once('value', (snapshot) => {
-      if(snapshot.val() !== null){
+      if(snapshot.val() == null){
         this.userProfile.child(user.uid).set(dataObject);
+        this.utilities.setUserData(dataObject);
       } else {
-        this.userProfile.child(user.uid).update(dataObject);
+        this.userProfile.child(user.uid).update(updateObject);
+        this.utilities.setUserData(Object.assign({}, snapshot.val(), updateObject));
       }
-    });
-  }
-
-  writeBrowserLoginDataToDB(userData: any){
-    //ToDo: Bisher kommt noch eine Fehlermeldung bei der Beantragung weiterer Rechte.
-    //      Hier muss ein Weg gefunden werden, um das Profilbild und Geburtsdatum zu laden.
-    console.log("in write to DB");
-    let profileInfo = userData.additionalUserInfo.profile;
-    //let profilePicture = userData.additionalUserInfo.profile.picture.data;
-    console.log("hier sollte das Profilbild kommen");
-    console.log(profileInfo.picture);
-
-    this.userProfile.child(userData.user.uid).set({
-      name: profileInfo.name,
-      gender: profileInfo.gender,
-      minAge: profileInfo.age_range.min,
-      picURL: profileInfo.picture.data.url,
-      birthday: 0
     });
   }
 
