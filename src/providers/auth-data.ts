@@ -134,10 +134,12 @@ export class AuthData {
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() == null){
         this.userProfile.child(user.uid).set(dataObject);
-        this.utilities.setUserData(dataObject);
+        this.utilities.user = dataObject;
+        this.utilities.setUserData();
       } else {
         this.userProfile.child(user.uid).update(updateObject);
-        this.utilities.setUserData(Object.assign({}, snapshot.val(), updateObject));
+        this.utilities.user = Object.assign({}, snapshot.val(), updateObject);
+        this.utilities.setUserData();
       }
     });
   }
