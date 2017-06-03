@@ -52,7 +52,6 @@ export class MyApp {
       { title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage },
-      { title: 'Login', component: LoginPage }
     ];
 
   }
