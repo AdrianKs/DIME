@@ -14,22 +14,27 @@ import firebase from 'firebase';
 @Component({
   selector: 'page-select-category',
   templateUrl: 'select-category.html',
-   providers: [DataProvider]
+  providers: [DataProvider]
 })
 export class SelectCategoryPage {
 
   ionViewWillEnter() {
-    this.loggedInUserData = this.utilities.userData;
-    console.log(this.loggedInUserData);
+    this.userData = this.utilities.userData;
+    if (this.userData.categories!=null){
+        for (let i in this.userData.categories){
+          if (this.userData.categories[i]==true){
+            this.categoryBoolean[i] = true;
+          }
+        }
+    }
+    console.log(this.categoryBoolean);
     this.loadData(true, null);
   }
 
-  loggedInUserData: any;
-  dataUser: any;
+  userData: any;
   dataCategory: any;
-  beer: boolean = false;
-  sports: boolean = false;
-  icecream: boolean = false;
+  noCategorySelected: boolean = false;
+  categoryBoolean: Array<boolean> = [];
   loading: any;
 
   constructor(public navCtrl: NavController,
@@ -46,6 +51,19 @@ export class SelectCategoryPage {
     }
     this.dataProvider.setCategory().then((data) => {
       this.dataCategory = this.dataProvider.dataCategory;
+      /*if (this.userData.categories!=null){
+        for (let i in this.userData.categories){
+          console.log("fuck2")
+          if (this.userData.categories[i]=true){
+            console.log("fuck3")
+            this.categoryBoolean[i] = true;
+          }
+        }
+      } else {
+        for (let i in this.dataCategory){
+          this.categoryBoolean[i] = false;
+        }
+      }*/
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }
@@ -57,50 +75,6 @@ export class SelectCategoryPage {
         this.createAndShowErrorAlert(error);
       }
     });
-    this.dataProvider.setUser().then((data) => {
-      this.dataUser= this.dataProvider.dataUser;
-      console.log("DataUser:")
-      console.log(this.dataProvider.dataUser);
-      for (let i in this.dataUser){
-        for (let j in this.dataUser[i].categories){
-          console.log(this.dataUser[i].categories);
-        }
-      }
-      console.log(this.dataUser[0].categories);
-      if (showLoading) {
-        this.loading.dismiss().catch((error) => console.log(error));
-      }
-      if(event!=null){
-        event.complete();
-      }
-    }).catch(function (error) {
-      if (showLoading) {
-        this.createAndShowErrorAlert(error);
-      }
-    });
-  }
-
-  doStuff(){
-    return firebase.database().ref('category').once('value', snapshot => {
-        let categoryArray = [];
-        let counter = 0;
-        for (let i in snapshot.val()) {
-            categoryArray[counter] = snapshot.val()[i];
-            categoryArray[counter].id = i;
-            counter++;
-        }
-        this.dataCategory = categoryArray;
-    });
-  }
-
-  approveCategory(userItem, categoryId){
-    userItem.categories[categoryId] = true;
-    firebase.database().ref('user/' + userItem.id + '/categories/'+ categoryId).set(true);
-  }
-
-  disableCategory(userItem, categoryId){
-    userItem.categories[categoryId] = false;
-    firebase.database().ref('user/' + userItem.id + '/categories/' + categoryId).remove();
   }
 
   createAndShowErrorAlert(error) {
@@ -119,7 +93,18 @@ export class SelectCategoryPage {
     this.loading.present();
   }
 
-  doRefresh(refresher) {
-    this.loadData(false, refresher);
+  clicked(){
+    console.log("jaha");
   }
+
+  approveCategory(categoryId){
+    this.categoryBoolean[categoryId] = true;
+    firebase.database().ref('user/' + this.utilities.user.uid + '/categories/'+ categoryId).set(true);
+  }
+
+  disableCategory(categoryId){
+    this.categoryBoolean[categoryId] = false;
+    firebase.database().ref('user/' + this.utilities.user.uid + '/categories/'+ categoryId).remove();
+  }
+
 }

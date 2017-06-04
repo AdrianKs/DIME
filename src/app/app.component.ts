@@ -41,7 +41,8 @@ export class MyApp {
 
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
-        this.utilities.setUserData(user);
+        this.utilities.user = user;
+        this.utilities.setUserData();
         this.rootPage = ViewActivityPage;
       }
       if (!user) {
@@ -49,13 +50,13 @@ export class MyApp {
         //utilities.loggedIn = false;
         //utilities.user = {};
         this.rootPage = LoginPage;
-        this.utilities.setUserData({});
+        this.utilities.user = {};
       }
     });
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Aktivität erstellen', component: CreateActivityPage },
+      //{ title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
       { title: 'Kategorie', component: SelectCategoryPage },
     ];

@@ -17,26 +17,68 @@
     </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-bottom>
+    <ion-segment [(ngModel)]="activityOwner">
+      <ion-segment-button value="other">
+        Aktivitäten anderer
+      </ion-segment-button>
+      <ion-segment-button value="own">
+        Meine Aktivitäten
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <div *ngFor="let activityItem of dataActivity">
-      <ion-item (click)="openDetails($event, activityItem)">
-        <div class="itemLeft">
-          <div *ngFor="let userItem of dataUser">
-            <img *ngIf="userItem.id==activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
-          </div>
+  <div [ngSwitch]="activityOwner">
+    <ion-list *ngSwitchCase="'other'">
+      <div *ngFor="let activityItem of dataActivity">
+        <div *ngIf="activityItem.creator != loggedInUserID">
+          <ion-item (click)="openDetails($event, activityItem)">
+            <div class="itemLeft">
+              <div *ngFor="let userItem of dataUser">
+                <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
+              </div>
+            </div>
+            <div class="itemRight">
+              <div *ngFor="let categoryItem of dataCategory">
+                <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
+                  {{categoryItem.name}}
+                </div>
+              </div>
+              <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+              <div class="secondaryDetails">{{ activityItem.date }}</div>
+            </div>
+          </ion-item>
         </div>
-        <div class="itemRight">
-          <div class="mainDetails">{{activityItem.category}}</div>
-          <div class="secondaryDetails">{{ activityItem.locationName }}</div>
-          <div class="secondaryDetails">{{ activityItem.date }}</div>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'own'">
+      <div *ngFor="let activityItem of dataActivity">
+        <div *ngIf="activityItem.creator == loggedInUserID">
+          <ion-item (click)="openDetails($event, activityItem)">
+            <div class="itemLeft">
+              <div *ngFor="let categoryItem of dataCategory">
+              <ion-icon *ngIf="categoryItem.id == activityItem.category" name={{categoryItem.icon}} class="iconLeft"></ion-icon>
+              </div>
+            </div>
+            <div class="itemRight">
+              <div *ngFor="let categoryItem of dataCategory">
+                <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
+                  {{categoryItem.name}}
+                </div>
+              </div>
+              <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+              <div class="secondaryDetails">{{ activityItem.date }}</div>
+            </div>
+          </ion-item>
         </div>
-      </ion-item>
-    </div>
-  </ion-list>
+      </div>
+    </ion-list>
+
+  </div>
 
 
   <ion-fab right bottom>
