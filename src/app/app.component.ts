@@ -35,7 +35,8 @@ export class MyApp {
 
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
-        this.utilities.setUserData(user);
+        this.utilities.user = user;
+        this.utilities.setUserData();
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
