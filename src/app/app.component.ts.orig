@@ -46,7 +46,7 @@ export class MyApp {
 <<<<<<< HEAD
         this.rootPage = ViewActivityPage;
 =======
->>>>>>> added distanceCalculation
+>>>>>>> 5912ce43389940d28ad378c7c408d0f3ab6d7d4e
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
