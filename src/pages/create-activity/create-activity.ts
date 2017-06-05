@@ -38,7 +38,6 @@ export class CreateActivityPage {
   loadMap() {
     this.utilities.getUserPosition().then(()=>{
       let latLng = new google.maps.LatLng(this.utilities.userPositionLat, this.utilities.userPositionLng);
-      console.log(this.utilities.userPositionLng);
       let mapOptions = {
         center: latLng,
         zoom: 15,
