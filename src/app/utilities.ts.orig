@@ -23,6 +23,14 @@ export class Utilities {
     }
 
     setUserData(): void {
+<<<<<<< HEAD
+    firebase.database().ref('user/' + this.user.uid).once('value', snapshot => {
+        if (snapshot.val() != null) {
+            console.log("in snapshot");
+            this.userData = snapshot.val();
+            this.userLoaded = true;
+        }
+=======
         firebase.database().ref('user/' + this.user.uid).once('value', snapshot => {
             if (snapshot.val() != null) {
                 console.log("in snapshot");
@@ -32,6 +40,7 @@ export class Utilities {
             this.userCategories = this.userData.categories;
             console.log(this.userCategories);
             this.getSpecificUserActivites();
+>>>>>>> added distanceCalculation
         });
     }
 

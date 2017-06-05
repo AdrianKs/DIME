@@ -13,37 +13,27 @@ import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 import { Utilities } from './utilities';
-<<<<<<< HEAD
-=======
-
-firebase.initializeApp(firebaseConfig);
-
-firebase.auth().onAuthStateChanged((user) => {
-  //utilities.user = user;
->>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
+import {ProfilePage} from "../pages/profile/profile";
 
 firebase.initializeApp(firebaseConfig);
 
 @Component({
   templateUrl: 'app.html',
-<<<<<<< HEAD
   providers: [Utilities, AuthData]
-=======
-  providers: [Utilities]
->>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = ViewActivityPage;
 
+  myProfilePage: any = {
+    title: "Mein Profil",
+    component: ProfilePage
+  };
+
   pages: Array<{ title: string, component: any }>;
 
-<<<<<<< HEAD
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData) {
-=======
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public utilities: Utilities) {
->>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -51,29 +41,27 @@ export class MyApp {
 
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
+        this.utilities.user = user;
+        this.utilities.setUserData();
+<<<<<<< HEAD
+        this.rootPage = ViewActivityPage;
+=======
+>>>>>>> 5912ce43389940d28ad378c7c408d0f3ab6d7d4e
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
         //utilities.loggedIn = false;
         //utilities.user = {};
         this.rootPage = LoginPage;
-      } else {
-        if (this.nav.getActive() == undefined) {
-          this.rootPage = ViewActivityPage;
-        }
+        this.utilities.user = {};
       }
     });
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Aktivität erstellen', component: CreateActivityPage },
+      //{ title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
-<<<<<<< HEAD
       { title: 'Kategorie', component: SelectCategoryPage },
-      { title: 'Login', component: LoginPage }
-=======
-      { title: 'Kategorie', component: SelectCategoryPage }
->>>>>>> fc89c708b11a32cc7a22091083ff4aac20da4060
     ];
 
   }
