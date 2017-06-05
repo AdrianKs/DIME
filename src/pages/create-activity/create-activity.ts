@@ -38,7 +38,6 @@ export class CreateActivityPage {
   loadMap() {
     this.utilities.getUserPosition().then(()=>{
       let latLng = new google.maps.LatLng(this.utilities.userPositionLat, this.utilities.userPositionLng);
-
       let mapOptions = {
         center: latLng,
         zoom: 15,
@@ -171,11 +170,11 @@ export class CreateActivityPage {
     return firebase.database().ref('activity').child(this.newPostKey).set({
       attendees: [],
       category: this.selectedCategory,
-      creator: "oaRPEmxRDraOKD5uX3Rk4vJS3yz2",
+      creator: this.utilities.user.uid,
       date: this.myDate,
       description: this.description,
-      locationAlt: this.activityPlace.lat,
-      locationLong: this.activityPlace.lng,
+      locationLat: this.activityPlace.lat,
+      locationLng: this.activityPlace.lng,
       locationName: this.activityPlaceName,
       maxAttendees: this.maxPersonen
     });
