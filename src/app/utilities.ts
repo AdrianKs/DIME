@@ -80,7 +80,7 @@ export class Utilities {
                     for (let prob in this.userCategories) {
                         if (this.geofenceAreas[i].category == prob) {
                             this.calculateDistanceToActivites(this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng);
-                            this.createGeofenceAreas(this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng, this.geofenceAreas[i].locationName, this.geofenceAreas[i].date);
+                            this.createGeofenceAreas(this.geofenceAreas[i].id, this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng, this.geofenceAreas[i].locationName, this.geofenceAreas[i].date);
                         }
                     }
                 }
@@ -105,20 +105,22 @@ export class Utilities {
         return deg * (Math.PI / 180)
     }
 
-    createGeofenceAreas(lat, lng, place, date) {
+    createGeofenceAreas(id, lat, lng, place, date) {
+        let counter = 0;
         let fence = {
-            id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
+            id: id, //any unique ID
             latitude: lat, //center of geofence radius
             longitude: lng,
             radius: 1000, //radius to edge of geofence in meters
             transitionType: 1, //see 'Transition Types' below
             notification: { //notification settings
-                id: 1, //any unique ID
+                id: counter++, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
                 text: place + ' ' + date, //notification body
                 openAppOnClick: true //open app when notification is tapped
             }
         }
+        console.log(fence);
         this.geofence.addOrUpdate(fence).then(
             () => console.log('Geofence added'),
             (err) => console.log('Geofence failed to add')
