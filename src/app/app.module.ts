@@ -16,6 +16,7 @@ import {LoginPage} from "../pages/login/login";
 import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
 import {ProfilePage} from "../pages/profile/profile";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {ProfilePage} from "../pages/profile/profile";
     Facebook,
     Geolocation,
     Geofence,
+    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

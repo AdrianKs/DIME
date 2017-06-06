@@ -16,6 +16,7 @@ export class Utilities {
     userCategories: any[];
     distancesToActivities: any[];
     geofenceAreas: any[];
+    picture: any;
 
     constructor(public geofence: Geofence, public geolocation: Geolocation) {
         this.getCategory();
@@ -29,6 +30,11 @@ export class Utilities {
             this.userLoaded = true;
         }
         });
+    }
+
+    setLocalUserData(userData): void {
+      this.userData = userData;
+      this.userLoaded = true;
     }
 
     getUserPosition() {
@@ -56,7 +62,7 @@ export class Utilities {
     }
 
     getPlayerCategories() {
-      
+
     }
 
     getSpecificUserActivites() {

@@ -3,7 +3,6 @@ import 'rxjs/add/operator/map';
 import firebase from 'firebase';
 import {MenuController, Platform} from "ionic-angular";
 import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
-import {ViewActivityPage} from "../pages/view-activity/view-activity";
 import {Utilities} from "../app/utilities";
 /*
   Generated class for the AuthData provider.
@@ -76,7 +75,6 @@ export class AuthData {
         firebase.auth().signInWithCredential(credential)
           .then((returnMessage) => {
             user = firebase.auth().currentUser;
-            console.log("hier sollte die fb return message kommen");
             console.log(returnMessage);
             this.getdetails(user);
           })
@@ -105,7 +103,18 @@ export class AuthData {
           .catch((error) => {
             console.log("facebook api error");
             console.log(error);
+          });
+        /*this.fb.api('/' + response.authResponse.userID  + '/picture?height=320', ['public_profile'])
+          .then((res) => {
+            console.log(response.authResponse.userID);
+            console.log(res);
+            this.utilities.picture = res;
+            console.log("sollte bild geladen haben");
           })
+          .catch((error) => {
+            console.log(error);
+            console.log("ist wohl ein Fehler aufgetreten");
+          })*/
       }
     });
   }
@@ -134,10 +143,10 @@ export class AuthData {
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() == null){
         this.userProfile.child(user.uid).set(dataObject);
-        this.utilities.setUserData(dataObject);
+        this.utilities.setLocalUserData(dataObject);
       } else {
         this.userProfile.child(user.uid).update(updateObject);
-        this.utilities.setUserData(Object.assign({}, snapshot.val(), updateObject));
+        this.utilities.setLocalUserData(Object.assign({}, snapshot.val(), updateObject));
       }
     });
   }
