@@ -41,7 +41,8 @@ export class MyApp {
 
       if (user != undefined) {
         //Speicher hier userdaten in Utilities oder so
-        this.utilities.setUserData(user);
+        this.utilities.user = user;
+        this.utilities.setUserData();
         this.rootPage = ViewActivityPage;
       }
       if (!user) {
@@ -49,7 +50,7 @@ export class MyApp {
         //utilities.loggedIn = false;
         //utilities.user = {};
         this.rootPage = LoginPage;
-        this.utilities.setUserData({});
+        this.utilities.user = {};
       }
     });
 
