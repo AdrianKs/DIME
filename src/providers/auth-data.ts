@@ -92,7 +92,7 @@ export class AuthData {
     console.log("in get details");
     this.fb.getLoginStatus().then((response) => {
       if(response.status == 'connected'){
-        this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,picture,link', [])
+        this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,link,picture.height(320)', [])
           .then((res) => {
             //alert(JSON.stringify(res));
             console.log(res);
@@ -104,17 +104,6 @@ export class AuthData {
             console.log("facebook api error");
             console.log(error);
           });
-        /*this.fb.api('/' + response.authResponse.userID  + '/picture?height=320', ['public_profile'])
-          .then((res) => {
-            console.log(response.authResponse.userID);
-            console.log(res);
-            this.utilities.picture = res;
-            console.log("sollte bild geladen haben");
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("ist wohl ein Fehler aufgetreten");
-          })*/
       }
     });
   }
