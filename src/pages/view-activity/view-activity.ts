@@ -19,8 +19,8 @@ import { ActivityDetailsPage } from '../activity-details/activity-details';
 export class ViewActivityPage {
 
   ionViewWillEnter() {
-    this.loadData(true, null);
     this.loggedInUserID = this.utilities.user.uid;
+    this.loadData(true, null);
   }
 
   activityOwner: String = "other";
