@@ -15,8 +15,16 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+  private user: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities, public iab: InAppBrowser) {
+    if(!navParams.get('user')){
+      this.user=this.utilities.userData;
+      console.log("kein parameter übergeben");
+    } else {
+      this.user = navParams.get('user');
+      console.log("parameter übergeben");
+    }
   }
 
   ionViewDidLoad() {
@@ -24,22 +32,21 @@ export class ProfilePage {
   }
 
   calculateRating() {
-    let userData = this.utilities.userData;
-    if(userData.ratingNeg == 0 && userData.ratingPos == 0){
+    if(this.user.ratingNeg == 0 && this.user.ratingPos == 0){
       return "n.a.";
     }
-    else if(userData.ratingNeg == 0){
+    else if(this.user.ratingNeg == 0){
       return "100%";
     }
     else {
-      return userData.ratingPos/userData.ratingNeg + "%";
+      return this.user.ratingPos/this.user.ratingNeg + "%";
     }
 
   }
 
   openFacebookProfile(){
     //window.open("fb://page/821072277997324", "_system");
-    const browser = this.iab.create(this.utilities.userData.profileURL);
+    const browser = this.iab.create(this.user.profileURL);
     browser.show();
 
   }
