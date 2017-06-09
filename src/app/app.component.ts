@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { Subscription } from 'rxjs';
 
 import { firebaseConfig } from "./firebaseAppData";
 import { ViewActivityPage } from "../pages/view-activity/view-activity";
@@ -25,6 +26,8 @@ firebase.initializeApp(firebaseConfig);
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  private onResumeSubscription: Subscription;
+
   rootPage: any = ViewActivityPage;
 
   myProfilePage: any = {
@@ -45,6 +48,9 @@ export class MyApp {
         this.utilities.user = user;
         this.utilities.setUserData();
         this.rootPage = ViewActivityPage;
+        this.onResumeSubscription = platform.resume.subscribe(() => {
+          this.checkLocation();
+        });
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
@@ -71,32 +77,13 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       //Check if location services are enabled 
-      this.diagnostic.isLocationEnabled().then((res) => {
-        if (res == false) {
-          let alert = this.alertCtrl.create({
-            title: "Warnung",
-            subTitle: "Sie müssen die Standortdienste aktivieren damit die App verwendet werden kann",
-            buttons: [
-              {
-                text: "OK",
-                role: "cancel",
-                handler: () => {
-                  console.log('Cancel clicked');
-                  this.diagnostic.switchToLocationSettings();
-                }
-              }
-            ]
-          });
-          alert.present();
-        } else {
-          this.geofence.initialize().then(
-            // resolved promise does not return a value
-            () => console.log('Geofence Plugin Ready'),
-            (err) => console.log(err)
-          );
-        }
-      })
+      this.checkLocation();
     });
+  }
+
+  ngOnDestroy() {
+    // always unsubscribe your subscriptions to prevent leaks
+    this.onResumeSubscription.unsubscribe();
   }
 
   openPage(page) {
@@ -109,4 +96,33 @@ export class MyApp {
     this.authData.logout();
     this.nav.setRoot(LoginPage);
   }
+
+  checkLocation() {
+    this.diagnostic.isLocationEnabled().then((res) => {
+      if (res == false) {
+        let alert = this.alertCtrl.create({
+          title: "Warnung",
+          subTitle: "Sie müssen die Standortdienste aktivieren damit die App verwendet werden kann",
+          buttons: [
+            {
+              text: "Zu Einstellungen",
+              role: "cancel",
+              handler: () => {
+                console.log('Cancel clicked');
+                this.diagnostic.switchToLocationSettings();
+              }
+            }
+          ]
+        });
+        alert.present();
+      } else {
+        this.geofence.initialize().then(
+          // resolved promise does not return a value
+          () => console.log('Geofence Plugin Ready'),
+          (err) => console.log(err)
+        );
+      }
+    });
+  }
+
 }
