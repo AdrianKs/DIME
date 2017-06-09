@@ -77,7 +77,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      //Check if location services are enabled 
+      //Check if location services are enabled
       this.checkLocation();
     });
   }
@@ -124,7 +124,10 @@ export class MyApp {
           (err) => console.log(err)
         );
       }
-    });
+    })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
 }
