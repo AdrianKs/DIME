@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Component, ViewChild, } from '@angular/core';
+import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { firebaseConfig } from "./firebaseAppData";
 import { ViewActivityPage } from "../pages/view-activity/view-activity";
@@ -13,7 +14,7 @@ import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 import { Utilities } from './utilities';
-import {ProfilePage} from "../pages/profile/profile";
+import { ProfilePage } from "../pages/profile/profile";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -33,7 +34,7 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public alertCtrl: AlertController, public diagnostic: Diagnostic, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -69,11 +70,32 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.geofence.initialize().then(
-        // resolved promise does not return a value
-        () => console.log('Geofence Plugin Ready'),
-        (err) => console.log(err)
-      );
+      //Check if location services are enabled 
+      this.diagnostic.isLocationEnabled().then((res) => {
+        if (res == false) {
+          let alert = this.alertCtrl.create({
+            title: "Warnung",
+            subTitle: "Sie müssen die Standortdienste aktivieren damit die App verwendet werden kann",
+            buttons: [
+              {
+                text: "OK",
+                role: "cancel",
+                handler: () => {
+                  console.log('Cancel clicked');
+                  this.diagnostic.switchToLocationSettings();
+                }
+              }
+            ]
+          });
+          alert.present();
+        } else {
+          this.geofence.initialize().then(
+            // resolved promise does not return a value
+            () => console.log('Geofence Plugin Ready'),
+            (err) => console.log(err)
+          );
+        }
+      })
     });
   }
 
