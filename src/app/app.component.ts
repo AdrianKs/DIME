@@ -49,6 +49,7 @@ export class MyApp {
         this.utilities.setUserData();
         this.rootPage = ViewActivityPage;
         this.onResumeSubscription = platform.resume.subscribe(() => {
+          console.log("subscription started");
           this.checkLocation();
         });
       }
@@ -83,6 +84,7 @@ export class MyApp {
 
   ngOnDestroy() {
     // always unsubscribe your subscriptions to prevent leaks
+    console.log("subscription dead");
     this.onResumeSubscription.unsubscribe();
   }
 
