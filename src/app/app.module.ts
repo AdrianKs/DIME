@@ -48,7 +48,6 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     Facebook,
     Geolocation,
     Geofence,
-    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

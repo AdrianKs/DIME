@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Utilities} from "../../app/utilities";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 /**
  * Generated class for the ProfilePage page.
@@ -16,7 +15,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities, public iab: InAppBrowser) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities) {
   }
 
   ionViewDidLoad() {
@@ -38,9 +37,9 @@ export class ProfilePage {
   }
 
   openFacebookProfile(){
-    //window.open("fb://page/821072277997324", "_system");
-    const browser = this.iab.create(this.utilities.userData.profileURL);
-    browser.show();
+    window.open(this.utilities.userData.profileURL, "_system");
+    //const browser = this.iab.create(this.utilities.userData.profileURL);
+    //browser.show();
 
   }
 
