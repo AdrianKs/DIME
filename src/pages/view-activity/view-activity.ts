@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { DataProvider } from '../../providers/data-provider';
 import { CreateActivityPage } from '../create-activity/create-activity'
 import { Utilities} from '../../app/utilities';
-
+import { ActivityDetailsPage } from '../activity-details/activity-details';
 /**
  * Generated class for the ViewActivityPage page.
  *
@@ -135,7 +135,7 @@ export class ViewActivityPage {
   }
 
   openDetails(event, value){
-    //this.navCtrl.push(QuoteDetail, { activityItem: activityItem});
+    this.navCtrl.push(ActivityDetailsPage, { activityItem: value});
  
   }
 
