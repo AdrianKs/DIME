@@ -31,6 +31,10 @@ export class ActivityDetailsPage {
 
   private attendees: any = [];
 
+  private description: any = "";
+
+  private picURL: any = "";
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider) {
     this.activityData = this.navParams.get('activityItem');
@@ -42,6 +46,7 @@ export class ActivityDetailsPage {
     this.creatorID = this.activityData.creator;
     this.activityTime = this.activityData.date;
     this.locationName = this.activityData.locationName;
+    this.description = this.activityData.description;
     let participantsTemp = this.activityData.attendees;
 
     for(let p in participantsTemp){
@@ -81,6 +86,7 @@ export class ActivityDetailsPage {
 
   defineActivityItems(){
     this.creatorName = this.userData[0].name;
+    this.picURL = this.userData[0].picURL;
   }
 
   ionViewDidLoad() {
