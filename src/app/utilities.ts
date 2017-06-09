@@ -3,7 +3,6 @@ import firebase from 'firebase';
 import { Geofence } from '@ionic-native/geofence';
 import { Geolocation } from '@ionic-native/geolocation';
 
-
 @Injectable()
 export class Utilities {
 
