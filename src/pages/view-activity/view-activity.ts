@@ -19,6 +19,7 @@ import { Utilities} from '../../app/utilities';
 export class ViewActivityPage {
 
   ionViewWillEnter() {
+    console.log(this.utilities.user);
     this.loggedInUserID = this.utilities.user.uid;
     this.loadData(true, null);
   }
