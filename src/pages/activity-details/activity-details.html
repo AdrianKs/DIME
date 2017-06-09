@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <div class="picture-container">
-    <img class="activity-profile-picture" src="http://media.istockphoto.com/photos/smiling-and-beautiful-woman-portrait-picture-id526142422">
+    <img class="activity-profile-picture" src="{{picURL}}">
   </div>
   <ion-list no-lines>
     <ion-item>
@@ -42,6 +42,11 @@
       <ion-label>Uhrzeit:
       </ion-label>
       <ion-label class="text-aligned-right">{{activityTime}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Beschreibung:
+      </ion-label>
+      <ion-label class="text-aligned-right">{{description}}</ion-label>
     </ion-item>
   </ion-list>
   <ion-list>
