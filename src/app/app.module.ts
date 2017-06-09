@@ -16,7 +16,25 @@ import {LoginPage} from "../pages/login/login";
 import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
 import {ProfilePage} from "../pages/profile/profile";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '44a1c74d'
+  },
+  'push': {
+    'sender_id': '597985728064',
+    'pluginConfig': {
+      'ios': {
+        'badge': true,
+        'sound': true
+      },
+      'android': {
+        'iconColor': '#ff0000'
+      }
+    }
+  }
+};
 
 @NgModule({
   declarations: [
@@ -31,6 +49,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

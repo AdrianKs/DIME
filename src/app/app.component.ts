@@ -14,6 +14,7 @@ import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 import { Utilities } from './utilities';
 import {ProfilePage} from "../pages/profile/profile";
+import { Push, PushToken } from '@ionic/cloud-angular';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -33,7 +34,13 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
+  constructor(public platform: Platform,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen,
+              public geofence: Geofence,
+              public authData: AuthData,
+              public utilities: Utilities,
+              public push: Push) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -74,6 +81,16 @@ export class MyApp {
         () => console.log('Geofence Plugin Ready'),
         (err) => console.log(err)
       );
+      this.push.register().then((t: PushToken) => {
+        return this.push.saveToken(t);
+      }).then((t: PushToken) => {
+        console.log('Token saved:', t.token);
+      });
+
+      this.push.rx.notification()
+        .subscribe((msg) => {
+          console.log('I received awesome push: ' + msg);
+        });
     });
   }
 
