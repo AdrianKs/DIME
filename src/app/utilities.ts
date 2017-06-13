@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Geofence } from '@ionic-native/geofence';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Calendar } from '@ionic-native/calendar';
 
 @Injectable()
 export class Utilities {
@@ -17,9 +18,15 @@ export class Utilities {
     geofenceAreas: any[];
     picture: any;
 
-    constructor(public geofence: Geofence, public geolocation: Geolocation) {
+    constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar) {
         this.getCategories();
         this.getUserPosition();
+        this.calendar.findEvent().then((result)=>{
+            console.log("check");
+            console.log(result);
+        }).catch((err)=>{
+            console.log("Fehler beim Kalender");
+        });
     }
 
     setUserData(): void {
@@ -36,8 +43,8 @@ export class Utilities {
     }
 
     setLocalUserData(userData): void {
-      this.userData = userData;
-      this.userLoaded = true;
+        this.userData = userData;
+        this.userLoaded = true;
     }
 
     getUserPosition() {
@@ -124,6 +131,30 @@ export class Utilities {
             () => console.log('Geofence added'),
             (err) => console.log('Geofence failed to add')
         );
+
+        this.watchGeofence();
+    }
+
+    watchGeofence() {
+        this.geofence.onTransitionReceived().subscribe(res => {
+            let tempLoc = res;
+            tempLoc.forEach(location => {
+                if (this.checkCalendar() == true) {
+                    console.log("freetime");
+                } else if (this.checkCalendar() == false) {
+                    console.log("no freetime");
+                }
+            });
+        }, (err) => {
+            console.log(err);
+        });
+    }
+
+    checkCalendar() {
+        let tmpResult = false;
+
+    
+        return tmpResult;
     }
 
 }
