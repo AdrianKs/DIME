@@ -16,7 +16,8 @@ import {LoginPage} from "../pages/login/login";
 import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
 import {ProfilePage} from "../pages/profile/profile";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Calendar } from '@ionic-native/calendar';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,8 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     Facebook,
     Geolocation,
     Geofence,
+    Diagnostic,
+    Calendar,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { Geolocation } from '@ionic-native/geolocation';
 import { Geofence } from '@ionic-native/geofence';
 import { Utilities } from '../../app/utilities';
+import { ViewActivityPage } from '../../pages/view-activity/view-activity';
 import firebase from 'firebase';
 
 declare var google;
@@ -36,7 +37,7 @@ export class CreateActivityPage {
   }
 
   loadMap() {
-    this.utilities.getUserPosition().then(()=>{
+    this.utilities.getUserPosition().then(() => {
       let latLng = new google.maps.LatLng(this.utilities.userPositionLat, this.utilities.userPositionLng);
       let mapOptions = {
         center: latLng,
@@ -158,7 +159,9 @@ export class CreateActivityPage {
       alert.present();
     } else {
       this.writeGeofenceToDatabase().then(() => {
-        console.log('Aktivität eingetragen');
+        console.log("Aktivität eingetragen");
+        this.navCtrl.setRoot(ViewActivityPage);
+        this.navCtrl.popToRoot();
       }).catch((err) => {
         console.log(err);
       });
