@@ -16,9 +16,10 @@ import {LoginPage} from "../pages/login/login";
 import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
 import {ProfilePage} from "../pages/profile/profile";
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+//import {CloudSettings, CloudModule, Push} from '@ionic/cloud-angular';
+import {Push} from '@ionic-native/push'
 
-const cloudSettings: CloudSettings = {
+/*const cloudSettings: CloudSettings = {
   'core': {
     'app_id': '44a1c74d'
   },
@@ -34,7 +35,7 @@ const cloudSettings: CloudSettings = {
       }
     }
   }
-};
+};*/
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings)
+    //CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -67,6 +68,7 @@ const cloudSettings: CloudSettings = {
     Facebook,
     Geolocation,
     Geofence,
+    Push,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

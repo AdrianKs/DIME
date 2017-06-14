@@ -14,7 +14,8 @@ import { CreateActivityPage } from "../pages/create-activity/create-activity";
 
 import { Utilities } from './utilities';
 import {ProfilePage} from "../pages/profile/profile";
-import { Push, PushToken } from '@ionic/cloud-angular';
+//import { Push, PushToken, PushObject } from '@ionic/cloud-angular';
+import {Push, PushObject, PushOptions} from '@ionic-native/push';
 //import * as FCM from 'fcm-node';
 //var fcm = new FCM('AAAAizq6FkA:APA91bGHQhv3xZ8yz2wHF2qR-dcYTrINqlYHlQTuy1Vr1yapcJcuFA8g75tgnKasvZvg1L29b9u2c1d5tuMK7LINk8p4cjjzlOqpDANMSFLEM7h7vW5U-JPNgVuxPgBFmUC3vzLMVeXT');
 
@@ -83,7 +84,7 @@ export class MyApp {
         () => console.log('Geofence Plugin Ready'),
         (err) => console.log(err)
       );
-      this.push.register().then((t: PushToken) => {
+      /*this.push.register().then((t: PushToken) => {
         return this.push.saveToken(t);
       }).then((t: PushToken) => {
         console.log('Token saved:', t.token);
@@ -98,7 +99,41 @@ export class MyApp {
               console.log(error);
             });
           //alert(JSON.stringify(msg.payload));
+        });*/
+      this.push.hasPermission()
+        .then((res: any) => {
+
+          if (res.isEnabled) {
+            console.log('We have permission to send push notifications');
+          } else {
+            console.log('We do not have permission to send push notifications');
+          }
+
         });
+
+      const options: PushOptions = {
+        android: {
+          senderID: '597985728064'
+        },
+        ios: {
+          alert: 'true',
+          badge: true,
+          sound: 'false'
+        },
+        windows: {}
+      };
+      const pushObject: PushObject = this.push.init(options);
+      pushObject.on('notification').subscribe((notification: any) => {
+        console.log('Received a notification', notification);
+        firebase.database().ref('pushtest').push(notification.title)
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+
+      pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+
+      pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
     });
   }
 
