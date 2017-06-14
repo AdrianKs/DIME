@@ -1,8 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Component, ViewChild, } from '@angular/core';
+import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Subscription } from 'rxjs';
 
 import { firebaseConfig } from "./firebaseAppData";
 import { ViewActivityPage } from "../pages/view-activity/view-activity";
@@ -28,6 +30,8 @@ firebase.initializeApp(firebaseConfig);
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  private onResumeSubscription: Subscription;
+
   rootPage: any = ViewActivityPage;
 
   myProfilePage: any = {
@@ -39,6 +43,8 @@ export class MyApp {
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
+              public alertCtrl: AlertController,
+              public diagnostic: Diagnostic,
               public splashScreen: SplashScreen,
               public geofence: Geofence,
               public authData: AuthData,
@@ -54,6 +60,10 @@ export class MyApp {
         this.utilities.user = user;
         this.utilities.setUserData();
         this.rootPage = ViewActivityPage;
+        this.onResumeSubscription = platform.resume.subscribe(() => {
+          console.log("subscription started");
+          this.checkLocation();
+        });
       }
       if (!user) {
         //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
@@ -134,7 +144,16 @@ export class MyApp {
       pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
 
       pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+
+      //Check if location services are enabled
+      this.checkLocation();
     });
+  }
+
+  ngOnDestroy() {
+    // always unsubscribe your subscriptions to prevent leaks
+    console.log("subscription dead");
+    this.onResumeSubscription.unsubscribe();
   }
 
   openPage(page) {
@@ -169,4 +188,35 @@ export class MyApp {
       }
     });
   }*/
+  checkLocation() {
+    this.diagnostic.isLocationEnabled().then((res) => {
+      if (res == false) {
+        let alert = this.alertCtrl.create({
+          title: "Warnung",
+          subTitle: "Sie müssen die Standortdienste aktivieren damit die App verwendet werden kann",
+          buttons: [
+            {
+              text: "Zu Einstellungen",
+              role: "cancel",
+              handler: () => {
+                console.log('Cancel clicked');
+                this.diagnostic.switchToLocationSettings();
+              }
+            }
+          ]
+        });
+        alert.present();
+      } else {
+        this.geofence.initialize().then(
+          // resolved promise does not return a value
+          () => console.log('Geofence Plugin Ready'),
+          (err) => console.log(err)
+        );
+      }
+    })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
 }

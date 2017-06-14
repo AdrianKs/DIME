@@ -17,7 +17,9 @@ import {Facebook} from "@ionic-native/facebook";
 import {CreateActivityPage} from "../pages/create-activity/create-activity";
 import {ProfilePage} from "../pages/profile/profile";
 //import {CloudSettings, CloudModule, Push} from '@ionic/cloud-angular';
-import {Push} from '@ionic-native/push'
+import {Push} from '@ionic-native/push';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Calendar } from '@ionic-native/calendar';
 
 /*const cloudSettings: CloudSettings = {
   'core': {
@@ -69,6 +71,8 @@ import {Push} from '@ionic-native/push'
     Geolocation,
     Geofence,
     Push,
+    Diagnostic,
+    Calendar,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
