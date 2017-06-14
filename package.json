@@ -81,7 +81,6 @@
       "ionic-plugin-keyboard": {},
       "cordova-plugin-browsertab": {},
       "cordova-plugin-buildinfo": {},
-      "cordova-plugin-inappbrowser": {},
       "cordova-universal-links-plugin": {}
     },
     "platforms": [
