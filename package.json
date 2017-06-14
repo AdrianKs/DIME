@@ -20,7 +20,6 @@
         "@angular/http": "4.1.2",
         "@angular/platform-browser": "4.1.2",
         "@angular/platform-browser-dynamic": "4.1.2",
-
         "@ionic-native/calendar": "^3.12.1",
         "@ionic-native/core": "3.10.2",
         "@ionic-native/diagnostic": "^3.12.1",
@@ -89,8 +88,9 @@
                 "APP_NAME": "DIME"
             },
             "phonegap-plugin-push": {
-              "SENDER_ID": "597985728064"
-              },
+                "SENDER_ID": "597985728064"
+            }
+        },
         "platforms": [
             "android",
             "browser"
