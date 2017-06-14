@@ -148,7 +148,7 @@ export class MyApp {
     this.nav.setRoot(LoginPage);
   }
 
-  /*sendPush() {
+/*sendPush() {
     let deviceID = 'epzU-__USXg:APA91bHP3ieifkPMJQx-VZv5EmHoN4XP08IU2dMu1J_47H-j6FE5lZJdHVmqRETZBstXAzADSgUFWwm5kQ_kCvmThUQonsQF42s97dyMxLAnC8u_k8ta3-tjWLWg9vWQwlF_iN-E5XxD';
     var message = {
       to: deviceID,
