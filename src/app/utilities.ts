@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Geofence } from '@ionic-native/geofence';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { Calendar } from '@ionic-native/calendar';
 
 @Injectable()
 export class Utilities {
@@ -18,9 +18,15 @@ export class Utilities {
     geofenceAreas: any[];
     picture: any;
 
-    constructor(public geofence: Geofence, public geolocation: Geolocation) {
+    constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar) {
         this.getCategories();
         this.getUserPosition();
+        this.calendar.findEvent().then((result)=>{
+            console.log("check");
+            console.log(result);
+        }).catch((err)=>{
+            console.log("Fehler beim Kalender");
+        });
     }
 
     setUserData(): void {
@@ -37,8 +43,8 @@ export class Utilities {
     }
 
     setLocalUserData(userData): void {
-      this.userData = userData;
-      this.userLoaded = true;
+        this.userData = userData;
+        this.userLoaded = true;
     }
 
     getUserPosition() {
@@ -80,7 +86,7 @@ export class Utilities {
                     for (let prob in this.userCategories) {
                         if (this.geofenceAreas[i].category == prob) {
                             this.calculateDistanceToActivites(this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng);
-                            this.createGeofenceAreas(this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng, this.geofenceAreas[i].locationName, this.geofenceAreas[i].date);
+                            this.createGeofenceAreas(this.geofenceAreas[i].id, this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng, this.geofenceAreas[i].locationName, this.geofenceAreas[i].date);
                         }
                     }
                 }
@@ -105,24 +111,50 @@ export class Utilities {
         return deg * (Math.PI / 180)
     }
 
-    createGeofenceAreas(lat, lng, place, date) {
+    createGeofenceAreas(id, lat, lng, place, date) {
+        let counter = 0;
         let fence = {
-            id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
+            id: id, //any unique ID
             latitude: lat, //center of geofence radius
             longitude: lng,
             radius: 1000, //radius to edge of geofence in meters
             transitionType: 1, //see 'Transition Types' below
             notification: { //notification settings
-                id: 1, //any unique ID
+                id: counter++, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
                 text: place + ' ' + date, //notification body
                 openAppOnClick: true //open app when notification is tapped
             }
         }
+        console.log(fence);
         this.geofence.addOrUpdate(fence).then(
             () => console.log('Geofence added'),
             (err) => console.log('Geofence failed to add')
         );
+
+        this.watchGeofence();
+    }
+
+    watchGeofence() {
+        this.geofence.onTransitionReceived().subscribe(res => {
+            let tempLoc = res;
+            tempLoc.forEach(location => {
+                if (this.checkCalendar() == true) {
+                    console.log("freetime");
+                } else if (this.checkCalendar() == false) {
+                    console.log("no freetime");
+                }
+            });
+        }, (err) => {
+            console.log(err);
+        });
+    }
+
+    checkCalendar() {
+        let tmpResult = false;
+
+    
+        return tmpResult;
     }
 
 }
