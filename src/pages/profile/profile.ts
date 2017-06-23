@@ -49,4 +49,13 @@ export class ProfilePage {
     //browser.show();
   }
 
+  upvote(){
+    console.log(this.user);
+    //this.utilities.increaseIntInDB('user/' + )
+  }
+
+  downvote(){
+    console.log(this.user);
+  }
+
 }

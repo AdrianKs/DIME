@@ -153,8 +153,14 @@ export class Utilities {
     checkCalendar() {
         let tmpResult = false;
 
-    
+
         return tmpResult;
+    }
+
+    increaseIntInDB(databasePath){
+      firebase.database().ref(databasePath).transaction((current_value) => {
+        return (current_value || 0) + 1;
+      });
     }
 
 }
