@@ -19,8 +19,9 @@ import { ActivityDetailsPage } from '../activity-details/activity-details';
 export class ViewActivityPage {
 
   ionViewWillEnter() {
+    //this.loggedInUserID = this.utilities.user.uid;
+    //console.log("userID: " + this.loggedInUserID);
     this.loadData(true, null);
-    this.loggedInUserID = this.utilities.user.uid;
   }
 
   activityOwner: String = "other";
@@ -72,6 +73,13 @@ export class ViewActivityPage {
     });
     this.dataProvider.setUser().then((data) => {
       this.dataUser = this.dataProvider.dataUser;
+      for (let i in this.dataUser){
+        if (this.dataUser[i].id == this.utilities.user.uid){
+          console.log(this.dataUser[i].id);
+          this.loggedInUserID = this.dataUser[i].id;
+          console.log("userID: " + this.loggedInUserID);
+        }
+      }
       console.log(this.dataProvider.dataUser);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
