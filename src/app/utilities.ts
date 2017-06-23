@@ -21,11 +21,22 @@ export class Utilities {
     constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar) {
         this.getCategories();
         this.getUserPosition();
-        this.calendar.findEvent().then((result)=>{
-            console.log("check");
+    }
+
+    checkIT(startDate: string, duration: string) {
+        let hour = Number(duration.substring(0, 2));
+        let minute = Number(duration.substring(4, 6));
+        let start = new Date(startDate)
+        console.log(start);
+        let end = new Date(startDate);
+        end.setHours(end.getHours() + hour);
+        end.setMinutes(end.getMinutes());
+        console.log(end);
+
+        this.calendar.listEventsInRange(start, end).then((result) => {
             console.log(result);
-        }).catch((err)=>{
-            console.log("Fehler beim Kalender");
+        }).catch((err) => {
+            console.log(err);
         });
     }
 
@@ -139,9 +150,9 @@ export class Utilities {
         this.geofence.onTransitionReceived().subscribe(res => {
             let tempLoc = res;
             tempLoc.forEach(location => {
-                if (this.checkCalendar() == true) {
+                if (this.checkCalendar(new Date(), "02:00") == true) {
                     console.log("freetime");
-                } else if (this.checkCalendar() == false) {
+                } else {
                     console.log("no freetime");
                 }
             });
@@ -150,11 +161,22 @@ export class Utilities {
         });
     }
 
-    checkCalendar() {
-        let tmpResult = false;
+    checkCalendar(startDate: Date, duration: string) {
+        let hour = Number(duration.substring(0, 2));
+        let minute = Number(duration.substring(4, 6));
+        let start = new Date(startDate)
+        console.log(start);
+        let end = new Date(startDate);
+        end.setHours(end.getHours() + hour);
+        end.setMinutes(end.getMinutes());
+        console.log(end);
 
-    
-        return tmpResult;
+        this.calendar.listEventsInRange(start, end).then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        });
+        return true;
     }
 
 }
