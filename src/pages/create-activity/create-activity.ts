@@ -21,7 +21,8 @@ export class CreateActivityPage {
     lat: 0,
     lng: 0
   };
-  myDate: String = new Date().toISOString();
+  myDate: string = new Date().toISOString();
+  myTime: string;
   activityPlaceName: String;
   categories: any[];
   description;
@@ -76,6 +77,11 @@ export class CreateActivityPage {
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
     });
+  }
+
+  checkCalendar(){
+    console.log(this.myTime);
+    this.utilities.checkIT(this.myDate, this.myTime);
   }
 
   initAutocomplete() {
@@ -175,6 +181,7 @@ export class CreateActivityPage {
       category: this.selectedCategory,
       creator: this.utilities.user.uid,
       date: this.myDate,
+      duration: this.myTime,
       description: this.description,
       locationLat: this.activityPlace.lat,
       locationLng: this.activityPlace.lng,

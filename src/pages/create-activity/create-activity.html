@@ -29,6 +29,10 @@
       <ion-label>Datum und Uhrzeit</ion-label>
       <ion-datetime displayFormat="DD.MM.YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
     </ion-item>
+     <ion-item>
+      <ion-label>Geplante Dauer</ion-label>
+       <ion-datetime displayFormat="HH:mm" [(ngModel)]="myTime"></ion-datetime>
+    </ion-item>
     <ion-item>
       <ion-label color="primary">Informationen</ion-label>
       <ion-input class="info-label" placeholder="Notizen" [(ngModel)]="description"></ion-input>
@@ -37,5 +41,7 @@
   <div class="submit-information">
     <button ion-button block outline (click)="createActivityOnClick()">Aktivität erstellen</button>
   </div>
-
+  <div class="submit-information">
+    <button ion-button block outline (click)="checkCalendar()">Check Kalender</button>
+  </div>
 </ion-content>
