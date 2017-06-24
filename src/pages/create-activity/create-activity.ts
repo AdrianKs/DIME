@@ -179,6 +179,7 @@ export class CreateActivityPage {
     return firebase.database().ref('activity').child(this.newPostKey).set({
       attendees: [],
       category: this.selectedCategory,
+      creationTime: new Date().toISOString(),
       creator: this.utilities.user.uid,
       date: this.myDate,
       duration: this.myTime,
