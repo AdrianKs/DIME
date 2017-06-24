@@ -21,7 +21,8 @@ export class CreateActivityPage {
     lat: 0,
     lng: 0
   };
-  myDate: string = new Date().toISOString();
+  myDate: Date = new Date();
+  myDateDisplay: String;
   myTime: string;
   activityPlaceName: String;
   categories: any[];
@@ -30,7 +31,10 @@ export class CreateActivityPage {
   selectedCategory
   newPostKey: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) {
+    this.myDate.setHours(this.myDate.getHours() + 2);
+    this.myDateDisplay = this.myDate.toISOString();
+  }
 
   ionViewDidLoad() {
     this.categories = this.utilities.categories;
@@ -179,7 +183,7 @@ export class CreateActivityPage {
       category: this.selectedCategory,
       creationTime: new Date().toISOString(),
       creator: this.utilities.user.uid,
-      date: this.myDate,
+      date: this.myDateDisplay,
       duration: this.myTime,
       description: this.description,
       locationLat: this.activityPlace.lat,

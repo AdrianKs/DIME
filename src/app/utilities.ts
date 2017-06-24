@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import { Geofence } from '@ionic-native/geofence';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Calendar } from '@ionic-native/calendar';
+import { AlertController } from 'ionic-angular';
 
 @Injectable()
 export class Utilities {
@@ -18,7 +19,7 @@ export class Utilities {
     activitesAreas: any[];
     picture: any;
 
-    constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar) {
+    constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar, public alertCtrl: AlertController) {
         this.getCategories();
         this.getUserPosition();
         this.getSpecificUserActivites();
@@ -80,7 +81,7 @@ export class Utilities {
                     for (let prob in this.userCategories) {
                         if (this.activitesAreas[i].category == prob) {
                             this.calculateDistanceToActivites(this.activitesAreas[i].locationLat, this.activitesAreas[i].locationLng);
-                            if (this.checkCalendar(this.activitesAreas[i].startDate, this.activitesAreas[i].duration) == true) {
+                            if (this.checkCalendar(this.activitesAreas[i].date, this.activitesAreas[i].duration) == true) {
                                 this.createGeofenceAreas(this.activitesAreas[i].id,
                                     this.activitesAreas[i].locationLat,
                                     this.activitesAreas[i].locationLng,
@@ -120,7 +121,8 @@ export class Utilities {
         let tmpStartDate = date.substring(0, 10);
         let tmpStartTime: Number;
         let tmpEndTime: Number;
-       
+        let notificationId = this.makeid();
+
         let fence = {
             id: id, //any unique ID
             latitude: lat, //center of geofence radius
@@ -134,7 +136,7 @@ export class Utilities {
                 endTime: tmpEndTime, //End time (device locale) of geofence on each day, HH:mm 
             },
             notification: { //notification settings
-                id: id, //any unique ID
+                id: notificationId, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
                 text: place + ' ' + date, //notification body
                 openAppOnClick: true //open app when notification is tapped
@@ -146,6 +148,18 @@ export class Utilities {
             (err) => console.log('Geofence failed to add')
         );
         //this.watchGeofence();
+    }
+
+    makeid() {
+        let text = "";
+        let possible = "0123456789";
+        let textAsNumber: Number;
+
+        for (var i = 0; i < 5; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        textAsNumber = Number(text);
+        return textAsNumber;
     }
 
     watchGeofence() {
@@ -161,7 +175,7 @@ export class Utilities {
 
     removeGeofence(geofenceId) {
         this.geofence.remove(geofenceId)
-            .then(()=> {
+            .then(() => {
                 console.log('Geofence sucessfully removed');
             }
             , (err) => {
@@ -171,18 +185,26 @@ export class Utilities {
 
 
     checkCalendar(startDate: Date, duration: string) {
-        let start = new Date(startDate)
+        let start = new Date(startDate);
+        start.setSeconds(0);
         let end = this.calculateEndTime(startDate, duration);
+        let status = true;
 
         //Currently only available for android
-        this.calendar.listEventsInRange(start, end).then((result) => {
+        this.calendar.listEventsInRange(start, end).then((result: any[]) => {
             console.log(result);
+            if (result.length > 0) {
+                console.log("Termin im Weg");
+                status = false;
+            } else {
+                console.log("keine Termine")
+                status = true;
+            }
         }).catch((err) => {
             console.log(err);
         });
         return true;
     }
-
 
     calculateEndTime(startDate: Date, duration: string) {
         let hour = Number(duration.substring(0, 2));
@@ -190,8 +212,8 @@ export class Utilities {
         let end = new Date(startDate);
         end.setHours(end.getHours() + hour);
         end.setMinutes(end.getMinutes());
-        console.log(end);
-
+        end.setSeconds(0);
+    
         return end;
     }
 }

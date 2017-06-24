@@ -27,7 +27,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Datum und Uhrzeit</ion-label>
-      <ion-datetime displayFormat="DD.MM.YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
+      <ion-datetime displayFormat="DD.MM.YYYY HH:mm" min="2017" max="2020-12-31" [(ngModel)]="myDateDisplay"></ion-datetime>
     </ion-item>
      <ion-item>
       <ion-label>Geplante Dauer</ion-label>
