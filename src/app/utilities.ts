@@ -15,12 +15,13 @@ export class Utilities {
     userPositionLng: number = 0;
     userCategories: {};
     distancesToActivities: any[] = [];
-    geofenceAreas: any[];
+    activitesAreas: any[];
     picture: any;
 
     constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar) {
         this.getCategories();
         this.getUserPosition();
+        this.getSpecificUserActivites();
     }
 
     checkIT(startDate: string, duration: string) {
@@ -85,25 +86,34 @@ export class Utilities {
     getSpecificUserActivites() {
         firebase.database().ref('activity').once(`value`, snapshot => {
             if (snapshot.val() != null) {
-                let geofenceArray = [];
+                let activitiesArray = [];
                 let counter = 0;
                 for (let i in snapshot.val()) {
-                    geofenceArray[counter] = snapshot.val()[i];
-                    geofenceArray[counter].id = i;
+                    activitiesArray[counter] = snapshot.val()[i];
+                    activitiesArray[counter].id = i;
                     counter++;
                 }
-                this.geofenceAreas = geofenceArray;
-                for (let i = 0; i < this.geofenceAreas.length; i++) {
+                this.activitesAreas = activitiesArray;
+                for (let i = 0; i < this.activitesAreas.length; i++) {
                     for (let prob in this.userCategories) {
-                        if (this.geofenceAreas[i].category == prob) {
-                            this.calculateDistanceToActivites(this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng);
-                            this.createGeofenceAreas(this.geofenceAreas[i].id, this.geofenceAreas[i].locationLat, this.geofenceAreas[i].locationLng, this.geofenceAreas[i].locationName, this.geofenceAreas[i].date);
+                        if (this.activitesAreas[i].category == prob) {
+                            this.calculateDistanceToActivites(this.activitesAreas[i].locationLat, this.activitesAreas[i].locationLng);
+                            if (this.checkCalendar(this.activitesAreas[i].startDate, this.activitesAreas[i].duration) == true) {
+                                this.createGeofenceAreas(this.activitesAreas[i].id,
+                                    this.activitesAreas[i].locationLat,
+                                    this.activitesAreas[i].locationLng,
+                                    this.activitesAreas[i].locationName,
+                                    this.activitesAreas[i].date,
+                                    this.activitesAreas[i].creationDate,
+                                    this.activitesAreas[i].duration);
+                            }
                         }
                     }
                 }
             }
         });
     }
+
 
     calculateDistanceToActivites(lat, lng) {
         let R = 6731; //Radius of the earth in km
@@ -122,16 +132,27 @@ export class Utilities {
         return deg * (Math.PI / 180)
     }
 
-    createGeofenceAreas(id, lat, lng, place, date) {
-        let counter = 0;
+    //Handle start und end time as a number
+    createGeofenceAreas(id, lat, lng, place, date, creationDate, duration) {
+        let tmpDate: Date = new Date(creationDate);
+        let tmpStartDate = date.substring(0, 10);
+        let tmpStartTime: Number;
+        let tmpEndTime: Number;
+       
         let fence = {
             id: id, //any unique ID
             latitude: lat, //center of geofence radius
             longitude: lng,
             radius: 1000, //radius to edge of geofence in meters
             transitionType: 1, //see 'Transition Types' below
+            timeWindow: {
+                startDate: tmpStartDate, //Date string, yyyy-MM-dd 
+                interval: 0, //Interval in days 
+                startTime: tmpStartTime, //Start time (device locale) of geofence on each day, HH:mm 
+                endTime: tmpEndTime, //End time (device locale) of geofence on each day, HH:mm 
+            },
             notification: { //notification settings
-                id: counter++, //any unique ID
+                id: id, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
                 text: place + ' ' + date, //notification body
                 openAppOnClick: true //open app when notification is tapped
@@ -142,34 +163,33 @@ export class Utilities {
             () => console.log('Geofence added'),
             (err) => console.log('Geofence failed to add')
         );
-
-        this.watchGeofence();
+        //this.watchGeofence();
     }
 
     watchGeofence() {
         this.geofence.onTransitionReceived().subscribe(res => {
             let tempLoc = res;
             tempLoc.forEach(location => {
-                if (this.checkCalendar(new Date(), "02:00") == true) {
-                    console.log("freetime");
-                } else {
-                    console.log("no freetime");
-                }
+                //Hier kann entsprechend ein Ereignis eintreten sobald ein Geofence betreten wird.
             });
         }, (err) => {
             console.log(err);
         });
     }
 
+    removeGeofence(geofenceId) {
+        this.geofence.remove(geofenceId)
+            .then(()=> {
+                console.log('Geofence sucessfully removed');
+            }
+            , (err) => {
+                console.log('Removing geofence failed', err);
+            });
+    }
+
     checkCalendar(startDate: Date, duration: string) {
-        let hour = Number(duration.substring(0, 2));
-        let minute = Number(duration.substring(4, 6));
         let start = new Date(startDate)
-        console.log(start);
-        let end = new Date(startDate);
-        end.setHours(end.getHours() + hour);
-        end.setMinutes(end.getMinutes());
-        console.log(end);
+        let end = this.calculateEndTime(startDate, duration);
 
         this.calendar.listEventsInRange(start, end).then((result) => {
             console.log(result);
@@ -179,4 +199,15 @@ export class Utilities {
         return true;
     }
 
+
+    calculateEndTime(startDate: Date, duration: string) {
+        let hour = Number(duration.substring(0, 2));
+        let minute = Number(duration.substring(4, 6));
+        let end = new Date(startDate);
+        end.setHours(end.getHours() + hour);
+        end.setMinutes(end.getMinutes());
+        console.log(end);
+
+        return end;
+    }
 }

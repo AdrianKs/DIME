@@ -10,6 +10,7 @@ import { firebaseConfig } from "./firebaseAppData";
 import { ViewActivityPage } from "../pages/view-activity/view-activity";
 import { SelectCategoryPage } from "../pages/select-category/select-category";
 import { LoginPage } from "../pages/login/login";
+import { AboutPage } from "../pages/about/about";
 import firebase from 'firebase';
 import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
@@ -29,6 +30,11 @@ export class MyApp {
   private onResumeSubscription: Subscription;
 
   rootPage: any = ViewActivityPage;
+
+  aboutPage: any = {
+    title: "About",
+    component: AboutPage
+  };
 
   myProfilePage: any = {
     title: "Mein Profil",
@@ -66,7 +72,7 @@ export class MyApp {
     this.pages = [
       { title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
-      { title: 'Kategorie', component: SelectCategoryPage },
+      { title: 'Kategorie', component: SelectCategoryPage }
     ];
 
   }
