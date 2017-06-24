@@ -23,24 +23,6 @@ export class Utilities {
         this.getUserPosition();
         this.getSpecificUserActivites();
     }
-
-    checkIT(startDate: string, duration: string) {
-        let hour = Number(duration.substring(0, 2));
-        let minute = Number(duration.substring(4, 6));
-        let start = new Date(startDate)
-        console.log(start);
-        let end = new Date(startDate);
-        end.setHours(end.getHours() + hour);
-        end.setMinutes(end.getMinutes());
-        console.log(end);
-
-        this.calendar.listEventsInRange(start, end).then((result) => {
-            console.log(result);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
-
     setUserData(): void {
         firebase.database().ref('user/' + this.user.uid).once('value', snapshot => {
             if (snapshot.val() != null) {
@@ -187,10 +169,12 @@ export class Utilities {
             });
     }
 
+
     checkCalendar(startDate: Date, duration: string) {
         let start = new Date(startDate)
         let end = this.calculateEndTime(startDate, duration);
 
+        //Currently only available for android
         this.calendar.listEventsInRange(start, end).then((result) => {
             console.log(result);
         }).catch((err) => {

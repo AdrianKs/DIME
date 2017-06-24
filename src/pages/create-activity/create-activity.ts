@@ -79,11 +79,6 @@ export class CreateActivityPage {
     });
   }
 
-  checkCalendar(){
-    console.log(this.myTime);
-    this.utilities.checkIT(this.myDate, this.myTime);
-  }
-
   initAutocomplete() {
     let map = this.map;
     let tempLatitude;
@@ -105,6 +100,9 @@ export class CreateActivityPage {
       var places = searchBox.getPlaces();
 
       if (places.length == 0) {
+        return;
+      } else if (places.length > 1) {
+        this.showErrorMessage();
         return;
       }
 
@@ -189,5 +187,14 @@ export class CreateActivityPage {
       locationName: this.activityPlaceName,
       maxAttendees: this.maxPersonen
     });
+  }
+
+  showErrorMessage() {
+    let alert = this.alertCtrl.create({
+      title: 'Fehlerhafte Auswahl',
+      subTitle: 'Sie können nur exakt einen Standort für Ihre Aktivität auswählen',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
