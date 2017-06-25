@@ -153,8 +153,22 @@ export class Utilities {
     checkCalendar() {
         let tmpResult = false;
 
-    
+
         return tmpResult;
     }
+
+  sendPushNotification(pushIds: Array<any>, content: String) {
+    let notificationObj = {
+      contents: {en: content},
+      include_player_ids: pushIds
+    };
+    window["plugins"].OneSignal.postNotification(notificationObj,
+      function(successResponse) {
+      },
+      function (failedResponse) {
+        console.log("Notification Post Failed: ", failedResponse);
+      }
+    )
+  }
 
 }

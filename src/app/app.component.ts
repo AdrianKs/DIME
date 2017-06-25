@@ -79,6 +79,11 @@ export class MyApp {
       this.splashScreen.hide();
       //Check if location services are enabled
       this.checkLocation();
+
+      window["plugins"].OneSignal
+        .startInit("3b4c0e22-1465-4978-ba3c-2d198bf1de6e", "597985728064")
+        .handleNotificationOpened(this.handlePushNotificationCallback())
+        .endInit();
     });
   }
 
@@ -128,6 +133,12 @@ export class MyApp {
       .catch((error) => {
         console.log(error);
       })
+  }
+
+  handlePushNotificationCallback(){
+    return (jsonData) => {
+      console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+    };
   }
 
 }

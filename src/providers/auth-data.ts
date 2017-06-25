@@ -109,41 +109,62 @@ export class AuthData {
   }
 
   writeFacebookUserInDB(user, facebookRes) {
-    let dataObject = {
-      name: facebookRes.name,
-      gender: facebookRes.gender,
-      minAge: facebookRes.age_range.min,
-      picURL: facebookRes.picture.data.url,
-      birthday: 0,
-      profileURL: facebookRes.link,
-      ratingPos: 0,
-      ratingNeg: 0,
-    };
-    let updateObject = {
-      minAge: dataObject.minAge,
-      picURL: dataObject.picURL,
-      profileURL: dataObject.profileURL
-    };
-    if(facebookRes.birthday){
-      console.log("es gibt birthday");
-      dataObject.birthday = facebookRes.birthday;
-      updateObject = Object.assign ({}, updateObject, {birthday: facebookRes.birthday});
-    }
-    this.userProfile.child(user.uid).once('value', (snapshot) => {
-      if(snapshot.val() == null){
-        this.userProfile.child(user.uid).set(dataObject);
-        this.utilities.setLocalUserData(dataObject);
-      } else {
-        this.userProfile.child(user.uid).update(updateObject);
-        this.utilities.setLocalUserData(Object.assign({}, snapshot.val(), updateObject));
+    window["plugins"].OneSignal.getIds(ids => {
+      let pushID = ids.userId;
+      let dataObject = {
+        name: facebookRes.name,
+        gender: facebookRes.gender,
+        minAge: facebookRes.age_range.min,
+        picURL: facebookRes.picture.data.url,
+        birthday: 0,
+        profileURL: facebookRes.link,
+        ratingPos: 0,
+        ratingNeg: 0,
+      };
+      let updateObject = {
+        minAge: dataObject.minAge,
+        picURL: dataObject.picURL,
+        profileURL: dataObject.profileURL
+      };
+      if(facebookRes.birthday){
+        console.log("es gibt birthday");
+        dataObject.birthday = facebookRes.birthday;
+        updateObject = Object.assign ({}, updateObject, {birthday: facebookRes.birthday});
       }
+      this.userProfile.child(user.uid).once('value', (snapshot) => {
+        if(snapshot.val() == null){
+          this.userProfile.child(user.uid).set(dataObject)
+            .then(() => {
+              firebase.database().ref('user/' + user.uid + '/pushid/' + pushID).set(
+                true
+              );
+            });
+          this.utilities.setLocalUserData(dataObject);
+        } else {
+          this.userProfile.child(user.uid).update(updateObject)
+            .then(() => {
+              firebase.database().ref('user/' + user.uid + '/pushid/' + pushID).set(
+                true
+              );
+            });
+          this.utilities.setLocalUserData(Object.assign({}, snapshot.val(), updateObject));
+        }
+      })
+
     });
   }
 
 
   logout() {
-    this.fireAuth.signOut();
     if(this.platform.is('android') || this.platform.is('ios')){
+      //Delete pushID and logout from firebase
+      window["plugins"].OneSignal.getIds(ids => {
+        firebase.database().ref('user/' + this.utilities.user.uid + '/pushid').child(ids.userId).remove().then(() => {
+          return this.fireAuth.signOut();
+        })
+      });
+
+      //Logout from Facebook
       this.fb.getLoginStatus().then((response) => {
         if(response.status == 'connected'){
           this.fb.logout()
@@ -155,6 +176,8 @@ export class AuthData {
             })
         }
       })
+    } else {
+      this.fireAuth.signOut();
     }
   }
 
