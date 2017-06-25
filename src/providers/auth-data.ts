@@ -55,7 +55,7 @@ export class AuthData {
     firebase.auth().signInWithPopup(provider).then((result) => {
       console.log(result);
       //this.writeBrowserLoginDataToDB(result);
-      this.writeFacebookUserInDB(result.user, result.additionalUserInfo.profile);
+      this.writeInDBWithPlatformCheck(result.user, result.additionalUserInfo.profile);
     }).catch(function(error) {
       console.log(error);
     });
@@ -98,7 +98,7 @@ export class AuthData {
             console.log(res);
             console.log(JSON.stringify(res));
             console.log("solltejetzt in DB schreiben");
-            this.writeFacebookUserInDB(user, res)
+            this.writeInDBWithPlatformCheck(user, res)
           })
           .catch((error) => {
             console.log("facebook api error");
@@ -108,50 +108,61 @@ export class AuthData {
     });
   }
 
-  writeFacebookUserInDB(user, facebookRes) {
-    window["plugins"].OneSignal.getIds(ids => {
-      let pushID = ids.userId;
-      let dataObject = {
-        name: facebookRes.name,
-        gender: facebookRes.gender,
-        minAge: facebookRes.age_range.min,
-        picURL: facebookRes.picture.data.url,
-        birthday: 0,
-        profileURL: facebookRes.link,
-        ratingPos: 0,
-        ratingNeg: 0,
-      };
-      let updateObject = {
-        minAge: dataObject.minAge,
-        picURL: dataObject.picURL,
-        profileURL: dataObject.profileURL
-      };
-      if(facebookRes.birthday){
-        console.log("es gibt birthday");
-        dataObject.birthday = facebookRes.birthday;
-        updateObject = Object.assign ({}, updateObject, {birthday: facebookRes.birthday});
-      }
-      this.userProfile.child(user.uid).once('value', (snapshot) => {
-        if(snapshot.val() == null){
-          this.userProfile.child(user.uid).set(dataObject)
-            .then(() => {
-              firebase.database().ref('user/' + user.uid + '/pushid/' + pushID).set(
-                true
-              );
-            });
-          this.utilities.setLocalUserData(dataObject);
-        } else {
-          this.userProfile.child(user.uid).update(updateObject)
-            .then(() => {
-              firebase.database().ref('user/' + user.uid + '/pushid/' + pushID).set(
-                true
-              );
-            });
-          this.utilities.setLocalUserData(Object.assign({}, snapshot.val(), updateObject));
-        }
+  writeInDBWithPlatformCheck(user, facebookRes){
+    if(!(this.utilities.platform === "dom")){
+      window["plugins"].OneSignal.getIds(ids => {
+        this.writeFacebookUserInDB(user, facebookRes, ids.userId);
       })
+    }
+    else {
+      this.writeFacebookUserInDB(user, facebookRes, '');
+    }
+  }
 
-    });
+  writeFacebookUserInDB(user, facebookRes, pushID) {
+    let dataObject = {
+      name: facebookRes.name,
+      gender: facebookRes.gender,
+      minAge: facebookRes.age_range.min,
+      picURL: facebookRes.picture.data.url,
+      birthday: 0,
+      profileURL: facebookRes.link,
+      ratingPos: 0,
+      ratingNeg: 0,
+    };
+    let updateObject = {
+      minAge: dataObject.minAge,
+      picURL: dataObject.picURL,
+      profileURL: dataObject.profileURL
+    };
+    if(facebookRes.birthday){
+      console.log("es gibt birthday");
+      dataObject.birthday = facebookRes.birthday;
+      updateObject = Object.assign ({}, updateObject, {birthday: facebookRes.birthday});
+    }
+    this.userProfile.child(user.uid).once('value', (snapshot) => {
+      if(snapshot.val() == null){
+        this.userProfile.child(user.uid).set(dataObject)
+          .then(() => {
+            if(!(pushID === '')){
+              firebase.database().ref('user/' + user.uid + '/pushid/' + pushID).set(
+                true
+              );
+            }
+          });
+        this.utilities.setLocalUserData(dataObject);
+      } else {
+        this.userProfile.child(user.uid).update(updateObject)
+          .then(() => {
+            if(!(pushID === '')){
+              firebase.database().ref('user/' + user.uid + '/pushid/' + pushID).set(
+                true
+              );
+            }
+          });
+        this.utilities.setLocalUserData(Object.assign({}, snapshot.val(), updateObject));
+      }
+    })
   }
 
 

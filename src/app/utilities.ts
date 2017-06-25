@@ -18,6 +18,7 @@ export class Utilities {
     distancesToActivities: any[] = [];
     activitesAreas: any[];
     picture: any;
+    platform: string;
 
     constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar, public alertCtrl: AlertController) {
         this.getCategories();
@@ -217,16 +218,18 @@ export class Utilities {
     }
 
     sendPushNotification(pushIds: Array<any>, content: String) {
-      let notificationObj = {
-        contents: {en: content},
-        include_player_ids: pushIds
-      };
-      window["plugins"].OneSignal.postNotification(notificationObj,
-        function(successResponse) {
-        },
-        function (failedResponse) {
-          console.log("Notification Post Failed: ", failedResponse);
-        }
-      )
+      if(!(this.platform === "dom")){
+        let notificationObj = {
+          contents: {en: content},
+          include_player_ids: pushIds
+        };
+        window["plugins"].OneSignal.postNotification(notificationObj,
+          function(successResponse) {
+          },
+          function (failedResponse) {
+            console.log("Notification Post Failed: ", failedResponse);
+          }
+        )
+      }
     }
 }

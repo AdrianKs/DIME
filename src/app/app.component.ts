@@ -86,6 +86,8 @@ export class MyApp {
       //Check if location services are enabled
       this.checkLocation();
 
+      this.utilities.platform = source;
+
       if(!(source === "dom")){
         window["plugins"].OneSignal
           .startInit("3b4c0e22-1465-4978-ba3c-2d198bf1de6e", "597985728064")
