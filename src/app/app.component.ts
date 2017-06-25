@@ -78,7 +78,7 @@ export class MyApp {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then((source) => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
@@ -86,10 +86,12 @@ export class MyApp {
       //Check if location services are enabled
       this.checkLocation();
 
-      window["plugins"].OneSignal
-        .startInit("3b4c0e22-1465-4978-ba3c-2d198bf1de6e", "597985728064")
-        .handleNotificationOpened(this.handlePushNotificationCallback())
-        .endInit();
+      if(!(source === "dom")){
+        window["plugins"].OneSignal
+          .startInit("3b4c0e22-1465-4978-ba3c-2d198bf1de6e", "597985728064")
+          .handleNotificationOpened(this.handlePushNotificationCallback())
+          .endInit();
+      }
     });
   }
 
