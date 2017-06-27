@@ -23,6 +23,16 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
     padding: 0px;
 }
 
+.menuBottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.menuBtnAbout .item-inner {
+  border-top: 1px solid #cccccc;
+}
+
 .itemLeft {
   float: left;
   margin-top: 4px;
@@ -41,6 +51,11 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   padding: 12px 8px 8px 15px;
   margin-left: 77px;
   font-size: 14px;
+}
+
+.distanceToUser{
+  float: right;
+  font-size: 10px;
 }
 
 .mainDetails {

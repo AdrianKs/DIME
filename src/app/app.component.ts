@@ -10,6 +10,7 @@ import { firebaseConfig } from "./firebaseAppData";
 import { ViewActivityPage } from "../pages/view-activity/view-activity";
 import { SelectCategoryPage } from "../pages/select-category/select-category";
 import { LoginPage } from "../pages/login/login";
+import { AboutPage } from "../pages/about/about";
 import firebase from 'firebase';
 import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
@@ -29,6 +30,11 @@ export class MyApp {
   private onResumeSubscription: Subscription;
 
   rootPage: any = ViewActivityPage;
+
+  aboutPage: any = {
+    title: "About",
+    component: AboutPage
+  };
 
   myProfilePage: any = {
     title: "Mein Profil",
@@ -66,19 +72,28 @@ export class MyApp {
     this.pages = [
       { title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
-      { title: 'Kategorie', component: SelectCategoryPage },
+      { title: 'Kategorie', component: SelectCategoryPage }
     ];
 
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then((source) => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       //Check if location services are enabled
       this.checkLocation();
+
+      this.utilities.platform = source;
+
+      if(!(source === "dom")){
+        window["plugins"].OneSignal
+          .startInit("3b4c0e22-1465-4978-ba3c-2d198bf1de6e", "597985728064")
+          .handleNotificationOpened(this.handlePushNotificationCallback())
+          .endInit();
+      }
     });
   }
 
@@ -128,6 +143,12 @@ export class MyApp {
       .catch((error) => {
         console.log(error);
       })
+  }
+
+  handlePushNotificationCallback(){
+    return (jsonData) => {
+      console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+    };
   }
 
 }

@@ -12,12 +12,15 @@ import { Geofence } from '@ionic-native/geofence';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {LoginPage} from "../pages/login/login";
-import {Facebook} from "@ionic-native/facebook";
-import {CreateActivityPage} from "../pages/create-activity/create-activity";
-import {ProfilePage} from "../pages/profile/profile";
+import { LoginPage } from "../pages/login/login";
+import { Facebook } from "@ionic-native/facebook";
+import { CreateActivityPage } from "../pages/create-activity/create-activity";
+import { ProfilePage } from "../pages/profile/profile";
+import { AboutPage } from "../pages/about/about";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
+
+import { Time } from './pipes/time';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,9 @@ import { Calendar } from '@ionic-native/calendar';
     SelectCategoryPage,
     LoginPage,
     ActivityDetailsPage,
-    ProfilePage
+    ProfilePage,
+    AboutPage,
+    Time
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,8 @@ import { Calendar } from '@ionic-native/calendar';
     SelectCategoryPage,
     LoginPage,
     ActivityDetailsPage,
-    ProfilePage
+    ProfilePage,
+    AboutPage
   ],
   providers: [
     StatusBar,
@@ -51,7 +57,7 @@ import { Calendar } from '@ionic-native/calendar';
     Geofence,
     Diagnostic,
     Calendar,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
