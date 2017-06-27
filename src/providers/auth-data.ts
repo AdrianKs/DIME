@@ -75,7 +75,7 @@ export class AuthData {
         firebase.auth().signInWithCredential(credential)
           .then((returnMessage) => {
             user = firebase.auth().currentUser;
-            console.log(returnMessage);
+            //console.log(returnMessage);
             this.getdetails(user);
           })
           .catch((error) => {
@@ -92,12 +92,9 @@ export class AuthData {
     console.log("in get details");
     this.fb.getLoginStatus().then((response) => {
       if(response.status == 'connected'){
-        this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,link,picture.height(320)', [])
+        this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,link,picture.height(320),friends', [])
           .then((res) => {
-            //alert(JSON.stringify(res));
             console.log(res);
-            console.log(JSON.stringify(res));
-            console.log("solltejetzt in DB schreiben");
             this.writeFacebookUserInDB(user, res)
           })
           .catch((error) => {
@@ -109,6 +106,15 @@ export class AuthData {
   }
 
   writeFacebookUserInDB(user, facebookRes) {
+    let facebookFriends = {};
+    let object = {};
+    for (let i = 0, len = facebookRes.friends.data.length; i < len; i++) {
+      object[facebookRes.friends.data[i].id] = true;
+      Object.assign(facebookFriends, object);
+      console.log("facebookfirends: " + facebookFriends);
+      console.log(facebookFriends);
+      console.log(object);
+    }
     let dataObject = {
       name: facebookRes.name,
       gender: facebookRes.gender,
@@ -118,16 +124,21 @@ export class AuthData {
       profileURL: facebookRes.link,
       ratingPos: 0,
       ratingNeg: 0,
+      facebookId: facebookRes.id,
+      facebookFriends: facebookFriends
     };
     let updateObject = {
       minAge: dataObject.minAge,
       picURL: dataObject.picURL,
-      profileURL: dataObject.profileURL
+      profileURL: dataObject.profileURL,
+      facebookFriends: facebookFriends
     };
+    //Object.assign(updateObject, facebookFriends);
+    //Object.assign(dataObject, facebookFriends);
     if(facebookRes.birthday){
       console.log("es gibt birthday");
       dataObject.birthday = facebookRes.birthday;
-      updateObject = Object.assign ({}, updateObject, {birthday: facebookRes.birthday});
+      updateObject = Object.assign (updateObject, {birthday: facebookRes.birthday});
     }
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() == null){
@@ -135,7 +146,7 @@ export class AuthData {
         this.utilities.setLocalUserData(dataObject);
       } else {
         this.userProfile.child(user.uid).update(updateObject);
-        this.utilities.setLocalUserData(Object.assign({}, snapshot.val(), updateObject));
+        this.utilities.setLocalUserData(Object.assign(snapshot.val(), updateObject));
       }
     });
   }
