@@ -111,9 +111,6 @@ export class AuthData {
     for (let i = 0, len = facebookRes.friends.data.length; i < len; i++) {
       object[facebookRes.friends.data[i].id] = true;
       Object.assign(facebookFriends, object);
-      console.log("facebookfirends: " + facebookFriends);
-      console.log(facebookFriends);
-      console.log(object);
     }
     let dataObject = {
       name: facebookRes.name,
@@ -131,7 +128,6 @@ export class AuthData {
       minAge: dataObject.minAge,
       picURL: dataObject.picURL,
       profileURL: dataObject.profileURL,
-      facebookFriends: facebookFriends
     };
     //Object.assign(updateObject, facebookFriends);
     //Object.assign(dataObject, facebookFriends);
@@ -139,6 +135,9 @@ export class AuthData {
       console.log("es gibt birthday");
       dataObject.birthday = facebookRes.birthday;
       updateObject = Object.assign (updateObject, {birthday: facebookRes.birthday});
+    }
+    if(facebookRes.friends){
+      Object.assign(updateObject, facebookFriends);
     }
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() == null){
@@ -149,6 +148,9 @@ export class AuthData {
         this.utilities.setLocalUserData(Object.assign(snapshot.val(), updateObject));
       }
     });
+
+    //write index facebookId to userId
+    firebase.database().ref('facebookIdToUserId/' + facebookRes.id).set(user.uid);
   }
 
 
