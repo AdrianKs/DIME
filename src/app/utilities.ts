@@ -151,12 +151,7 @@ export class Utilities {
             longitude: lng,
             radius: 1000, //radius to edge of geofence in meters
             transitionType: 1, //see 'Transition Types' below
-            timeWindow: {
-                startDate: tmpStartDate, //Date string, yyyy-MM-dd
-                interval: 0, //Interval in days
-                startTime: tmpStartTime, //Start time (device locale) of geofence on each day, HH:mm
-                endTime: tmpEndTime, //End time (device locale) of geofence on each day, HH:mm
-            },
+
             notification: { //notification settings
                 id: notificationId, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
