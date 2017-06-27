@@ -164,11 +164,10 @@ export class Utilities {
             }
         }
         console.log(fence);
-        this.geofence.addOrUpdate(fence).then(() => {
-            console.log('Geofence added')
-        }).catch((err) =>{
-            console.log("Geofence failed to add " + err);
-        });
+        this.geofence.addOrUpdate(fence).then(
+            () => console.log('Geofence added'),
+            (err) => console.log('Geofence failed to add')
+        );
         //this.watchGeofence();
     }
 
@@ -196,11 +195,10 @@ export class Utilities {
     }
 
     removeGeofence(geofenceId) {
-        this.geofence.remove(geofenceId).then(() => {
-            console.log('Geofence sucessfully removed');
-        }).catch((err) => {
-            console.log("Geofence removing failed");
-        });
+        this.geofence.remove(geofenceId).then(
+            () => console.log("Geofence removed"),
+            (err) => console.log("Geofence failed to remove")
+        );
     }
 
 
