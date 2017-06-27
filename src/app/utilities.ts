@@ -79,16 +79,24 @@ export class Utilities {
                 this.activitesAreas = activitiesArray;
                 for (let i = 0; i < this.activitesAreas.length; i++) {
                     for (let prob in this.userCategories) {
-                        if (this.activitesAreas[i].category == prob) {
-                            this.calculateDistanceToActivites(this.activitesAreas[i].locationLat, this.activitesAreas[i].locationLng);
-                            if (this.checkCalendar(this.activitesAreas[i].date, this.activitesAreas[i].duration) == true) {
-                                this.createGeofenceAreas(this.activitesAreas[i].id,
-                                    this.activitesAreas[i].locationLat,
-                                    this.activitesAreas[i].locationLng,
-                                    this.activitesAreas[i].locationName,
-                                    this.activitesAreas[i].date,
-                                    this.activitesAreas[i].creationDate,
-                                    this.activitesAreas[i].duration);
+                        console.log(this.user.uid);
+                        console.log(this.activitesAreas[i].id);
+                        if (this.activitesAreas[i].category == prob && this.activitesAreas[i].creator != this.user.uid) {
+                            if (this.calculateEndTime(this.activitesAreas[i].date, this.activitesAreas[i].duration) <= new Date()) {
+                                this.removeGeofence(this.activitesAreas[i].id);
+                                console.log("removed");
+                            } else {
+                                this.calculateDistanceToActivites(this.activitesAreas[i].locationLat, this.activitesAreas[i].locationLng);
+                                if (this.checkCalendar(this.activitesAreas[i].date, this.activitesAreas[i].duration) == true) {
+                                    console.log("added");
+                                    this.createGeofenceAreas(this.activitesAreas[i].id,
+                                        this.activitesAreas[i].locationLat,
+                                        this.activitesAreas[i].locationLng,
+                                        this.activitesAreas[i].locationName,
+                                        this.activitesAreas[i].date,
+                                        this.activitesAreas[i].creationDate,
+                                        this.activitesAreas[i].duration);
+                                }
                             }
                         }
                     }
@@ -120,7 +128,7 @@ export class Utilities {
             Math.sin(dLng / 2) * Math.sin(dLng / 2);
         let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         let d = R * c; // Distance in km
-        d = Math.round(d*100)/100;
+        d = Math.round(d * 100) / 100;
         return d;
     }
 
@@ -156,10 +164,11 @@ export class Utilities {
             }
         }
         console.log(fence);
-        this.geofence.addOrUpdate(fence).then(
-            () => console.log('Geofence added'),
-            (err) => console.log('Geofence failed to add')
-        );
+        this.geofence.addOrUpdate(fence).then(() => {
+            console.log('Geofence added')
+        }).catch((err) =>{
+            console.log("Geofence failed to add " + err);
+        });
         //this.watchGeofence();
     }
 
@@ -187,13 +196,11 @@ export class Utilities {
     }
 
     removeGeofence(geofenceId) {
-        this.geofence.remove(geofenceId)
-            .then(() => {
-                console.log('Geofence sucessfully removed');
-            }
-            , (err) => {
-                console.log('Removing geofence failed', err);
-            });
+        this.geofence.remove(geofenceId).then(() => {
+            console.log('Geofence sucessfully removed');
+        }).catch((err) => {
+            console.log("Geofence removing failed");
+        });
     }
 
 
@@ -226,7 +233,7 @@ export class Utilities {
         end.setHours(end.getHours() + hour);
         end.setMinutes(end.getMinutes());
         end.setSeconds(0);
-    
+
         return end;
     }
 }
