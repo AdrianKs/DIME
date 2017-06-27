@@ -20,6 +20,8 @@ import { AboutPage } from "../pages/about/about";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
 
+import { Time } from './pipes/time';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -29,7 +31,8 @@ import { Calendar } from '@ionic-native/calendar';
     LoginPage,
     ActivityDetailsPage,
     ProfilePage,
-    AboutPage
+    AboutPage,
+    Time
   ],
   imports: [
     BrowserModule,
