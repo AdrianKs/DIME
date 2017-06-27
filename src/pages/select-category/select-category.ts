@@ -19,7 +19,7 @@ import firebase from 'firebase';
 export class SelectCategoryPage {
 
   ionViewWillEnter() {
-    this.userData = this.utilities.userData;
+    /*this.userData = this.utilities.userData;
     if (this.userData.categories!=null){
         for (let i in this.userData.categories){
           if (this.userData.categories[i]==true){
@@ -27,12 +27,13 @@ export class SelectCategoryPage {
           }
         }
     }
-    console.log(this.categoryBoolean);
+    console.log(this.categoryBoolean);*/
     this.loadData(true, null);
   }
 
-  userData: any;
   dataCategory: any;
+  dataUser: any;
+  userCategories: any;
   noCategorySelected: boolean = false;
   categoryBoolean: Array<boolean> = [];
   loading: any;
@@ -51,19 +52,6 @@ export class SelectCategoryPage {
     }
     this.dataProvider.setCategory().then((data) => {
       this.dataCategory = this.dataProvider.dataCategory;
-      /*if (this.userData.categories!=null){
-        for (let i in this.userData.categories){
-          console.log("fuck2")
-          if (this.userData.categories[i]=true){
-            console.log("fuck3")
-            this.categoryBoolean[i] = true;
-          }
-        }
-      } else {
-        for (let i in this.dataCategory){
-          this.categoryBoolean[i] = false;
-        }
-      }*/
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }
@@ -75,6 +63,31 @@ export class SelectCategoryPage {
         this.createAndShowErrorAlert(error);
       }
     });
+    this.dataProvider.setUser().then((data) => {
+        this.dataUser = this.dataProvider.dataUser;
+        console.log(this.dataProvider.dataUser);
+        for (let i in this.dataUser){
+          if (this.dataUser[i].id == this.utilities.user.uid){
+            console.log(this.dataUser[i].id);
+            this.userCategories = this.dataUser[i].categories;
+          }
+        }
+        for (let i in this.userCategories){
+          if (this.userCategories[i]){
+            this.categoryBoolean[i]=true;
+          }
+        }
+        if (showLoading) {
+          this.loading.dismiss().catch((error) => console.log(error));
+        }
+        if(event!=null){
+          event.complete();
+        }
+      }).catch(function (error) {
+        if (showLoading) {
+          this.createAndShowErrorAlert(error);
+        }
+      });
   }
 
   createAndShowErrorAlert(error) {
@@ -93,18 +106,16 @@ export class SelectCategoryPage {
     this.loading.present();
   }
 
-  clicked(){
-    console.log("jaha");
-  }
-
   approveCategory(categoryId){
     this.categoryBoolean[categoryId] = true;
     firebase.database().ref('user/' + this.utilities.user.uid + '/categories/'+ categoryId).set(true);
+    firebase.database().ref('categorySubscribers/' + categoryId + '/' + this.utilities.user.uid).set(true);
   }
 
   disableCategory(categoryId){
     this.categoryBoolean[categoryId] = false;
     firebase.database().ref('user/' + this.utilities.user.uid + '/categories/'+ categoryId).remove();
+    firebase.database().ref('categorySubscribers/' + categoryId + '/' + this.utilities.user.uid).remove();
   }
 
 }
