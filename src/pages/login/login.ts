@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, Platform} from 'ionic-angular';
+import {Facebook, FacebookLoginResponse} from "@ionic-native/facebook";
+import firebase from 'firebase';
+import {AuthData} from "../../providers/auth-data";
+import {ViewActivityPage} from "../view-activity/view-activity";
 
 /**
  * Generated class for the LoginPage page.
@@ -14,11 +18,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  fbAccessToken: any;
+  userProfile = firebase.database().ref('user');
+
+  constructor(public navCtrl: NavController, public platform: Platform, public fb: Facebook, public authData: AuthData) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
+
+  login() {
+    if(this.platform.is('android') || this.platform.is('ios')){
+      console.log("ios or android device");
+      this.authData.nativeFacebookLogin();
+    }
+    else {
+      console.log("random device");
+      this.authData.browserFacebookLogin()
+    }
+  }
+
+
 
 }

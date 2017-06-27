@@ -1,0 +1,44 @@
+activity-details-page{
+
+    .picture-container{
+        text-align: center; 
+        margin-top: 20px;
+    }
+
+    .activity-profile-picture{
+        border-radius: 10rem;
+        width: 12em;
+        height: 12em;
+    }
+
+    .center-contents{
+        text-align: center;
+    }
+
+    .participate-button{
+        padding-bottom: 19px;
+    }
+
+    .text-right-aligned{
+        text-align: right;
+    }
+
+    .user-profile-picture{
+        width: 3em;
+        height: 3em;
+        border-radius: 4em;
+    }
+
+    .left-container{
+        float: left;
+        width: 20%;
+    }
+
+    .right-container{
+        float: right;
+        width: 80%;
+        padding-top: 17px;
+        padding-left: 20px;
+    }
+    
+}

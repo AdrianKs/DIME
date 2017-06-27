@@ -7,12 +7,104 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ViewActivity</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Aktivitäten</ion-title>
+    <ion-buttons end>
+    <button ion-button (click)="openSettings()">
+      <ion-icon name="settings"></ion-icon>
+    </button>
+    </ion-buttons>
   </ion-navbar>
+  <ion-toolbar no-border-bottom>
+    <ion-segment [(ngModel)]="activityOwner">
+      <ion-segment-button value="other">
+        Aktivitäten anderer
+      </ion-segment-button>
+      <ion-segment-button value="own">
+        Meine Aktivitäten
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 </ion-header>
 
-
 <ion-content padding>
+  <div [ngSwitch]="activityOwner">
+    <ion-list *ngSwitchCase="'other'">
+      <div *ngFor="let activityItem of dataActivity">
+        <div *ngIf="activityItem.creator != loggedInUserID">
+          <!--<div *ngFor="let categorySubItem of loggedInUserData.categories">
+            <div *ngIf="categorySubItem == activityItem.category">
+              Yeehaw
+            </div>
+          </div>-->
+          <div *ngIf="activityItem.categorySelected == true">
+            <div *ngIf="activityItem.inRange == true">
+              <ion-item (click)="openDetails($event, activityItem)">
+                <div class="itemLeft">
+                  <div *ngFor="let userItem of dataUser">
+                    <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
+                  </div>
+                </div>
+                <div class="itemRight">
+                  <div *ngFor="let categoryItem of dataCategory">
+                    <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
+                      {{categoryItem.name}}
+                    </div>
+                  </div>
+                  <div class="distanceToUser">
+                    <div class="secondaryDetails">{{ activityItem.distance }} km entfernt</div>
+                  </div>
+                  <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+                  <div class="secondaryDetails">{{ activityItem.date | time }}</div>
+                </div>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-list>
 
+    <ion-list *ngSwitchCase="'own'">
+      <div *ngFor="let activityItem of dataActivity">
+        <div *ngIf="activityItem.creator == loggedInUserID">
+          <ion-item (click)="openDetails($event, activityItem)">
+            <div class="itemLeft">
+              <div *ngFor="let categoryItem of dataCategory">
+              <ion-icon *ngIf="categoryItem.id == activityItem.category" name={{categoryItem.icon}} class="iconLeft"></ion-icon>
+              </div>
+            </div>
+            <div class="itemRight">
+              <div *ngFor="let categoryItem of dataCategory">
+                <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
+                  {{categoryItem.name}}
+                </div>
+              </div>
+              <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+              <div class="secondaryDetails">{{ activityItem.date }}</div>
+            </div>
+          </ion-item>
+        </div>
+      </div>
+    </ion-list>
+
+  </div>
+
+
+  <ion-fab right bottom>
+    <button ion-fab icon-only (click)="createActivity($event)">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 </ion-content>
+
+
+
+
+

@@ -1,3 +1,48 @@
 page-select-category {
+    ion-card {
+      text-align: center;
+    }
 
+  .green-ion-card{
+    .card-title {
+      background-color: limegreen;
+      position: center;
+      padding-top: 30px;
+      font-size: 2.0em;
+      width: 100%;
+      font-weight: bold;
+      color: white;
+    }
+
+    .card-subtitle {
+      background-color: limegreen;
+      font-size: 1.0em;
+      padding-bottom: 30px;
+      position: center;
+      width: 100%;
+      color: white;
+    }
+  }
+
+  .red-ion-card{
+    .card-title {
+      background-color: red;
+      position: center;
+      padding-top: 30px;
+      font-size: 2.0em;
+      width: 100%;
+      font-weight: bold;
+      color: white;
+    }
+
+    .card-subtitle {
+      background-color: red;
+      font-size: 1.0em;
+      padding-bottom: 30px;
+      position: center;
+      width: 100%;
+      color: white;
+    }
+  }
+  
 }
