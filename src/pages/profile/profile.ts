@@ -15,6 +15,7 @@ import {Utilities} from "../../app/utilities";
 })
 export class ProfilePage {
   private user: any;
+  private userId: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities) {
     if(!navParams.get('user')){
@@ -22,6 +23,7 @@ export class ProfilePage {
       console.log("kein parameter übergeben");
     } else {
       this.user = navParams.get('user');
+      this.userId = navParams.get('userId');
       console.log("parameter übergeben");
     }
   }
