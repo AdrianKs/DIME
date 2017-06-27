@@ -151,7 +151,6 @@ export class Utilities {
             longitude: lng,
             radius: 1000, //radius to edge of geofence in meters
             transitionType: 1, //see 'Transition Types' below
-
             notification: { //notification settings
                 id: notificationId, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
