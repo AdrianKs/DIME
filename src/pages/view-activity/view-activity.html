@@ -35,22 +35,34 @@
     <ion-list *ngSwitchCase="'other'">
       <div *ngFor="let activityItem of dataActivity">
         <div *ngIf="activityItem.creator != loggedInUserID">
-          <ion-item (click)="openDetails($event, activityItem)">
-            <div class="itemLeft">
-              <div *ngFor="let userItem of dataUser">
-                <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
-              </div>
+          <!--<div *ngFor="let categorySubItem of loggedInUserData.categories">
+            <div *ngIf="categorySubItem == activityItem.category">
+              Yeehaw
             </div>
-            <div class="itemRight">
-              <div *ngFor="let categoryItem of dataCategory">
-                <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
-                  {{categoryItem.name}}
+          </div>-->
+          <div *ngIf="activityItem.categorySelected == true">
+            <div *ngIf="activityItem.inRange == true">
+              <ion-item (click)="openDetails($event, activityItem)">
+                <div class="itemLeft">
+                  <div *ngFor="let userItem of dataUser">
+                    <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
+                  </div>
                 </div>
-              </div>
-              <div class="secondaryDetails">{{ activityItem.locationName }}</div>
-              <div class="secondaryDetails">{{ activityItem.date | time }}</div>
+                <div class="itemRight">
+                  <div *ngFor="let categoryItem of dataCategory">
+                    <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
+                      {{categoryItem.name}}
+                    </div>
+                  </div>
+                  <div class="distanceToUser">
+                    <div class="secondaryDetails">{{ activityItem.distance }} km entfernt</div>
+                  </div>
+                  <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+                  <div class="secondaryDetails">{{ activityItem.date | time }}</div>
+                </div>
+              </ion-item>
             </div>
-          </ion-item>
+          </div>
         </div>
       </div>
     </ion-list>

@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
+import { Utilities } from '../app/utilities';
 
 @Injectable()
 export class DataProvider {
@@ -8,9 +9,10 @@ export class DataProvider {
     dataActivity: Array<any>;
     dataCategory: Array<any>;
     dataUser: Array<any>;
+    dataCategorySubs: Array <any>;
 
 
-    constructor() {
+    constructor(private utilities: Utilities) {
 
     }
 
@@ -21,9 +23,13 @@ export class DataProvider {
             for (let i in snapshot.val()) {
                 activityArray[counter] = snapshot.val()[i];
                 activityArray[counter].id = i;
+                activityArray[counter].categorySelected = false;
+                activityArray[counter].distance = this.utilities.calculateDistanceToActivities(activityArray[counter].locationLat, activityArray[counter].locationLng);
+                activityArray[counter].inRange = false;
                 counter++;
             }
             this.dataActivity = activityArray;
+            this.dataActivity = _.sortBy(this.dataActivity, "distance");
         });
     }
 
@@ -50,6 +56,19 @@ export class DataProvider {
                 counter++;
             }
             this.dataUser = userArray;
+        });
+    }
+
+    setCategorySubs() {
+        return firebase.database().ref('categorySubscribers').once('value', snapshot => {
+            let subsArray = [];
+            let counter = 0;
+            for (let i in snapshot.val()) {
+                subsArray[counter] = snapshot.val()[i];
+                subsArray[counter].id = i;
+                counter++;
+            }
+            this.dataCategorySubs = subsArray;
         });
     }
 
