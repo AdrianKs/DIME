@@ -86,7 +86,7 @@ export class ViewActivityPage {
         if(event!=null){
           event.complete();
         }
-      }).catch(function (error) {
+      }).catch((error) => {
         if (showLoading) {
           this.createAndShowErrorAlert(error);
         }
