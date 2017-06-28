@@ -20,10 +20,10 @@
   <ion-toolbar no-border-bottom>
     <ion-segment [(ngModel)]="activityOwner">
       <ion-segment-button value="other">
-        Aktivitäten anderer
+        Andere
       </ion-segment-button>
-      <ion-segment-button value="own">
-        Meine Aktivitäten
+      <ion-segment-button value="friends">
+        Freunde
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -67,7 +67,7 @@
       </div>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'own'">
+    <ion-list *ngSwitchCase="'friends'">
       <div *ngFor="let activityItem of dataActivity">
         <div *ngIf="activityItem.creator == loggedInUserID">
           <ion-item (click)="openDetails($event, activityItem)">
@@ -83,7 +83,7 @@
                 </div>
               </div>
               <div class="secondaryDetails">{{ activityItem.locationName }}</div>
-              <div class="secondaryDetails">{{ activityItem.date }}</div>
+              <div class="secondaryDetails">{{ activityItem.date | time }}</div>
             </div>
           </ion-item>
         </div>
