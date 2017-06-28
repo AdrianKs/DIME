@@ -110,12 +110,14 @@ export class SelectCategoryPage {
     this.categoryBoolean[categoryId] = true;
     firebase.database().ref('user/' + this.utilities.user.uid + '/categories/'+ categoryId).set(true);
     firebase.database().ref('categorySubscribers/' + categoryId + '/' + this.utilities.user.uid).set(true);
+    this.utilities.addGeofenceByCategroy(categoryId);
   }
 
   disableCategory(categoryId){
     this.categoryBoolean[categoryId] = false;
     firebase.database().ref('user/' + this.utilities.user.uid + '/categories/'+ categoryId).remove();
     firebase.database().ref('categorySubscribers/' + categoryId + '/' + this.utilities.user.uid).remove();
+    this.utilities.removeGeofenceByCategory(categoryId);
   }
 
 }

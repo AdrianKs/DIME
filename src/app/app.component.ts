@@ -14,6 +14,7 @@ import { AboutPage } from "../pages/about/about";
 import firebase from 'firebase';
 import { AuthData } from "../providers/auth-data";
 import { CreateActivityPage } from "../pages/create-activity/create-activity";
+import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
 
 import { Utilities } from './utilities';
 import { ProfilePage } from "../pages/profile/profile";
@@ -88,7 +89,7 @@ export class MyApp {
 
       this.utilities.platform = source;
 
-      if(!(source === "dom")){
+      if (!(source === "dom")) {
         window["plugins"].OneSignal
           .startInit("3b4c0e22-1465-4978-ba3c-2d198bf1de6e", "597985728064")
           .handleNotificationOpened(this.handlePushNotificationCallback())
@@ -133,22 +134,67 @@ export class MyApp {
         });
         alert.present();
       } else {
-        this.geofence.initialize().then(
-          // resolved promise does not return a value
-          () => console.log('Geofence Plugin Ready'),
-          (err) => console.log(err)
-        );
+        this.geofence.initialize().then(() => {
+          console.log('Geofence Plugin Ready');
+          this.watchGeofence();
+        }).catch((err) => {
+          console.log(err)
+        });
       }
+    }).catch((error) => {
+      console.log(error);
     })
-      .catch((error) => {
-        console.log(error);
-      })
   }
 
-  handlePushNotificationCallback(){
+  handlePushNotificationCallback() {
     return (jsonData) => {
       console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
     };
+  }
+
+  watchGeofence() {
+    console.log("watchgeofence");
+    this.geofence.onTransitionReceived().subscribe(res => {
+      let tempRes = res;
+      let value;
+      tempRes.forEach(location => {
+        value = {
+          creator: location.notification.data.creator,
+          date: location.notification.data.date,
+          locationName: location.notification.data.locationName,
+          description: location.notification.data.description,
+          id: location.notification.data.id,
+          attendees: location.notification.data.attendees,
+          category: location.notification.data.category
+        }
+        this.openConfirmMessage(value);
+
+      });
+    }, (err) => {
+      console.log(err);
+    });
+  }
+  openConfirmMessage(value) {
+    let alert = this.alertCtrl.create({
+      title: "Neues Event",
+      subTitle: "In der Nähe befindet sich ein neues Event: " + value.description + "Details ansehen?",
+      buttons: [
+        {
+          text: "Abbrechen",
+          role: "cancel",
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: "Zur Aktivität",
+          handler: () => {
+            this.nav.push(ActivityDetailsPage, { activityItem: value });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }

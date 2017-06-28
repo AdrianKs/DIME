@@ -3,7 +3,9 @@ import firebase from 'firebase';
 import { Geofence } from '@ionic-native/geofence';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Calendar } from '@ionic-native/calendar';
-import { AlertController } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
+import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
+
 
 @Injectable()
 export class Utilities {
@@ -16,11 +18,15 @@ export class Utilities {
     userPositionLng: number = 0;
     userCategories: {};
     distancesToActivities: any[] = [];
-    activitesAreas: any[];
+    userActivitesArray: any[];
+    myActivitesFromOther: any[] = [];
     picture: any;
     platform: string;
 
-    constructor(public geofence: Geofence, public geolocation: Geolocation, public calendar: Calendar, public alertCtrl: AlertController) {
+    constructor(public geofence: Geofence,
+        public geolocation: Geolocation,
+        public calendar: Calendar,
+        public alertCtrl: AlertController) {
         this.getCategories();
         this.getUserPosition();
         this.getSpecificUserActivites();
@@ -33,7 +39,7 @@ export class Utilities {
                 this.userLoaded = true;
             }
             this.userCategories = this.userData.categories;
-            console.log(this.userCategories);
+            //console.log(this.userCategories);
             this.getSpecificUserActivites();
         });
     }
@@ -45,8 +51,8 @@ export class Utilities {
 
     getUserPosition() {
         return this.geolocation.getCurrentPosition().then((position) => {
-            this.userPositionLat = position.coords.latitude,
-                this.userPositionLng = position.coords.longitude
+            this.userPositionLat = position.coords.latitude;
+            this.userPositionLng = position.coords.longitude;
         }, (err) => {
             console.log(err);
         });
@@ -77,26 +83,16 @@ export class Utilities {
                     activitiesArray[counter].id = i;
                     counter++;
                 }
-                this.activitesAreas = activitiesArray;
-                for (let i = 0; i < this.activitesAreas.length; i++) {
+                this.userActivitesArray = activitiesArray;
+                for (let i = 0; i < this.userActivitesArray.length; i++) {
                     for (let prob in this.userCategories) {
-                        console.log(this.user.uid);
-                        console.log(this.activitesAreas[i].id);
-                        if (this.activitesAreas[i].category == prob && this.activitesAreas[i].creator != this.user.uid) {
-                            if (this.calculateEndTime(this.activitesAreas[i].date, this.activitesAreas[i].duration) <= new Date()) {
-                                this.removeGeofence(this.activitesAreas[i].id);
-                                console.log("removed");
+                        if (this.userActivitesArray[i].category == prob && this.userActivitesArray[i].creator != this.user.uid) {
+                            this.myActivitesFromOther.push(this.userActivitesArray[i]);
+                            if (this.calculateEndTime(this.userActivitesArray[i].date, this.userActivitesArray[i].duration) <= new Date()) {
+                                this.removeGeofence(this.userActivitesArray[i].id);
                             } else {
-                                this.calculateDistanceToActivites(this.activitesAreas[i].locationLat, this.activitesAreas[i].locationLng);
-                                if (this.checkCalendar(this.activitesAreas[i].date, this.activitesAreas[i].duration) == true) {
-                                    console.log("added");
-                                    this.createGeofenceAreas(this.activitesAreas[i].id,
-                                        this.activitesAreas[i].locationLat,
-                                        this.activitesAreas[i].locationLng,
-                                        this.activitesAreas[i].locationName,
-                                        this.activitesAreas[i].date,
-                                        this.activitesAreas[i].creationDate,
-                                        this.activitesAreas[i].duration);
+                                if (this.checkCalendar(this.userActivitesArray[i].date, this.userActivitesArray[i].duration) == true) {
+                                    this.createGeofence(this.userActivitesArray[i],this.userActivitesArray[i].id);
                                 }
                             }
                         }
@@ -104,20 +100,6 @@ export class Utilities {
                 }
             }
         });
-    }
-
-
-    calculateDistanceToActivites(lat, lng) {
-        let R = 6731; //Radius of the earth in km
-        let dLat = this.degTorad(this.userPositionLat - lat);
-        let dLng = this.degTorad(this.userPositionLng - lng);
-        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(this.degTorad(this.userPositionLat)) * Math.cos(this.degTorad(lat)) *
-            Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        let d = R * c; // Distance in km
-
-        this.distancesToActivities.push(d);
     }
 
     calculateDistanceToActivities(lat, lng) {
@@ -138,11 +120,12 @@ export class Utilities {
     }
 
     //Handle start und end time as a number
-    createGeofenceAreas(id, lat, lng, place, date, creationDate, duration) {
-        let tmpDate: Date = new Date(creationDate);
-        let tmpStartDate = date.substring(0, 10);
-        let tmpStartTime: Number;
-        let tmpEndTime: Number;
+    createGeofence(activity, cid) {
+        let id = cid; 
+        let lat = activity.locationLat;
+        let lng = activity.locationLng;
+        let place = activity.locationName;
+        let date = activity.date;
         let notificationId = this.makeid();
 
         let fence = {
@@ -155,7 +138,8 @@ export class Utilities {
                 id: notificationId, //any unique ID
                 title: 'Eine neue Aktivität', //notification title
                 text: place + ' ' + date, //notification body
-                openAppOnClick: true //open app when notification is tapped
+                openAppOnClick: true, //open app when notification is tapped
+                data: activity
             }
         }
         console.log(fence);
@@ -163,7 +147,6 @@ export class Utilities {
             () => console.log('Geofence added'),
             (err) => console.log('Geofence failed to add')
         );
-        //this.watchGeofence();
     }
 
     makeid() {
@@ -178,14 +161,29 @@ export class Utilities {
         return textAsNumber;
     }
 
-    watchGeofence() {
-        this.geofence.onTransitionReceived().subscribe(res => {
-            let tempLoc = res;
-            tempLoc.forEach(location => {
-                //Hier kann entsprechend ein Ereignis eintreten sobald ein Geofence betreten wird.
-            });
-        }, (err) => {
-            console.log(err);
+    addGeofenceByCategroy(categoryID) {
+        firebase.database().ref('activity').once(`value`, snapshot => {
+            if (snapshot.val() != null) {
+                for (let i in snapshot.val()) {
+                    if (categoryID == snapshot.val()[i].category) {
+                        let currentDate = new Date();
+                        currentDate.setHours(currentDate.getHours() + 2);
+                        let customDate = currentDate.toISOString();
+                        console.log(customDate);
+                        if (customDate <= snapshot.val()[i].date && snapshot.val()[i].date != this.user.uid) {
+                            this.createGeofence(snapshot.val()[i], i);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    removeGeofenceByCategory(categoryID) {
+        this.myActivitesFromOther.forEach(element => {
+            if (categoryID == element.category) {
+                this.removeGeofence(element.id);
+            }
         });
     }
 
@@ -230,18 +228,18 @@ export class Utilities {
     }
 
     sendPushNotification(pushIds: Array<any>, content: String) {
-      if(!(this.platform === "dom")){
-        let notificationObj = {
-          contents: {en: content},
-          include_player_ids: pushIds
-        };
-        window["plugins"].OneSignal.postNotification(notificationObj,
-          function(successResponse) {
-          },
-          function (failedResponse) {
-            console.log("Notification Post Failed: ", failedResponse);
-          }
-        )
-      }
+        if (!(this.platform === "dom")) {
+            let notificationObj = {
+                contents: { en: content },
+                include_player_ids: pushIds
+            };
+            window["plugins"].OneSignal.postNotification(notificationObj,
+                function (successResponse) {
+                },
+                function (failedResponse) {
+                    console.log("Notification Post Failed: ", failedResponse);
+                }
+            )
+        }
     }
 }
