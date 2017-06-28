@@ -116,6 +116,7 @@ export class AuthData {
       picURL: facebookRes.picture.data.url,
       birthday: 0,
       profileURL: facebookRes.link,
+      range: 5,
       ratingPos: 0,
       ratingNeg: 0,
     };

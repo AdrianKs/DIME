@@ -13,11 +13,11 @@ import firebase from 'firebase';
  */
 @IonicPage()
 @Component({
-  selector: 'page-view-activity',
-  templateUrl: 'view-activity.html',
+  selector: 'page-view-my-activity',
+  templateUrl: 'view-my-activity.html',
   providers: [DataProvider]
 })
-export class ViewActivityPage {
+export class ViewMyActivityPage {
 
   ionViewWillEnter() {
     //this.loggedInUserID = this.utilities.user.uid;
@@ -27,7 +27,8 @@ export class ViewActivityPage {
     this.loadData(true, null);
   }
 
-  activityOwner: String = "other";
+  activityType: String = "own";
+  today: String = new Date().toISOString();
   loggedInUserID: any;
   userCategories: any;
   userRange: any;

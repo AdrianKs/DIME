@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 
 import { firebaseConfig } from "./firebaseAppData";
 import { ViewActivityPage } from "../pages/view-activity/view-activity";
+import { ViewMyActivityPage } from "../pages/view-my-activity/view-my-activity";
 import { SelectCategoryPage } from "../pages/select-category/select-category";
 import { LoginPage } from "../pages/login/login";
 import { AboutPage } from "../pages/about/about";
@@ -29,7 +30,7 @@ export class MyApp {
 
   private onResumeSubscription: Subscription;
 
-  rootPage: any = ViewActivityPage;
+  rootPage: any;
 
   aboutPage: any = {
     title: "About",
@@ -70,8 +71,8 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Aktivität erstellen', component: CreateActivityPage },
       { title: 'Aktivitäten', component: ViewActivityPage },
+      { title: 'Meine Aktivitäten', component: ViewMyActivityPage},
       { title: 'Kategorie', component: SelectCategoryPage }
     ];
 
