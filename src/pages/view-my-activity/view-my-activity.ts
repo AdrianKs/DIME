@@ -4,6 +4,7 @@ import { DataProvider } from '../../providers/data-provider';
 import { CreateActivityPage } from '../create-activity/create-activity'
 import { Utilities} from '../../app/utilities';
 import { ActivityDetailsPage } from '../activity-details/activity-details';
+import * as _ from 'lodash';
 import firebase from 'firebase';
 /**
  * Generated class for the ViewActivityPage page.
@@ -65,6 +66,7 @@ export class ViewMyActivityPage {
     });
     this.dataProvider.setActivity().then((data) => {
       this.dataActivity = this.dataProvider.dataActivity;
+      this.dataActivity = _.sortBy(this.dataActivity, "date");
       this.dataProvider.setUser().then((data) => {
         this.dataUser = this.dataProvider.dataUser;
         for (let i in this.dataUser){

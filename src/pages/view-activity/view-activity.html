@@ -42,38 +42,45 @@
           </div>-->
           <div *ngIf="activityItem.categorySelected == true">
             <div *ngIf="activityItem.inRange == true">
-              <ion-item (click)="openDetails($event, activityItem)">
-                <div class="itemLeft">
-                  <div *ngFor="let userItem of dataUser">
-                    <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
-                  </div>
-                </div>
-                <div class="itemRight">
-                  <div *ngFor="let categoryItem of dataCategory">
-                    <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
-                      {{categoryItem.name}}
+              <div *ngIf="activityItem.byFriend == false">
+                <ion-item (click)="openDetails($event, activityItem)">
+                  <div class="itemLeft">
+                    <div *ngFor="let userItem of dataUser">
+                      <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
                     </div>
                   </div>
-                  <div class="distanceToUser">
-                    <div class="secondaryDetails">{{ activityItem.distance }} km entfernt</div>
+                  <div class="itemRight">
+                    <div *ngFor="let categoryItem of dataCategory">
+                      <div *ngIf="categoryItem.id == activityItem.category" class="mainDetails">
+                        {{categoryItem.name}}
+                      </div>
+                    </div>
+                    <div class="distanceToUser">
+                      <div class="secondaryDetails">{{ activityItem.distance }} km entfernt</div>
+                    </div>
+                    <div class="secondaryDetails">{{ activityItem.locationName }}</div>
+                    <div class="secondaryDetails">{{ activityItem.date | time }}</div>
                   </div>
-                  <div class="secondaryDetails">{{ activityItem.locationName }}</div>
-                  <div class="secondaryDetails">{{ activityItem.date | time }}</div>
-                </div>
-              </ion-item>
+                </ion-item>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div *ngIf="counterOther == 0">
+        <ion-label class="align-center no-items">Keine Aktivitäten vorhanden</ion-label>
+      </div>
+
     </ion-list>
 
     <ion-list *ngSwitchCase="'friends'">
       <div *ngFor="let activityItem of dataActivity">
-        <div *ngIf="activityItem.creator == loggedInUserID">
+        <div *ngIf="activityItem.byFriend == true">
           <ion-item (click)="openDetails($event, activityItem)">
             <div class="itemLeft">
-              <div *ngFor="let categoryItem of dataCategory">
-              <ion-icon *ngIf="categoryItem.id == activityItem.category" name={{categoryItem.icon}} class="iconLeft"></ion-icon>
+              <div *ngFor="let userItem of dataUser">
+                <img *ngIf="userItem.id == activityItem.creator" src="{{userItem.picURL}}" class="player-item-image" onError="this.src='assets/images/user-shape-64.png'"/>
               </div>
             </div>
             <div class="itemRight">
@@ -82,11 +89,18 @@
                   {{categoryItem.name}}
                 </div>
               </div>
+              <div class="distanceToUser">
+                <div class="secondaryDetails">{{ activityItem.distance }} km entfernt</div>
+              </div>
               <div class="secondaryDetails">{{ activityItem.locationName }}</div>
               <div class="secondaryDetails">{{ activityItem.date | time }}</div>
             </div>
           </ion-item>
         </div>
+      </div>
+
+      <div *ngIf="friendActivityExists == false">
+        <ion-label class="align-center no-items">Keine Aktivitäten vorhanden</ion-label>
       </div>
     </ion-list>
 

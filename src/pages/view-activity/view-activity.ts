@@ -5,6 +5,7 @@ import { CreateActivityPage } from '../create-activity/create-activity'
 import { Utilities } from '../../app/utilities';
 import { ActivityDetailsPage } from '../activity-details/activity-details';
 import { Geofence } from '@ionic-native/geofence';
+import * as _ from 'lodash';
 import firebase from 'firebase';
 /**
  * Generated class for the ViewActivityPage page.
@@ -29,13 +30,17 @@ export class ViewActivityPage {
   }
 
   activityOwner: String = "other";
+  counterOther: any;
   loggedInUserID: any;
   userCategories: any;
   userRange: any;
+  facebookFriends: any;
   dataActivity: any;
   dataCategory: any;
   dataUser: any;
   dataCategorySubs: any;
+  dataFacebookId: any;
+  friendActivityExists: boolean = false;
   loading: any;
 
   constructor(public navCtrl: NavController,
@@ -66,6 +71,7 @@ export class ViewActivityPage {
     });
     this.dataProvider.setActivity().then((data) => {
       this.dataActivity = this.dataProvider.dataActivity;
+      this.dataActivity = _.sortBy(this.dataActivity, "distance");
       this.dataProvider.setUser().then((data) => {
         this.dataUser = this.dataProvider.dataUser;
         for (let i in this.dataUser) {
@@ -73,15 +79,26 @@ export class ViewActivityPage {
             this.loggedInUserID = this.dataUser[i].id;
             this.userCategories = this.dataUser[i].categories;
             this.userRange = this.dataUser[i].range;
-            //console.log("userID: " + this.loggedInUserID);
+            this.facebookFriends = this.dataUser[i].facebookFriends;
           }
         }
-        for (let i in this.dataActivity) {
-          if (this.userCategories[parseInt(this.dataActivity[i].category)]) {
-            this.dataActivity[i].categorySelected = true;
-          }
-        }
+        this.counterOther = 0;
+        this.checkCategory();
         this.checkRange();
+        this.dataProvider.setFacebookId().then((data) => {
+          this.dataFacebookId = this.dataProvider.dataFacebookIds;
+          this.checkFriend();
+          if (showLoading) {
+            this.loading.dismiss().catch((error) => console.log(error));
+          }
+          if (event != null) {
+            event.complete();
+          }
+        }).catch((error) =>{
+          if (showLoading) {
+            this.createAndShowErrorAlert(error);
+          }
+        });
         if (showLoading) {
           this.loading.dismiss().catch((error) => console.log(error));
         }
@@ -99,21 +116,20 @@ export class ViewActivityPage {
       if (event != null) {
         event.complete();
       }
-    }).catch(function (error) {
+    }).catch((error) => {
       if (showLoading) {
         this.createAndShowErrorAlert(error);
       }
     });
     this.dataProvider.setCategorySubs().then((data) => {
       this.dataCategorySubs = this.dataProvider.dataCategorySubs;
-      //console.log(this.dataProvider.dataCategorySubs);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }
       if (event != null) {
         event.complete();
       }
-    }).catch(function (error) {
+    }).catch((error) => {
       if (showLoading) {
         this.createAndShowErrorAlert(error);
       }
@@ -136,6 +152,39 @@ export class ViewActivityPage {
     this.loading.present();
   }
 
+  checkFriend(){
+    for (let i in this.facebookFriends){
+      for (let j in this.dataFacebookId){
+        if(i == j){
+          this.facebookFriends[i]=this.dataFacebookId[j];
+        }
+      }
+    }
+    for (let i in this.dataActivity){
+      for (let j in this.facebookFriends){
+        if (this.dataActivity[i].creator == this.facebookFriends[j]){
+          this.dataActivity[i].byFriend = true;
+          this.friendActivityExists = true;
+        }
+      }
+      if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange &&
+          this.dataActivity[i].byFriend == false && this.dataActivity[i].creator != this.loggedInUserID){
+        this.counterOther++;
+        console.log(this.counterOther);
+        console.log(this.dataActivity[i]);
+      }
+    }
+
+  }
+
+  checkCategory() {
+    for (let i in this.dataActivity) {
+      if (this.userCategories[parseInt(this.dataActivity[i].category)]) {
+        this.dataActivity[i].categorySelected = true;
+      }
+    }
+  }
+
   checkRange() {
     for (let i in this.dataActivity) {
       if (this.dataActivity[i].distance <= this.userRange) {
@@ -144,6 +193,25 @@ export class ViewActivityPage {
         this.dataActivity[i].inRange = false;
       }
     }
+  }
+
+  checkRangeAndCounter() {
+    for (let i in this.dataActivity) {
+      if (this.dataActivity[i].distance <= this.userRange && this.dataActivity[i].inRange == false) {
+        this.dataActivity[i].inRange = true;
+        if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange &&
+          this.dataActivity[i].byFriend == false && this.dataActivity[i].creator != this.loggedInUserID){
+          this.counterOther++;
+        }
+      } else if (this.dataActivity[i].distance > this.userRange && this.dataActivity[i].inRange){
+        this.dataActivity[i].inRange = false;
+        if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange == false &&
+          this.dataActivity[i].byFriend == false && this.dataActivity[i].creator != this.loggedInUserID){
+          this.counterOther--;
+        }
+      }
+    }
+    console.log(this.counterOther);
   }
 
   openSettings() {
@@ -171,7 +239,7 @@ export class ViewActivityPage {
           handler: data => {
             firebase.database().ref('user/' + this.loggedInUserID + '/range').set(data.range);
             this.userRange = data.range;
-            this.checkRange();
+            this.checkRangeAndCounter();
           }
         }
       ]
