@@ -4,7 +4,10 @@ import { DataProvider } from '../../providers/data-provider';
 import { CreateActivityPage } from '../create-activity/create-activity'
 import { Utilities} from '../../app/utilities';
 import { ActivityDetailsPage } from '../activity-details/activity-details';
+<<<<<<< HEAD
 import * as _ from 'lodash';
+=======
+>>>>>>> 3491a14b448e54ab2e8fb04250bc094c7a042f2d
 import firebase from 'firebase';
 /**
  * Generated class for the ViewActivityPage page.
@@ -66,7 +69,10 @@ export class ViewMyActivityPage {
     });
     this.dataProvider.setActivity().then((data) => {
       this.dataActivity = this.dataProvider.dataActivity;
+<<<<<<< HEAD
       this.dataActivity = _.sortBy(this.dataActivity, "date");
+=======
+>>>>>>> 3491a14b448e54ab2e8fb04250bc094c7a042f2d
       this.dataProvider.setUser().then((data) => {
         this.dataUser = this.dataProvider.dataUser;
         for (let i in this.dataUser){
