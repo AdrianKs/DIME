@@ -165,6 +165,10 @@ export class ActivityDetailsPage {
       });
   }
 
+  deleteEvent(){
+    console.log("tbd");
+  }
+
 
   refreshAttendeeArray() {
     let thatIs = this;
