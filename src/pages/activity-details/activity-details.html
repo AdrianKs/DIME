@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <div class="picture-container">
-    <img class="activity-profile-picture" src="{{picURL}}">
+    <img class="activity-profile-picture" src="{{picURL}}" (click)="navigateToProfile()">
   </div>
   <ion-list no-lines>
     <ion-item>
@@ -24,8 +24,19 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <div class="center-contents participate-button">
-    <button ion-button outline color="secondary" type="button">Teilnehmen</button>
+  <div *ngIf="!eventByUser">
+  <div class="center-contents participate-button" *ngIf="!participating">
+    <button ion-button outline color="secondary" type="button" (click)="participateOnEvent()">Teilnehmen</button>
+  </div>
+  <div class="center-contents participate-button" *ngIf="participating"> 
+    <button ion-button outline color="danger" type="button" (click)="declineEvent()">Absagen</button>
+  </div>
+  </div>
+
+  <div *ngIf="eventByUser">
+    <div class="center-contents participate-button">
+    <button ion-button outline color="danger" type="button" (click)="deleteEvent()">Meine Aktivität löschen</button>
+  </div>
   </div>
 
   <ion-list>
@@ -51,12 +62,13 @@
   </ion-list>
   <ion-list>
     <ion-list-header>
-      Teilnehmer
+      Teilnehmer ({{attendeeCount}} von {{maxAttendees}} angemeldet)
     </ion-list-header>
+    <p style="text-align: center; font-size: 15px;" *ngIf="attendees.length == 0">Noch keine Teilnehmer!</p>
     <ion-item *ngFor='let p of attendees'>
-      <div class="left-container"><img class="user-profile-picture" src="http://www.istockphoto.com/search/assets/avatar_placeholder.svg"></div>
+      <div class="left-container"><img class="user-profile-picture" src="{{p.picURL}}"></div>
       <div class="right-container">
-          {{p.name}} ({{p.age}})
+          {{p.name}} ({{p.minAge}} Jahre)
       </div>
     </ion-item>
   </ion-list>
