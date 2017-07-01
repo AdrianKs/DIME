@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { ViewActivityPage } from '../pages/view-activity/view-activity';
+import { ViewMyActivityPage } from "../pages/view-my-activity/view-my-activity";
 import { SelectCategoryPage } from '../pages/select-category/select-category';
 import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
 
@@ -26,6 +27,7 @@ import { Time } from './pipes/time';
   declarations: [
     MyApp,
     ViewActivityPage,
+    ViewMyActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,
@@ -42,6 +44,7 @@ import { Time } from './pipes/time';
   entryComponents: [
     MyApp,
     ViewActivityPage,
+    ViewMyActivityPage,
     CreateActivityPage,
     SelectCategoryPage,
     LoginPage,

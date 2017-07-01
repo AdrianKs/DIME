@@ -10,6 +10,7 @@ export class DataProvider {
     dataCategory: Array<any>;
     dataUser: Array<any>;
     dataCategorySubs: Array <any>;
+    dataFacebookIds: Array <any>;
 
 
     constructor(private utilities: Utilities) {
@@ -24,12 +25,13 @@ export class DataProvider {
                 activityArray[counter] = snapshot.val()[i];
                 activityArray[counter].id = i;
                 activityArray[counter].categorySelected = false;
+                activityArray[counter].byFriend = false;
+                activityArray[counter].attended = false;
                 activityArray[counter].distance = this.utilities.calculateDistanceToActivities(activityArray[counter].locationLat, activityArray[counter].locationLng);
                 activityArray[counter].inRange = false;
                 counter++;
             }
             this.dataActivity = activityArray;
-            this.dataActivity = _.sortBy(this.dataActivity, "distance");
         });
     }
 
@@ -55,6 +57,7 @@ export class DataProvider {
                 userArray[counter].id = i;
                 counter++;
             }
+            console.log(userArray);
             this.dataUser = userArray;
         });
     }
@@ -69,6 +72,17 @@ export class DataProvider {
                 counter++;
             }
             this.dataCategorySubs = subsArray;
+        });
+    }
+
+    setFacebookId() {
+        return firebase.database().ref('facebookIdToUserId').once('value', snapshot => {
+            let facebookIdArray = [];
+            for (let i in snapshot.val()) {
+                facebookIdArray[i] = snapshot.val()[i];
+            }
+            console.log(facebookIdArray);
+            this.dataFacebookIds = facebookIdArray;
         });
     }
 

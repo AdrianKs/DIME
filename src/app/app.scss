@@ -55,8 +55,31 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
 
 .distanceToUser{
   float: right;
+  position: relative;
+  bottom: 33px;
+  left: 9px;
   font-size: 10px;
 }
+
+.no-items{
+  color: dimgray;
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rangeBackground{
+  background: #f8f8f8;
+}
+
+.rangeLabel{
+  background: #f8f8f8;
+  position: relative;
+  top: 27px;
+  left: 16px;
+  z-index: 1;
+}
+    
 
 .mainDetails {
   color: dimgray;
@@ -66,6 +89,7 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
 
 .secondaryDetails{
   color: dimgrey;
+  word-wrap: break-word;
   font-size: 14px;
 }
 
