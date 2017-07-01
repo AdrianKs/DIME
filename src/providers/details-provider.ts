@@ -9,9 +9,13 @@ export class DetailsProvider {
 
     public attendeeData: any = [];
 
+    public originalAttendees: any = [];
+
     public category: any = "";
 
-    setUserData(userID:any){
+    public temporaryUserObject: any = [];
+
+    setCreatorData(userID:any){
         return firebase.database().ref('user/'+userID).once('value', snapshot => {
             this.userData = [];
             let tmpData = snapshot.val();
@@ -26,10 +30,24 @@ export class DetailsProvider {
         })
     }
 
-    addParticipant(activityID, attendeeArray){
-        return firebase.database().ref('activity/'+activityID+ '/').update({
-            attendees: attendeeArray
+    addParticipant(activityID, partictipantID){
+        return firebase.database().ref('activity/'+activityID+ '/'+partictipantID+'/').set(true);
+    }
+
+    getAttendees(activityID){
+        return firebase.database().ref('activity/'+activityID+ '/attendees/').once('value', snapshot => {
+            this.originalAttendees = snapshot.val();
         })
+    }
+
+    getUserObjectOfEventCreator(creatorID){
+        return firebase.database().ref('user/'+creatorID).once('value', snapshot => {
+            this.temporaryUserObject = snapshot.val();
+        })
+    }
+
+    getTemporaryUserObject(){
+        return this.temporaryUserObject;
     }
 
     constructor() {
