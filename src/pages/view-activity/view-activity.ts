@@ -196,55 +196,26 @@ export class ViewActivityPage {
   }
 
   checkRangeAndCounter() {
+    firebase.database().ref('user/' + this.loggedInUserID + '/range').set(this.userRange);
     for (let i in this.dataActivity) {
-      if (this.dataActivity[i].distance <= this.userRange && this.dataActivity[i].inRange == false) {
-        this.dataActivity[i].inRange = true;
-        if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange &&
-          this.dataActivity[i].byFriend == false && this.dataActivity[i].creator != this.loggedInUserID){
-          this.counterOther++;
-        }
-      } else if (this.dataActivity[i].distance > this.userRange && this.dataActivity[i].inRange){
-        this.dataActivity[i].inRange = false;
-        if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange == false &&
-          this.dataActivity[i].byFriend == false && this.dataActivity[i].creator != this.loggedInUserID){
-          this.counterOther--;
+      if (this.dataActivity[i].creator != this.loggedInUserID){
+        if (this.dataActivity[i].distance <= this.userRange && this.dataActivity[i].inRange == false) {
+          this.dataActivity[i].inRange = true;
+          if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange &&
+            this.dataActivity[i].byFriend == false){
+            this.counterOther++;
+          }
+        } else if (this.dataActivity[i].distance > this.userRange && this.dataActivity[i].inRange){
+          this.dataActivity[i].inRange = false;
+          if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange == false &&
+            this.dataActivity[i].byFriend == false){
+            this.counterOther--;
+          }
         }
       }
+      
     }
     console.log(this.counterOther);
-  }
-
-  openSettings() {
-    let alert = this.alertCtrl.create({
-      title: 'Entfernung einstellen',
-      inputs: [
-        {
-          name: 'range',
-          min: 0,
-          max: 100,
-          value: this.userRange, //placeholder km
-          type: 'range'
-        }
-      ],
-      subTitle: this.userRange,
-      buttons: [
-        {
-          text: 'Abbrechen',
-          role: 'cancel',
-          handler: data => {
-          }
-        },
-        {
-          text: 'Übernehmen',
-          handler: data => {
-            firebase.database().ref('user/' + this.loggedInUserID + '/range').set(data.range);
-            this.userRange = data.range;
-            this.checkRangeAndCounter();
-          }
-        }
-      ]
-    });
-    alert.present();
   }
 
   createActivity(event) {

@@ -68,6 +68,19 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   text-align: center;
 }
 
+.rangeBackground{
+  background: #f8f8f8;
+}
+
+.rangeLabel{
+  background: #f8f8f8;
+  position: relative;
+  top: 27px;
+  left: 16px;
+  z-index: 1;
+}
+    
+
 .mainDetails {
   color: dimgray;
   font-weight: bold;

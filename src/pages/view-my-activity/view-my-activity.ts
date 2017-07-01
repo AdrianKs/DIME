@@ -33,6 +33,9 @@ export class ViewMyActivityPage {
   loggedInUserID: any;
   userCategories: any;
   userRange: any;
+  counterOwn: any;
+  counterSoon: any;
+  counterPast: any;
   dataActivity: any;
   dataCategory: any;
   dataUser: any;
@@ -77,12 +80,8 @@ export class ViewMyActivityPage {
             console.log("userID: " + this.loggedInUserID);
           }
         }
-        for (let i in this.dataActivity){
-          if (this.userCategories[parseInt(this.dataActivity[i].category)]){
-            this.dataActivity[i].categorySelected = true;
-          }
-        }
-        this.checkRange();
+        this.checkAttendance();
+        this.checkCounter()
         if (showLoading) {
           this.loading.dismiss().catch((error) => console.log(error));
         }
@@ -137,47 +136,38 @@ export class ViewMyActivityPage {
     this.loading.present();
   }
 
-  checkRange(){
+  checkAttendance(){
     for (let i in this.dataActivity){
-      if (this.dataActivity[i].distance <= this.userRange){
-        this.dataActivity[i].inRange = true;
-      } else {
-        this.dataActivity[i].inRange = false;
+      for (let j in this.dataActivity[i].attendees){
+        if (j == this.loggedInUserID){
+          this.dataActivity[i].attended = true;
+        }
       }
     }
   }
 
+  checkCounter(){
+    this.counterOwn = 0;
+    this.counterSoon = 0;
+    this.counterPast = 0;
+    for (let i in this.dataActivity){
+      if (this.dataActivity[i].creator == this.loggedInUserID){
+        this.counterOwn++;
+      } else {
+        if (this.dataActivity[i].attended){
+          if(this.dataActivity[i].date > this.today){
+            this.counterSoon++;
+          }else {
+            this.counterPast++;
+          }
+        }
+      }
+
+    }
+  }
+
   openSettings(){
-    let alert = this.alertCtrl.create({
-        title: 'Entfernung einstellen',
-        inputs: [
-          {
-            name: 'range',
-            min: 0,
-            max: 100,
-            value: this.userRange, //placeholder km
-            type: 'range'
-          }
-        ],
-        subTitle: this.userRange,
-        buttons: [
-          {
-            text: 'Abbrechen',
-            role: 'cancel',
-            handler: data => {
-            }
-          },
-          {
-            text: 'Übernehmen',
-            handler: data => {
-              firebase.database().ref('user/' + this.loggedInUserID + '/range').set(data.range);
-              this.userRange = data.range;
-              this.checkRange();
-            }
-          }
-        ]
-      });
-      alert.present();
+
   }
 
   createActivity(event){

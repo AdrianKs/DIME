@@ -11,11 +11,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Meine Aktivitäten</ion-title>
-    <ion-buttons end>
-    <button ion-button (click)="openSettings()">
-      <ion-icon name="settings"></ion-icon>
-    </button>
-    </ion-buttons>
   </ion-navbar>
   <ion-toolbar no-border-bottom>
     <ion-segment [(ngModel)]="activityType">
@@ -57,6 +52,11 @@
           </ion-item>
         </div>
       </div>
+
+      <div *ngIf="counterOwn == 0">
+        <ion-label class="align-center no-items">Keine Aktivitäten vorhanden</ion-label>
+      </div>
+
     </ion-list>
 
     <ion-list *ngSwitchCase="'soon'">
@@ -68,7 +68,7 @@
             </div>
           </div>-->
           <div *ngIf="activityItem.date > today">
-            <div *ngIf="activityItem.inRange == true">
+            <div *ngIf="activityItem.attended == true">
               <ion-item (click)="openDetails($event, activityItem)">
                 <div class="itemLeft">
                   <div *ngFor="let userItem of dataUser">
@@ -92,6 +92,11 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="counterSoon == 0">
+        <ion-label class="align-center no-items">Keine Aktivitäten vorhanden</ion-label>
+      </div>
+
     </ion-list>
 
     <ion-list *ngSwitchCase="'past'">
@@ -103,7 +108,7 @@
             </div>
           </div>-->
           <div *ngIf="activityItem.date < today">
-            <div *ngIf="activityItem.inRange == true">
+            <div *ngIf="activityItem.attended == true">
               <ion-item (click)="openDetails($event, activityItem)">
                 <div class="itemLeft">
                   <div *ngFor="let userItem of dataUser">
@@ -127,6 +132,11 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="counterPast == 0">
+        <ion-label class="align-center no-items">Keine Aktivitäten vorhanden</ion-label>
+      </div>
+
     </ion-list>
 
   </div>

@@ -11,13 +11,8 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Aktivitäten</ion-title>
-    <ion-buttons end>
-    <button ion-button (click)="openSettings()">
-      <ion-icon name="settings"></ion-icon>
-    </button>
-    </ion-buttons>
   </ion-navbar>
-  <ion-toolbar no-border-bottom>
+  <ion-toolbar no-border-bottom>      
     <ion-segment [(ngModel)]="activityOwner">
       <ion-segment-button value="other">
         Andere
@@ -27,8 +22,10 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-
+  <ion-range [(ngModel)]="userRange" debounce="700" (ionChange)="checkRangeAndCounter()" pin="true" class="rangeBackground"></ion-range>
 </ion-header>
+
+
 
 <ion-content padding>
   <div [ngSwitch]="activityOwner">
