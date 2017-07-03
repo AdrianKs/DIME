@@ -151,6 +151,7 @@ export class ActivityDetailsPage {
         thatIs.participating = true;
         thatIs.refreshAttendeeArray();
       });
+      this.utilities.storeAllowedToRate(this.creatorID);
     } else {
       //ALERT AUSGEBEN
     }

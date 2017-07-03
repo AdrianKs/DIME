@@ -27,9 +27,6 @@ export class ProfilePage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
 
   calculateRating() {
     if(this.user.ratingNeg == 0 && this.user.ratingPos == 0){
@@ -57,8 +54,9 @@ export class ProfilePage {
           this.utilities.increaseIntInDB('user/' + this.userId + '/ratingPos');
           this.utilities.storeRating(this.userId, 1);
           this.user.ratingPos = this.user.ratingPos + 1;
+        } else {
+          alert("Sie dürfen diesen Nutzer nicht bewerten");
         }
-        console.log("allowed: ", allowed);
       });
   }
 
@@ -72,19 +70,25 @@ export class ProfilePage {
         } else {
           alert("Sie dürfen diesen Nutzer nicht bewerten");
         }
-        console.log("allowed: ", allowed);
       });
   }
 
   checkIfAllowedToRate(){
     if(this.utilities.user.uid == this.userId){
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve(false);
       });
     } else {
-      return this.utilities.checkIfRated(this.userId)
-        .then(snapshot => {
-          return !snapshot.val();
+      return this.utilities.checkAllowedToRate(this.userId)
+        .then(allowed => {
+          if(allowed){
+            return this.utilities.checkIfNotYetRated(this.userId);
+          } else {
+            return false;
+          }
+        })
+        .then(allowed => {
+          return allowed;
         })
     }
   }

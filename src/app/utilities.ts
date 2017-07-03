@@ -247,14 +247,38 @@ export class Utilities {
     storeRating(ratedUserId, rateValue){
       return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).set(rateValue)
         .catch(err => {
-          console.log('Error while storing Rating', err);
+          console.log('Error while storing Rating ', err);
         })
     }
 
-    checkIfRated(ratedUserId){
+    checkIfNotYetRated(ratedUserId){
       return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).once('value')
+        .then(snapshot => {
+          if(snapshot.val()){
+            return false;
+          } else {
+            return true;
+          }
+        })
         .catch(err => {
-          console.log("Error while check if already rated", err);
+          console.log("Error while check if already rated ", err);
+        })
+    }
+
+    storeAllowedToRate(userIdToRate){
+      return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).set(true)
+        .catch(err => {
+          console.log("Error while storing allowed to rate ", err);
+        })
+    }
+
+    checkAllowedToRate(userIdToRate){
+      return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).once('value')
+        .then(snapshot => {
+          return snapshot.val();
+        })
+        .catch(err => {
+          console.log("Error while checking If allowed to rate ", err);
         })
     }
 
