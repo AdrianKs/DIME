@@ -131,6 +131,7 @@ export class AuthData {
       picURL: facebookRes.picture.data.url,
       birthday: 0,
       profileURL: facebookRes.link,
+      range: 5,
       ratingPos: 0,
       ratingNeg: 0,
       facebookId: facebookRes.id,
@@ -149,7 +150,7 @@ export class AuthData {
       updateObject = Object.assign (updateObject, {birthday: facebookRes.birthday});
     }
     if(facebookRes.friends){
-      Object.assign(updateObject, facebookFriends);
+      Object.assign(updateObject, {facebookFriends: facebookFriends});
     }
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() == null){
