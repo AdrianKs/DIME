@@ -28,7 +28,7 @@ export class Utilities {
         public calendar: Calendar,
         public alertCtrl: AlertController) {
         this.getCategories();
-        this.getUserPosition();
+        //this.getUserPosition();
         this.getSpecificUserActivites();
     }
     setUserData(): void {
