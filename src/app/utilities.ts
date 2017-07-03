@@ -125,6 +125,20 @@ export class Utilities {
         return d;
     }
 
+    calculateDistanceBetweenUsersAndActivities(myLat, myLng, actLat, actLng) {
+        let R = 6731; //Radius of the earth in km
+        let dLat = this.degTorad(actLat - myLat);
+        let dLng = this.degTorad(actLng - myLng);
+        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(this.degTorad(this.userPositionLat)) * Math.cos(this.degTorad(myLat)) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        let d = R * c; // Distance in km
+        d = Math.round(d * 100) / 100;
+        return d;
+    }
+
+
     degTorad(deg) {
         return deg * (Math.PI / 180)
     }

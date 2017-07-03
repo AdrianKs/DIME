@@ -30,6 +30,7 @@ export class CreateActivityPage {
   maxPersonen;
   selectedCategory
   newPostKey: any;
+  possibleAttendees: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) {
     this.myDate.setHours(this.myDate.getHours() + 2);
@@ -168,12 +169,44 @@ export class CreateActivityPage {
     } else {
       this.writeGeofenceToDatabase().then(() => {
         console.log("Aktivität eingetragen");
+        this.findAllPossibleAttendees().then(() => {
+          this.utilities.sendPushNotification(this.possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
+        });
         this.navCtrl.setRoot(ViewActivityPage);
         this.navCtrl.popToRoot();
       }).catch((err) => {
         console.log(err);
       });
     }
+  }
+
+  findAllPossibleAttendees() {
+    return firebase.database().ref('categorySubscribers/' + this.selectedCategory).once('value', snapshot => {
+      if (snapshot.val() != null) {
+        for (let i in snapshot.val()) {
+          if (i != this.utilities.user.uid) {
+            firebase.database().ref('user/' + i).once('value', snapshot => {
+              if (snapshot.val() != null) {
+                console.log("passiert hier nochmal was");
+                let tmpUserLat = snapshot.val().myLat;
+                let tmpUserLng = snapshot.val().myLng;
+                let tmpDistance = this.utilities.calculateDistanceBetweenUsersAndActivities(tmpUserLat, tmpUserLng, this.activityPlace.lat, this.activityPlace.lng);   
+                if (tmpDistance <= this.utilities.userData.range) {
+                  for(let y in snapshot.val().pushid){
+                    console.log("Es wird gepusht");
+                    this.possibleAttendees.push(y);
+                  }
+                }
+              }
+            }).catch(err => {
+              console.log(err);
+            });
+          }
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   writeGeofenceToDatabase() {
