@@ -25,6 +25,7 @@ export class ProfilePage {
       this.user = navParams.get('user');
       this.userId = navParams.get('userId');
       console.log("parameter übergeben");
+      console.log(this.user);
     }
   }
 
@@ -40,7 +41,7 @@ export class ProfilePage {
       return "100%";
     }
     else {
-      return this.user.ratingPos/this.user.ratingNeg + "%";
+      return Math.round(100*this.user.ratingPos/(this.user.ratingNeg + this.user.ratingPos) * 2)/2 + "%";
     }
 
   }
@@ -53,11 +54,14 @@ export class ProfilePage {
 
   upvote(){
     console.log(this.user);
-    //this.utilities.increaseIntInDB('user/' + )
+    this.utilities.increaseIntInDB('user/' + this.userId + '/ratingPos');
+    this.user.ratingPos = this.user.ratingPos + 1;
   }
 
   downvote(){
     console.log(this.user);
+    this.utilities.increaseIntInDB('user/' + this.userId + '/ratingNeg');
+    this.user.ratingNeg = this.user.ratingNeg + 1;
   }
 
 }
