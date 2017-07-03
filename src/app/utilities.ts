@@ -131,7 +131,7 @@ export class Utilities {
 
     //Handle start und end time as a number
     createGeofence(activity, cid) {
-        let id = cid; 
+        let id = cid;
         let lat = activity.locationLat;
         let lng = activity.locationLng;
         let place = activity.locationName;
@@ -227,6 +227,7 @@ export class Utilities {
       }
 
     increaseIntInDB(databasePath){
+      console.log("in increaese");
       firebase.database().ref(databasePath).transaction((current_value) => {
         return (current_value || 0) + 1;
       });

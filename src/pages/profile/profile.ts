@@ -20,6 +20,7 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities) {
     if(!navParams.get('user')){
       this.user=this.utilities.userData;
+      this.userId = this.utilities.user.uid;
       console.log("kein parameter übergeben");
     } else {
       this.user = navParams.get('user');
@@ -54,14 +55,26 @@ export class ProfilePage {
 
   upvote(){
     console.log(this.user);
-    this.utilities.increaseIntInDB('user/' + this.userId + '/ratingPos');
-    this.user.ratingPos = this.user.ratingPos + 1;
+    if(this.checkIfAllowedToRate()){
+      this.utilities.increaseIntInDB('user/' + this.userId + '/ratingPos');
+      this.user.ratingPos = this.user.ratingPos + 1;
+    }
   }
 
   downvote(){
     console.log(this.user);
-    this.utilities.increaseIntInDB('user/' + this.userId + '/ratingNeg');
-    this.user.ratingNeg = this.user.ratingNeg + 1;
+    if(this.checkIfAllowedToRate()){
+      this.utilities.increaseIntInDB('user/' + this.userId + '/ratingNeg');
+      this.user.ratingNeg = this.user.ratingNeg + 1;
+    }
+  }
+
+  checkIfAllowedToRate(){
+    if(this.utilities.user.uid == this.userId){
+      alert("Sie dürfen sich nicht selbst bewerten");
+      return false;
+    }
+    return true;
   }
 
 }
