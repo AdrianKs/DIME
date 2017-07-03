@@ -150,7 +150,7 @@ export class AuthData {
       updateObject = Object.assign (updateObject, {birthday: facebookRes.birthday});
     }
     if(facebookRes.friends){
-      Object.assign(updateObject, facebookFriends);
+      Object.assign(updateObject, {facebookFriends: facebookFriends});
     }
     this.userProfile.child(user.uid).once('value', (snapshot) => {
       if(snapshot.val() == null){
