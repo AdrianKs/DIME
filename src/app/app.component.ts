@@ -169,7 +169,6 @@ export class MyApp {
           category: location.notification.data.category
         }
         this.openConfirmMessage(value);
-
       });
     }, (err) => {
       console.log(err);
