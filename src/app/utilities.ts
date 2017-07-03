@@ -297,6 +297,7 @@ export class Utilities {
     }
 
     sendPushNotification(pushIds: Array<any>, content: String) {
+      console.log("Hier kommen die PushIds", pushIds);
         if (!(this.platform === "dom")) {
             let notificationObj = {
                 contents: { en: content },
@@ -304,6 +305,7 @@ export class Utilities {
             };
             window["plugins"].OneSignal.postNotification(notificationObj,
                 function (successResponse) {
+                  console.log("Notification Post Success: ", successResponse);
                 },
                 function (failedResponse) {
                     console.log("Notification Post Failed: ", failedResponse);
