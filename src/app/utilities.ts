@@ -244,6 +244,20 @@ export class Utilities {
         return end;
     }
 
+    storeRating(ratedUserId, rateValue){
+      return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).set(rateValue)
+        .catch(err => {
+          console.log('Error while storing Rating', err);
+        })
+    }
+
+    checkIfRated(ratedUserId){
+      return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).once('value')
+        .catch(err => {
+          console.log("Error while check if already rated", err);
+        })
+    }
+
     sendPushNotification(pushIds: Array<any>, content: String) {
         if (!(this.platform === "dom")) {
             let notificationObj = {

@@ -21,12 +21,9 @@ export class ProfilePage {
     if(!navParams.get('user')){
       this.user=this.utilities.userData;
       this.userId = this.utilities.user.uid;
-      console.log("kein parameter übergeben");
     } else {
       this.user = navParams.get('user');
       this.userId = navParams.get('userId');
-      console.log("parameter übergeben");
-      console.log(this.user);
     }
   }
 
@@ -54,27 +51,42 @@ export class ProfilePage {
   }
 
   upvote(){
-    console.log(this.user);
-    if(this.checkIfAllowedToRate()){
-      this.utilities.increaseIntInDB('user/' + this.userId + '/ratingPos');
-      this.user.ratingPos = this.user.ratingPos + 1;
-    }
+    this.checkIfAllowedToRate()
+      .then(allowed => {
+        if(allowed){
+          this.utilities.increaseIntInDB('user/' + this.userId + '/ratingPos');
+          this.utilities.storeRating(this.userId, 1);
+          this.user.ratingPos = this.user.ratingPos + 1;
+        }
+        console.log("allowed: ", allowed);
+      });
   }
 
   downvote(){
-    console.log(this.user);
-    if(this.checkIfAllowedToRate()){
-      this.utilities.increaseIntInDB('user/' + this.userId + '/ratingNeg');
-      this.user.ratingNeg = this.user.ratingNeg + 1;
-    }
+    this.checkIfAllowedToRate()
+      .then(allowed => {
+        if(allowed){
+          this.utilities.increaseIntInDB('user/' + this.userId + '/ratingNeg');
+          this.utilities.storeRating(this.userId, -1);
+          this.user.ratingNeg = this.user.ratingNeg + 1;
+        } else {
+          alert("Sie dürfen diesen Nutzer nicht bewerten");
+        }
+        console.log("allowed: ", allowed);
+      });
   }
 
   checkIfAllowedToRate(){
     if(this.utilities.user.uid == this.userId){
-      alert("Sie dürfen sich nicht selbst bewerten");
-      return false;
+      return new Promise((resolve, reject) => {
+        resolve(false);
+      });
+    } else {
+      return this.utilities.checkIfRated(this.userId)
+        .then(snapshot => {
+          return !snapshot.val();
+        })
     }
-    return true;
   }
 
 }
