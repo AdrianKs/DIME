@@ -53,7 +53,17 @@ export class Utilities {
         return this.geolocation.getCurrentPosition().then((position) => {
             this.userPositionLat = position.coords.latitude;
             this.userPositionLng = position.coords.longitude;
+            this.storeUserPosition(this.userPositionLat, this.userPositionLng);
         }, (err) => {
+            console.log(err);
+        });
+    }
+
+    storeUserPosition(lat, lng){
+        firebase.database().ref('user/' + this.user.uid).update({
+            myLat: lat,
+            myLng: lng
+        }).catch((err)=>{
             console.log(err);
         });
     }
