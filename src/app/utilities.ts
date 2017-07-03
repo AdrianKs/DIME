@@ -145,7 +145,7 @@ export class Utilities {
 
     //Handle start und end time as a number
     createGeofence(activity, cid) {
-        let id = cid; 
+        let id = cid;
         let lat = activity.locationLat;
         let lng = activity.locationLng;
         let place = activity.locationName;
@@ -258,6 +258,7 @@ export class Utilities {
     }
 
     sendPushNotification(pushIds: Array<any>, content: String) {
+      console.log("Hier kommen die PushIds", pushIds);
         if (!(this.platform === "dom")) {
             let notificationObj = {
                 contents: { en: content },
@@ -265,6 +266,7 @@ export class Utilities {
             };
             window["plugins"].OneSignal.postNotification(notificationObj,
                 function (successResponse) {
+                  console.log("Notification Post Success: ", successResponse);
                 },
                 function (failedResponse) {
                     console.log("Notification Post Failed: ", failedResponse);

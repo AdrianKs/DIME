@@ -30,7 +30,7 @@ export class CreateActivityPage {
   maxPersonen;
   selectedCategory
   newPostKey: any;
-  possibleAttendees: any[] = [];
+  //possibleAttendees: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) {
     this.myDate.setHours(this.myDate.getHours() + 2);
@@ -169,8 +169,8 @@ export class CreateActivityPage {
     } else {
       this.writeGeofenceToDatabase().then(() => {
         console.log("Aktivität eingetragen");
-        this.findAllPossibleAttendees().then(() => {
-          this.utilities.sendPushNotification(this.possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
+        this.pushToAllPossibleAttendees().then(() => {
+          //this.utilities.sendPushNotification(this.possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
         });
         this.navCtrl.setRoot(ViewActivityPage);
         this.navCtrl.popToRoot();
@@ -180,8 +180,31 @@ export class CreateActivityPage {
     }
   }
 
-  findAllPossibleAttendees() {
-    return firebase.database().ref('categorySubscribers/' + this.selectedCategory).once('value', snapshot => {
+  pushToAllPossibleAttendees() {
+    let userRef = firebase.database().ref('user');
+    let possibleAttendees = [];
+    console.log("selected Category", this.selectedCategory);
+    return userRef.orderByChild('categories/' + this.selectedCategory).equalTo(true).once('value', snapshot => {
+      console.log("hier kommen die User: ", snapshot.val());
+      for(let i in snapshot.val()){
+        if (i != this.utilities.user.uid) {
+          let tmpUserLat = snapshot.val()[i].myLat;
+          let tmpUserLng = snapshot.val()[i].myLng;
+          let tmpDistance = this.utilities.calculateDistanceBetweenUsersAndActivities(tmpUserLat, tmpUserLng, this.activityPlace.lat, this.activityPlace.lng);
+          if (tmpDistance <= this.utilities.userData.range) {
+            for(let y in snapshot.val()[i].pushid){
+              console.log("Es wird gepusht");
+              possibleAttendees.push(y);
+            }
+          }
+        }
+      }
+      this.utilities.sendPushNotification(possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
+    })
+      .catch(err => {
+        console.log("firebase error: ", err);
+      });
+    /*return firebase.database().ref('categorySubscribers/' + this.selectedCategory).once('value', snapshot => {
       if (snapshot.val() != null) {
         for (let i in snapshot.val()) {
           if (i != this.utilities.user.uid) {
@@ -190,14 +213,15 @@ export class CreateActivityPage {
                 console.log("passiert hier nochmal was");
                 let tmpUserLat = snapshot.val().myLat;
                 let tmpUserLng = snapshot.val().myLng;
-                let tmpDistance = this.utilities.calculateDistanceBetweenUsersAndActivities(tmpUserLat, tmpUserLng, this.activityPlace.lat, this.activityPlace.lng);   
+                let tmpDistance = this.utilities.calculateDistanceBetweenUsersAndActivities(tmpUserLat, tmpUserLng, this.activityPlace.lat, this.activityPlace.lng);
                 if (tmpDistance <= this.utilities.userData.range) {
                   for(let y in snapshot.val().pushid){
                     console.log("Es wird gepusht");
-                    this.possibleAttendees.push(y);
+                    possibleAttendees.push(y);
                   }
                 }
               }
+              this.utilities.sendPushNotification(possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
             }).catch(err => {
               console.log(err);
             });
@@ -206,7 +230,7 @@ export class CreateActivityPage {
       }
     }).catch((err) => {
       console.log(err);
-    });
+    });*/
   }
 
   writeGeofenceToDatabase() {
