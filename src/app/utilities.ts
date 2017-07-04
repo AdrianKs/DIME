@@ -163,6 +163,7 @@ export class Utilities {
                 title: 'Eine neue Aktivität', //notification title
                 text: place + ' ' + date, //notification body
                 icon: "file://assets/icon/icon.png",
+                smallIcon: "res://icon.png",
                 openAppOnClick: true, //open app when notification is tapped
                 data: activity
             }
