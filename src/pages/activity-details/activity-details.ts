@@ -139,6 +139,7 @@ export class ActivityDetailsPage {
         thatIs.userData = thatIs.dProvider.userData;
         console.log(thatIs.userData[0]);
         let data = {
+          id: id,
           name: thatIs.userData[0].name,
           minAge: thatIs.userData[0].minAge,
           picURL: thatIs.userData[0].picURL
@@ -162,6 +163,9 @@ export class ActivityDetailsPage {
         thatIs.refreshAttendeeArray();
       });
       this.utilities.storeAllowedToRate(this.creatorID);
+      for (let i in this.attendees){
+        this.utilities.storeAllowedToRate(this.attendees[i].id);
+      }
     } else {
       //ALERT AUSGEBEN
     }
@@ -191,10 +195,11 @@ export class ActivityDetailsPage {
           thatIs.userData = thatIs.dProvider.userData;
           console.log(thatIs.userData[0]);
           let data = {
+            id: i,
             name: thatIs.userData[0].name,
             minAge: thatIs.userData[0].minAge,
             picURL: thatIs.userData[0].picURL
-          }
+          };
           thatIs.attendees.push(data);
         })
       }
