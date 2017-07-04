@@ -246,7 +246,6 @@ export class Utilities {
         let end = this.calculateEndTime(startDate, duration);
 
         this.calendar.createEvent(title, eventLocation, "", startDate, end);
-
     }
 
     increaseIntInDB(databasePath) {
