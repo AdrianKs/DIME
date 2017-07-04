@@ -59,8 +59,8 @@ export class ActivityDetailsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities) {
     let thatIs = this;
-    console.log(this.navParams.get('id'));
-    this.getActivityData(this.navParams.get('id')).then(function() {
+    this.activityID = this.navParams.get('id');
+    this.getActivityData(this.activityID).then(function() {
       thatIs.prepareItemData();
     })
 
@@ -85,7 +85,6 @@ export class ActivityDetailsPage {
     this.activityTime = this.activityData.date;
     this.locationName = this.activityData.locationName;
     this.description = this.activityData.description;
-    this.activityID = this.activityData.id;
     let participantsTemp = this.activityData.attendees;
     this.maxAttendees = this.activityData.maxAttendees;
     this.checkParticipateStatus();
