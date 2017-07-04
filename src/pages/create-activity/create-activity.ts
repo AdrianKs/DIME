@@ -22,7 +22,7 @@ export class CreateActivityPage {
     lng: 0
   };
   myDate: Date = new Date();
-  myDateDisplay: String;
+  myDateDisplay: string;
   myTime: string;
   activityPlaceName: String;
   categories: any[];
@@ -170,8 +170,7 @@ export class CreateActivityPage {
       this.writeGeofenceToDatabase().then(() => {
         console.log("Aktivität eingetragen");
         this.pushToAllPossibleAttendees();
-        let tmpDate: Date = this.myDate;
-        tmpDate.setHours(tmpDate.getHours() -2);
+        let tmpDate: Date = new Date(this.myDateDisplay);
         this.utilities.createCalendarEntry(tmpDate, this.myTime, "DIME Event", this.activityPlaceName);
         this.navCtrl.setRoot(ViewActivityPage);
         this.navCtrl.popToRoot();
