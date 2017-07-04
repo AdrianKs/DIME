@@ -168,6 +168,11 @@ export class ActivityDetailsPage {
         thatIs.participating = false;
         thatIs.refreshAttendeeArray();
       });
+    this.utilities.storeAllowedToRate(this.creatorID);
+    for(let i in this.attendees){
+      this.utilities.deleteAllowedToRate(this.attendees[i].id);
+    }
+
   }
 
   deleteEvent(){
