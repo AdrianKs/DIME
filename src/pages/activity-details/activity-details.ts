@@ -58,9 +58,19 @@ export class ActivityDetailsPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities) {
-    this.activityData = this.navParams.get('activityItem');
-    console.log(this.activityData);
-    this.prepareItemData();
+    let thatIs = this;
+    console.log(this.navParams.get('id'));
+    this.getActivityData(this.navParams.get('id')).then(function() {
+      thatIs.prepareItemData();
+    })
+
+    
+  }
+
+  getActivityData(id){
+    return firebase.database().ref('activity/'+id+ '/').once('value', snapshot => {
+      this.activityData = snapshot.val();
+    });
   }
 
   prepareItemData() {

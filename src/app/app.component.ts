@@ -43,7 +43,7 @@ export class MyApp {
     component: ProfilePage
   };
 
-  pages: Array<{ title: string, component: any }>;
+  pages: Array<{ title: string, component: any, icon: string }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public alertCtrl: AlertController, public diagnostic: Diagnostic, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
     this.initializeApp();
@@ -72,9 +72,9 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Aktivitäten', component: ViewActivityPage },
-      { title: 'Meine Aktivitäten', component: ViewMyActivityPage},
-      { title: 'Kategorie', component: SelectCategoryPage }
+      { title: 'Aktivitäten', component: ViewActivityPage, icon: "people"},
+      { title: 'Meine Aktivitäten', component: ViewMyActivityPage, icon: "contact"},
+      { title: 'Kategorie', component: SelectCategoryPage, icon: "archive" }
     ];
 
   }
@@ -168,8 +168,7 @@ export class MyApp {
           attendees: location.notification.data.attendees,
           category: location.notification.data.category
         }
-        this.openConfirmMessage(value);
-
+        this.openConfirmMessage(value.id);
       });
     }, (err) => {
       console.log(err);
@@ -190,7 +189,7 @@ export class MyApp {
         {
           text: "Zur Aktivität",
           handler: () => {
-            this.nav.push(ActivityDetailsPage, { activityItem: value });
+            this.nav.push(ActivityDetailsPage, { id: value });
           }
         }
       ]

@@ -75,6 +75,9 @@ export class ViewActivityPage {
       this.dataActivity = _.sortBy(this.dataActivity, "distance");
       this.dataProvider.setUser().then((data) => {
         this.dataUser = this.dataProvider.dataUser;
+        this.utilities.getUserPosition().then(()=>{
+          console.log("user position ready");
+        });
         for (let i in this.dataUser) {
           if (this.dataUser[i].id == this.utilities.user.uid) {
             this.loggedInUserID = this.dataUser[i].id;
@@ -221,7 +224,7 @@ export class ViewActivityPage {
   }
 
   openDetails(event, value) {
-    this.navCtrl.push(ActivityDetailsPage, { activityItem: value });
+    this.navCtrl.push(ActivityDetailsPage, { id: value.id });
 
   }
 
