@@ -221,7 +221,7 @@ export class ViewActivityPage {
   }
 
   openDetails(event, value) {
-    this.navCtrl.push(ActivityDetailsPage, { activityItem: value });
+    this.navCtrl.push(ActivityDetailsPage, { id: value.id });
 
   }
 

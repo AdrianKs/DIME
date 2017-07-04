@@ -168,7 +168,7 @@ export class MyApp {
           attendees: location.notification.data.attendees,
           category: location.notification.data.category
         }
-        this.openConfirmMessage(value);
+        this.openConfirmMessage(value.id);
 
       });
     }, (err) => {
@@ -190,7 +190,7 @@ export class MyApp {
         {
           text: "Zur Aktivität",
           handler: () => {
-            this.nav.push(ActivityDetailsPage, { activityItem: value });
+            this.nav.push(ActivityDetailsPage, { id: value });
           }
         }
       ]
