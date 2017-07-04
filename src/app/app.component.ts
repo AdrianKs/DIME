@@ -168,16 +168,16 @@ export class MyApp {
           attendees: location.notification.data.attendees,
           category: location.notification.data.category
         }
-        this.openConfirmMessage(value.id);
+        this.openConfirmMessage(value.id, value.description);
       });
     }, (err) => {
       console.log(err);
     });
   }
-  openConfirmMessage(value) {
+  openConfirmMessage(id, description) {
     let alert = this.alertCtrl.create({
       title: "Neues Event",
-      subTitle: "In der Nähe befindet sich ein neues Event: " + value.description + "Details ansehen?",
+      subTitle: "In der Nähe befindet sich ein neues Event: " + description + "Details ansehen?",
       buttons: [
         {
           text: "Abbrechen",
@@ -189,7 +189,7 @@ export class MyApp {
         {
           text: "Zur Aktivität",
           handler: () => {
-            this.nav.push(ActivityDetailsPage, { id: value });
+            this.nav.push(ActivityDetailsPage, { id: id });
           }
         }
       ]
