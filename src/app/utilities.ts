@@ -245,8 +245,9 @@ export class Utilities {
     createCalendarEntry(startDate: Date, duration, title, eventLocation) {
         let start = new Date(startDate);
         start.setSeconds(0);
-        let end = this.calculateEndTime(startDate, duration);
-        this.calendar.createEvent(title, eventLocation, "", startDate, end);
+        let end = this.calculateEndTime(start, duration);
+        console.log("Start: " + start + " End: " + end);
+        this.calendar.createEvent(title, eventLocation, "", start, end);
     }
 
     increaseIntInDB(databasePath) {
