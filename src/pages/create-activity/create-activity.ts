@@ -169,9 +169,10 @@ export class CreateActivityPage {
     } else {
       this.writeGeofenceToDatabase().then(() => {
         console.log("Aktivität eingetragen");
-        this.pushToAllPossibleAttendees().then(() => {
-          //this.utilities.sendPushNotification(this.possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
-        });
+        this.pushToAllPossibleAttendees();
+        let tmpDate: Date = this.myDate;
+        tmpDate.setHours(tmpDate.getHours() -2);
+        this.utilities.createCalendarEntry(tmpDate, this.myTime, "DIME Event", this.activityPlaceName);
         this.navCtrl.setRoot(ViewActivityPage);
         this.navCtrl.popToRoot();
       }).catch((err) => {
@@ -186,13 +187,13 @@ export class CreateActivityPage {
     console.log("selected Category", this.selectedCategory);
     return userRef.orderByChild('categories/' + this.selectedCategory).equalTo(true).once('value', snapshot => {
       console.log("hier kommen die User: ", snapshot.val());
-      for(let i in snapshot.val()){
+      for (let i in snapshot.val()) {
         if (i != this.utilities.user.uid) {
           let tmpUserLat = snapshot.val()[i].myLat;
           let tmpUserLng = snapshot.val()[i].myLng;
           let tmpDistance = this.utilities.calculateDistanceBetweenUsersAndActivities(tmpUserLat, tmpUserLng, this.activityPlace.lat, this.activityPlace.lng);
           if (tmpDistance <= this.utilities.userData.range) {
-            for(let y in snapshot.val()[i].pushid){
+            for (let y in snapshot.val()[i].pushid) {
               console.log("Es wird gepusht");
               possibleAttendees.push(y);
             }
@@ -204,33 +205,6 @@ export class CreateActivityPage {
       .catch(err => {
         console.log("firebase error: ", err);
       });
-    /*return firebase.database().ref('categorySubscribers/' + this.selectedCategory).once('value', snapshot => {
-      if (snapshot.val() != null) {
-        for (let i in snapshot.val()) {
-          if (i != this.utilities.user.uid) {
-            firebase.database().ref('user/' + i).once('value', snapshot => {
-              if (snapshot.val() != null) {
-                console.log("passiert hier nochmal was");
-                let tmpUserLat = snapshot.val().myLat;
-                let tmpUserLng = snapshot.val().myLng;
-                let tmpDistance = this.utilities.calculateDistanceBetweenUsersAndActivities(tmpUserLat, tmpUserLng, this.activityPlace.lat, this.activityPlace.lng);
-                if (tmpDistance <= this.utilities.userData.range) {
-                  for(let y in snapshot.val().pushid){
-                    console.log("Es wird gepusht");
-                    possibleAttendees.push(y);
-                  }
-                }
-              }
-              this.utilities.sendPushNotification(possibleAttendees, "Neue Aktivität: " + this.myDateDisplay + " " + this.activityPlaceName);
-            }).catch(err => {
-              console.log(err);
-            });
-          }
-        }
-      }
-    }).catch((err) => {
-      console.log(err);
-    });*/
   }
 
   writeGeofenceToDatabase() {

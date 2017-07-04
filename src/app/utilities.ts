@@ -59,11 +59,11 @@ export class Utilities {
         });
     }
 
-    storeUserPosition(lat, lng){
+    storeUserPosition(lat, lng) {
         firebase.database().ref('user/' + this.user.uid).update({
             myLat: lat,
             myLng: lng
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
         });
     }
@@ -102,7 +102,7 @@ export class Utilities {
                                 this.removeGeofence(this.userActivitesArray[i].id);
                             } else {
                                 if (this.checkCalendar(this.userActivitesArray[i].date, this.userActivitesArray[i].duration) == true) {
-                                    this.createGeofence(this.userActivitesArray[i],this.userActivitesArray[i].id);
+                                    this.createGeofence(this.userActivitesArray[i], this.userActivitesArray[i].id);
                                 }
                             }
                         }
@@ -226,25 +226,34 @@ export class Utilities {
 
         //Currently only available for android
         this.calendar.listEventsInRange(start, end).then((result: any[]) => {
-          console.log(result);
-          if (result.length > 0) {
-            console.log("Termin im Weg");
-            status = false;
-          } else {
-            console.log("keine Termine")
-            status = true;
-          }
+            console.log(result);
+            if (result.length > 0) {
+                console.log("Termin im Weg");
+                status = false;
+            } else {
+                console.log("keine Termine")
+                status = true;
+            }
         }).catch((err) => {
-          console.log(err);
+            console.log(err);
         });
         return status;
-      }
+    }
 
-    increaseIntInDB(databasePath){
-      console.log("in increaese");
-      firebase.database().ref(databasePath).transaction((current_value) => {
-        return (current_value || 0) + 1;
-      });
+    createCalendarEntry(startDate: Date, duration, title, eventLocation) {
+        let start = new Date(startDate);
+        start.setSeconds(0);
+        let end = this.calculateEndTime(startDate, duration);
+
+        this.calendar.createEvent(title, eventLocation, "", startDate, end);
+
+    }
+
+    increaseIntInDB(databasePath) {
+        console.log("in increaese");
+        firebase.database().ref(databasePath).transaction((current_value) => {
+            return (current_value || 0) + 1;
+        });
     }
 
     calculateEndTime(startDate: Date, duration: string) {
@@ -258,61 +267,61 @@ export class Utilities {
         return end;
     }
 
-    storeRating(ratedUserId, rateValue){
-      return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).set(rateValue)
-        .catch(err => {
-          console.log('Error while storing Rating ', err);
-        })
+    storeRating(ratedUserId, rateValue) {
+        return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).set(rateValue)
+            .catch(err => {
+                console.log('Error while storing Rating ', err);
+            })
     }
 
-    checkIfNotYetRated(ratedUserId){
-      return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).once('value')
-        .then(snapshot => {
-          if(snapshot.val()){
-            return false;
-          } else {
-            return true;
-          }
-        })
-        .catch(err => {
-          console.log("Error while check if already rated ", err);
-        })
+    checkIfNotYetRated(ratedUserId) {
+        return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).once('value')
+            .then(snapshot => {
+                if (snapshot.val()) {
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+            .catch(err => {
+                console.log("Error while check if already rated ", err);
+            })
     }
 
-    storeAllowedToRate(userIdToRate){
-      firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).set(true)
-        .catch(err => {
-          console.log("Error while storing allowed to rate ", err);
-        });
-      return firebase.database().ref('allowedToRate/' + userIdToRate + '/' + this.user.uid).set(true)
-        .catch(err => {
-          console.log("Error while storing allowed to rate ", err);
-        });
+    storeAllowedToRate(userIdToRate) {
+        firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).set(true)
+            .catch(err => {
+                console.log("Error while storing allowed to rate ", err);
+            });
+        return firebase.database().ref('allowedToRate/' + userIdToRate + '/' + this.user.uid).set(true)
+            .catch(err => {
+                console.log("Error while storing allowed to rate ", err);
+            });
     }
 
-    deleteAllowedToRate(userIdToDelete){
-      firebase.database().ref('allowedToRate' + this.user.uid + '/' + userIdToDelete).remove()
-        .catch(err => {
-          console.log("Error while deleting allowed to rate", err);
-        });
-      return firebase.database().ref('allowedToRate' + userIdToDelete + '/' + this.user.uid).remove()
-        .catch(err => {
-          console.log("Error while deleting allowed to rate", err);
-        });
+    deleteAllowedToRate(userIdToDelete) {
+        firebase.database().ref('allowedToRate' + this.user.uid + '/' + userIdToDelete).remove()
+            .catch(err => {
+                console.log("Error while deleting allowed to rate", err);
+            });
+        return firebase.database().ref('allowedToRate' + userIdToDelete + '/' + this.user.uid).remove()
+            .catch(err => {
+                console.log("Error while deleting allowed to rate", err);
+            });
     }
 
-    checkAllowedToRate(userIdToRate){
-      return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).once('value')
-        .then(snapshot => {
-          return snapshot.val();
-        })
-        .catch(err => {
-          console.log("Error while checking If allowed to rate ", err);
-        })
+    checkAllowedToRate(userIdToRate) {
+        return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).once('value')
+            .then(snapshot => {
+                return snapshot.val();
+            })
+            .catch(err => {
+                console.log("Error while checking If allowed to rate ", err);
+            })
     }
 
     sendPushNotification(pushIds: Array<any>, content: String) {
-      console.log("Hier kommen die PushIds", pushIds);
+        console.log("Hier kommen die PushIds", pushIds);
         if (!(this.platform === "dom")) {
             let notificationObj = {
                 contents: { en: content },
@@ -320,7 +329,7 @@ export class Utilities {
             };
             window["plugins"].OneSignal.postNotification(notificationObj,
                 function (successResponse) {
-                  console.log("Notification Post Success: ", successResponse);
+                    console.log("Notification Post Success: ", successResponse);
                 },
                 function (failedResponse) {
                     console.log("Notification Post Failed: ", failedResponse);
