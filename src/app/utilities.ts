@@ -244,7 +244,6 @@ export class Utilities {
         let start = new Date(startDate);
         start.setSeconds(0);
         let end = this.calculateEndTime(startDate, duration);
-
         this.calendar.createEvent(title, eventLocation, "", startDate, end);
     }
 
@@ -270,7 +269,7 @@ export class Utilities {
         return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).set(rateValue)
             .catch(err => {
                 console.log('Error while storing Rating ', err);
-            })
+            });
     }
 
     checkIfNotYetRated(ratedUserId) {
@@ -306,8 +305,7 @@ export class Utilities {
         return firebase.database().ref('allowedToRate' + userIdToDelete + '/' + this.user.uid).remove()
             .catch(err => {
                 console.log("Error while deleting allowed to rate", err);
-            });
-    }
+    });
 
     checkAllowedToRate(userIdToRate) {
         return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).once('value')
