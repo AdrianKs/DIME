@@ -131,7 +131,7 @@ export class Utilities {
 
     //Handle start und end time as a number
     createGeofence(activity, cid) {
-        let id = cid; 
+        let id = cid;
         let lat = activity.locationLat;
         let lng = activity.locationLng;
         let place = activity.locationName;
@@ -227,6 +227,7 @@ export class Utilities {
       }
 
     increaseIntInDB(databasePath){
+      console.log("in increaese");
       firebase.database().ref(databasePath).transaction((current_value) => {
         return (current_value || 0) + 1;
       });
@@ -241,6 +242,44 @@ export class Utilities {
         end.setSeconds(0);
 
         return end;
+    }
+
+    storeRating(ratedUserId, rateValue){
+      return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).set(rateValue)
+        .catch(err => {
+          console.log('Error while storing Rating ', err);
+        })
+    }
+
+    checkIfNotYetRated(ratedUserId){
+      return firebase.database().ref('ratings/' + this.user.uid + '/' + ratedUserId).once('value')
+        .then(snapshot => {
+          if(snapshot.val()){
+            return false;
+          } else {
+            return true;
+          }
+        })
+        .catch(err => {
+          console.log("Error while check if already rated ", err);
+        })
+    }
+
+    storeAllowedToRate(userIdToRate){
+      return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).set(true)
+        .catch(err => {
+          console.log("Error while storing allowed to rate ", err);
+        })
+    }
+
+    checkAllowedToRate(userIdToRate){
+      return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).once('value')
+        .then(snapshot => {
+          return snapshot.val();
+        })
+        .catch(err => {
+          console.log("Error while checking If allowed to rate ", err);
+        })
     }
 
     sendPushNotification(pushIds: Array<any>, content: String) {
