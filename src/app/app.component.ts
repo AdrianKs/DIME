@@ -18,7 +18,8 @@ import { CreateActivityPage } from "../pages/create-activity/create-activity";
 import { ActivityDetailsPage } from '../pages/activity-details/activity-details';
 
 import { Utilities } from './utilities';
-import { ProfilePage } from "../pages/profile/profile";
+import { ProfilePage } from "../pages/profile/profile"
+import { Deeplinks } from '@ionic-native/deeplinks';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -45,7 +46,15 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any, icon: string }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public alertCtrl: AlertController, public diagnostic: Diagnostic, public splashScreen: SplashScreen, public geofence: Geofence, public authData: AuthData, public utilities: Utilities) {
+  constructor(public platform: Platform,
+              public statusBar: StatusBar,
+              public alertCtrl: AlertController,
+              public diagnostic: Diagnostic,
+              public splashScreen: SplashScreen,
+              public geofence: Geofence,
+              public deeplinks: Deeplinks,
+              public authData: AuthData,
+              public utilities: Utilities) {
     this.initializeApp();
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -62,9 +71,6 @@ export class MyApp {
         });
       }
       if (!user) {
-        //Setze loggedin auf false und lösche den eingeloggten Spieler in utilities
-        //utilities.loggedIn = false;
-        //utilities.user = {};
         this.rootPage = LoginPage;
         this.utilities.user = {};
       }
@@ -89,6 +95,15 @@ export class MyApp {
       this.checkLocation();
 
       this.utilities.platform = source;
+      this.deeplinks.routeWithNavController(this.nav, {
+        '/about-us': AboutPage,
+        '/activity/:id': ActivityDetailsPage
+      }).subscribe((match) => {
+        console.log('Successfully routed', match);
+      }, (nomatch) => {
+        console.warn('Unmatched Route', nomatch);
+      });
+
 
       if (!(source === "dom")) {
         window["plugins"].OneSignal

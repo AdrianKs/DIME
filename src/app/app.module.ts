@@ -22,6 +22,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
 
 import { Time } from './pipes/time';
+import {Deeplinks} from "@ionic-native/deeplinks";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { Time } from './pipes/time';
     Geofence,
     Diagnostic,
     Calendar,
+    Deeplinks,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
