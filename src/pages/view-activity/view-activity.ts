@@ -30,6 +30,7 @@ export class ViewActivityPage {
   }
 
   activityOwner: String = "other";
+  today: String = new Date().toISOString();
   counterOther: any;
   loggedInUserID: any;
   userCategories: any;
@@ -170,8 +171,6 @@ export class ViewActivityPage {
       if (this.dataActivity[i].categorySelected && this.dataActivity[i].inRange &&
           this.dataActivity[i].byFriend == false && this.dataActivity[i].creator != this.loggedInUserID){
         this.counterOther++;
-        console.log(this.counterOther);
-        console.log(this.dataActivity[i]);
       }
     }
 
@@ -215,7 +214,6 @@ export class ViewActivityPage {
       }
       
     }
-    console.log(this.counterOther);
   }
 
   createActivity(event) {

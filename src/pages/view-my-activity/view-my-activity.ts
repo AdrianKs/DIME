@@ -77,7 +77,6 @@ export class ViewMyActivityPage {
             this.loggedInUserID = this.dataUser[i].id;
             this.userCategories = this.dataUser[i].categories;
             this.userRange = this.dataUser[i].range;
-            console.log("userID: " + this.loggedInUserID);
           }
         }
         this.checkAttendance();
@@ -106,7 +105,6 @@ export class ViewMyActivityPage {
     });
     this.dataProvider.setCategorySubs().then((data) => {
       this.dataCategorySubs = this.dataProvider.dataCategorySubs;
-      console.log(this.dataProvider.dataCategorySubs);
       if (showLoading) {
         this.loading.dismiss().catch((error) => console.log(error));
       }

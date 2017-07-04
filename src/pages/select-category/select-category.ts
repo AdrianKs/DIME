@@ -19,15 +19,6 @@ import firebase from 'firebase';
 export class SelectCategoryPage {
 
   ionViewWillEnter() {
-    /*this.userData = this.utilities.userData;
-    if (this.userData.categories!=null){
-        for (let i in this.userData.categories){
-          if (this.userData.categories[i]==true){
-            this.categoryBoolean[i] = true;
-          }
-        }
-    }
-    console.log(this.categoryBoolean);*/
     this.loadData(true, null);
   }
 
@@ -65,10 +56,8 @@ export class SelectCategoryPage {
     });
     this.dataProvider.setUser().then((data) => {
         this.dataUser = this.dataProvider.dataUser;
-        console.log(this.dataProvider.dataUser);
         for (let i in this.dataUser){
           if (this.dataUser[i].id == this.utilities.user.uid){
-            console.log(this.dataUser[i].id);
             this.userCategories = this.dataUser[i].categories;
           }
         }
