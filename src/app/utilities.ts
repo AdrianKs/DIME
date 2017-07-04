@@ -266,10 +266,14 @@ export class Utilities {
     }
 
     storeAllowedToRate(userIdToRate){
-      return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).set(true)
+      firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).set(true)
         .catch(err => {
           console.log("Error while storing allowed to rate ", err);
-        })
+        });
+      return firebase.database().ref('allowedToRate/' + userIdToRate + '/' + this.user.uid).set(true)
+        .catch(err => {
+          console.log("Error while storing allowed to rate ", err);
+        });
     }
 
     checkAllowedToRate(userIdToRate){
