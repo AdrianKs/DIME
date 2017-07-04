@@ -305,7 +305,8 @@ export class Utilities {
         return firebase.database().ref('allowedToRate' + userIdToDelete + '/' + this.user.uid).remove()
             .catch(err => {
                 console.log("Error while deleting allowed to rate", err);
-    });
+            });
+    }
 
     checkAllowedToRate(userIdToRate) {
         return firebase.database().ref('allowedToRate/' + this.user.uid + '/' + userIdToRate).once('value')
