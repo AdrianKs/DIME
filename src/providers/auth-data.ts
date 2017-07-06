@@ -33,7 +33,6 @@ export class AuthData {
         // This gives you a Google Access Token.
         // You can use it to access the Google API.
         var token = result.credential.accessToken;
-        console.log("firebase result", result);
         this.userProfile.push(result);
         this.firebaseCallback = result;
         alert(JSON.stringify(result));
@@ -49,7 +48,6 @@ export class AuthData {
   browserFacebookLogin() {
     let provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then((result) => {
-      console.log("firebase result", result);
       //this.writeBrowserLoginDataToDB(result);
       this.writeInDBWithPlatformCheck(result.user, result.additionalUserInfo.profile);
       this.menuCtrl.enable(true, 'mainMenu');
@@ -63,7 +61,6 @@ export class AuthData {
       .then((res: FacebookLoginResponse) => {
         let credential;
         let user;
-        console.log('Logged into Facebook!', res);
         this.fbAccessToken = res.authResponse.accessToken;
         credential = firebase.auth.FacebookAuthProvider.credential(
           res.authResponse.accessToken
