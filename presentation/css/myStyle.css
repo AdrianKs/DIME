@@ -1,0 +1,38 @@
+.my-header{
+    text-align: center;
+    font-size: 22px;
+    color: white;
+}
+
+.my-footer {
+    text-align: center;
+    font-size: 18px !important;
+    color: white;
+}
+
+.my-headline {
+    
+}
+
+.my-list-header{
+    font-size: 28px !important;
+}
+
+.my-points {
+     font-size: 24px !important;
+     color: #cccccc;
+     margin-bottom: 20px !important;
+}
+
+.my-table{
+    width: 100%;
+}
+
+.my-table tbody tr th {
+    font-size: 22px !important;
+}
+
+.my-table tbody tr td {
+    font-size: 18px !important;
+    color: #cccccc;
+}
