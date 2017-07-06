@@ -57,7 +57,6 @@ export class DataProvider {
                 userArray[counter].id = i;
                 counter++;
             }
-            console.log(userArray);
             this.dataUser = userArray;
         });
     }
@@ -81,7 +80,6 @@ export class DataProvider {
             for (let i in snapshot.val()) {
                 facebookIdArray[i] = snapshot.val()[i];
             }
-            console.log(facebookIdArray);
             this.dataFacebookIds = facebookIdArray;
         });
     }

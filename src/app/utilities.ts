@@ -54,6 +54,8 @@ export class Utilities {
             this.userPositionLat = position.coords.latitude;
             this.userPositionLng = position.coords.longitude;
             this.storeUserPosition(this.userPositionLat, this.userPositionLng);
+            console.log(this.userPositionLat);
+            console.log(this.userPositionLng);
         }, (err) => {
             console.log(err);
         });
