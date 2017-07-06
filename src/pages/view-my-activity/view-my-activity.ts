@@ -6,6 +6,7 @@ import { Utilities} from '../../app/utilities';
 import { ActivityDetailsPage } from '../activity-details/activity-details';
 import * as _ from 'lodash';
 import firebase from 'firebase';
+import {LoginPage} from "../login/login";
 /**
  * Generated class for the ViewActivityPage page.
  *
@@ -45,9 +46,12 @@ export class ViewMyActivityPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private dataProvider: DataProvider,
-              private utilities: Utilities, 
-              private alertCtrl: AlertController, 
+              private utilities: Utilities,
+              private alertCtrl: AlertController,
               private loadingCtrl: LoadingController){
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
+    }
   }
 
   loadData(showLoading: boolean, event): void {
@@ -174,7 +178,7 @@ export class ViewMyActivityPage {
 
   openDetails(event, value){
     this.navCtrl.push(ActivityDetailsPage, { id: value.id});
- 
+
   }
 
   doRefresh(refresher) {

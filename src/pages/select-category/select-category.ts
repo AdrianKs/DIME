@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { DataProvider } from '../../providers/data-provider';
 import { Utilities } from '../../app/utilities';
 import firebase from 'firebase';
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the SelectCategoryPage page.
@@ -32,9 +33,12 @@ export class SelectCategoryPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private dataProvider: DataProvider,
-              private utilities: Utilities, 
-              private alertCtrl: AlertController, 
+              private utilities: Utilities,
+              private alertCtrl: AlertController,
               private loadingCtrl: LoadingController){
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
+    }
   }
 
   loadData(showLoading: boolean, event): void {

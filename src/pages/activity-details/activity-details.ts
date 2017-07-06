@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { DetailsProvider } from '../../providers/details-provider';
 import { ProfilePage } from '../profile/profile';
 import { Utilities } from "../../app/utilities";
 import firebase from 'firebase';
+import {LoginPage} from "../login/login";
 /**
  * Generated class for the LoginPage page.
  *
@@ -56,15 +57,18 @@ export class ActivityDetailsPage {
 
   private maxAttendees: any = 0;
 
+  private actionSheet: any = null;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities) {
-    let thatIs = this;
-    this.activityID = this.navParams.get('id');
-    this.getActivityData(this.activityID).then(function() {
-      thatIs.prepareItemData();
-    })
-
-    
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities, public actionController: ActionSheetController) {
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
+    } else {
+      let thatIs = this;
+      this.activityID = this.navParams.get('id');
+      this.getActivityData(this.activityID).then(function() {
+        thatIs.prepareItemData();
+      })
+    }
   }
 
   getActivityData(id){
@@ -74,6 +78,7 @@ export class ActivityDetailsPage {
   }
 
   prepareItemData() {
+    this.createActionSheet();
     this.userID = this.utilities.user.uid;
     console.log("my userID: " + this.userID);
     this.creatorID = this.activityData.creator;
@@ -185,7 +190,10 @@ export class ActivityDetailsPage {
   }
 
   deleteEvent(){
-    console.log("tbd");
+    let thatIs = this;
+    firebase.database().ref('activity/' + this.activityID).remove().then(function () {
+      thatIs.navCtrl.popToRoot();
+    })
   }
 
 
@@ -229,6 +237,61 @@ export class ActivityDetailsPage {
     if (this.creatorID == this.userID) {
       this.eventByUser = true;
     }
+  }
+
+  createActionSheet(){
+    this.actionSheet = this.actionController.create({
+      title: 'Teilen über...',
+      buttons: [
+        {
+          text: 'WhatsApp',
+          handler: () => {
+            this.shareViaWhatsApp();
+          }
+        },
+        {
+          text: 'Facebook',
+          handler: () => {
+            this.shareViaFacebook();
+          }
+        },
+        {
+          text: 'Twitter',
+          handler: () => {
+            this.shareViaTwitter();
+          }
+        }
+      ]
+    })
+  }
+
+  showActionSheet(){
+    if(this.actionSheet!=null){
+      try{
+      this.actionSheet.present();
+      }catch(error){
+        console.log("View Error caught");
+      }
+    }else{
+      this.createActionSheet();
+      try{
+      this.actionSheet.present();
+      }catch(error){
+        console.log("View Error caught");
+      }
+    }
+  }
+
+  shareViaWhatsApp(){
+    console.log("Share via WhatsApp");
+  }
+
+  shareViaFacebook(){
+    console.log("Share via Facebook");
+  }
+
+  shareViaTwitter(){
+    console.log("Share via Twitter");
   }
 
   ionViewDidLoad() {

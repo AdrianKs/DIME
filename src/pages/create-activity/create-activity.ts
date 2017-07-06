@@ -5,6 +5,7 @@ import { Geofence } from '@ionic-native/geofence';
 import { Utilities } from '../../app/utilities';
 import { ViewActivityPage } from '../../pages/view-activity/view-activity';
 import firebase from 'firebase';
+import {LoginPage} from "../login/login";
 
 declare var google;
 
@@ -33,8 +34,12 @@ export class CreateActivityPage {
   //possibleAttendees: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) {
-    this.myDate.setHours(this.myDate.getHours() + 2);
-    this.myDateDisplay = this.myDate.toISOString();
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
+    } else {
+      this.myDate.setHours(this.myDate.getHours() + 2);
+      this.myDateDisplay = this.myDate.toISOString();
+    }
   }
 
   ionViewDidLoad() {
