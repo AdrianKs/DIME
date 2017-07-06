@@ -24,20 +24,16 @@ export class AuthData {
   }
 
   firebaseLogin() {
-    console.log("in firebase login");
     let provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithRedirect(provider)
       .then(() => {
-      console.log("in sign in");
       return firebase.auth().getRedirectResult()
     })
       .then((result) => {
-        console.log("in get result");
         // This gives you a Google Access Token.
         // You can use it to access the Google API.
         var token = result.credential.accessToken;
-        console.log("hier sollte das result kommen");
-        console.log(result);
+        console.log("firebase result", result);
         this.userProfile.push(result);
         this.firebaseCallback = result;
         alert(JSON.stringify(result));
@@ -53,12 +49,12 @@ export class AuthData {
   browserFacebookLogin() {
     let provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then((result) => {
-      console.log(result);
+      console.log("firebase result", result);
       //this.writeBrowserLoginDataToDB(result);
       this.writeInDBWithPlatformCheck(result.user, result.additionalUserInfo.profile);
       this.menuCtrl.enable(true, 'mainMenu');
     }).catch(function(error) {
-      console.log(error);
+      console.log("Login Error", error);
     });
   }
 
@@ -69,20 +65,17 @@ export class AuthData {
         let user;
         console.log('Logged into Facebook!', res);
         this.fbAccessToken = res.authResponse.accessToken;
-        console.log(this.fbAccessToken);
         credential = firebase.auth.FacebookAuthProvider.credential(
           res.authResponse.accessToken
         );
         firebase.auth().signInWithCredential(credential)
           .then((returnMessage) => {
             user = firebase.auth().currentUser;
-            //console.log(returnMessage);
             this.getdetails(user);
             this.menuCtrl.enable(true, 'mainMenu');
           })
           .catch((error) => {
-            console.log("hier kommt der firebase error");
-            console.log(error);
+            console.log("firebase error: ", error);
           })
       })
       .catch(e => console.log('Error logging into Facebook', e))
@@ -91,18 +84,14 @@ export class AuthData {
   }
 
   getdetails(user:any) {
-    console.log("in get details");
     this.fb.getLoginStatus().then((response) => {
       if(response.status == 'connected'){
         this.fb.api('/' + response.authResponse.userID + '?fields=id,name,gender,age_range,birthday,link,picture.height(320),friends', [])
           .then((res) => {
-            console.log(res);
-            console.log("solltejetzt in DB schreiben");
             this.writeInDBWithPlatformCheck(user, res)
           })
           .catch((error) => {
-            console.log("facebook api error");
-            console.log(error);
+            console.log("facebook api error", error);
           });
       }
     });
@@ -144,10 +133,7 @@ export class AuthData {
       picURL: dataObject.picURL,
       profileURL: dataObject.profileURL,
     };
-    //Object.assign(updateObject, facebookFriends);
-    //Object.assign(dataObject, facebookFriends);
     if(facebookRes.birthday){
-      console.log("es gibt birthday");
       dataObject.birthday = facebookRes.birthday;
       updateObject = Object.assign (updateObject, {birthday: facebookRes.birthday});
     }
@@ -197,7 +183,6 @@ export class AuthData {
         if(response.status == 'connected'){
           this.fb.logout()
             .then(response => {
-              console.log(JSON.stringify(response));
               return this.fireAuth.signOut();
             })
         }

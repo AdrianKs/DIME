@@ -24,17 +24,12 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public platform: Platform, public fb: Facebook, public authData: AuthData) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
 
   login() {
     if(this.platform.is('android') || this.platform.is('ios')){
-      console.log("ios or android device");
       this.authData.nativeFacebookLogin();
     }
     else {
-      console.log("random device");
       this.authData.browserFacebookLogin()
     }
   }
