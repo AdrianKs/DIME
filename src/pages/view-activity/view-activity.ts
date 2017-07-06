@@ -81,38 +81,40 @@ export class ViewActivityPage {
         this.dataUser = this.dataProvider.dataUser;
         this.utilities.getUserPosition().then(()=>{
           console.log("user position ready");
-        });
-        for (let i in this.dataUser) {
-          if (this.dataUser[i].id == this.utilities.user.uid) {
-            this.loggedInUserID = this.dataUser[i].id;
-            this.userCategories = this.dataUser[i].categories;
-            this.userRange = this.dataUser[i].range;
-            this.facebookFriends = this.dataUser[i].facebookFriends;
+          for (let i in this.dataUser) {
+            if (this.dataUser[i].id == this.utilities.user.uid) {
+              this.loggedInUserID = this.dataUser[i].id;
+              this.userCategories = this.dataUser[i].categories;
+              this.userRange = this.dataUser[i].range;
+              this.facebookFriends = this.dataUser[i].facebookFriends;
+            }
           }
-        }
-        this.counterOther = 0;
-        this.checkCategory();
-        this.checkRange();
-        this.dataProvider.setFacebookId().then((data) => {
-          this.dataFacebookId = this.dataProvider.dataFacebookIds;
-          this.checkFriend();
+          this.counterOther = 0;
+          this.checkCategory();
+          this.checkRange();
+          this.dataProvider.setFacebookId().then((data) => {
+            this.dataFacebookId = this.dataProvider.dataFacebookIds;
+            this.checkFriend();
+            console.log("counter:" + this.counterOther);
+            if (showLoading) {
+              this.loading.dismiss().catch((error) => console.log(error));
+            }
+            if (event != null) {
+              event.complete();
+            }
+          }).catch((error) =>{
+            if (showLoading) {
+              this.createAndShowErrorAlert(error);
+            }
+          });
           if (showLoading) {
             this.loading.dismiss().catch((error) => console.log(error));
           }
           if (event != null) {
             event.complete();
           }
-        }).catch((error) =>{
-          if (showLoading) {
-            this.createAndShowErrorAlert(error);
-          }
         });
-        if (showLoading) {
-          this.loading.dismiss().catch((error) => console.log(error));
-        }
-        if (event != null) {
-          event.complete();
-        }
+        
       }).catch((error) => {
         if (showLoading) {
           this.createAndShowErrorAlert(error);
@@ -180,7 +182,7 @@ export class ViewActivityPage {
         this.counterOther++;
       }
     }
-
+    console.log(this.counterOther);
   }
 
   checkCategory() {
@@ -193,6 +195,8 @@ export class ViewActivityPage {
 
   checkRange() {
     for (let i in this.dataActivity) {
+      this.dataActivity[i].distance = this.utilities.calculateDistanceToActivities(this.dataActivity[i].locationLat, this.dataActivity[i].locationLng);
+      console.log(this.dataActivity[i].distance)
       if (this.dataActivity[i].distance <= this.userRange) {
         this.dataActivity[i].inRange = true;
       } else {

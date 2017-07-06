@@ -20,7 +20,7 @@ import { ProfilePage } from "../pages/profile/profile";
 import { AboutPage } from "../pages/about/about";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Time } from './pipes/time';
 import {Deeplinks} from "@ionic-native/deeplinks";
 
@@ -62,6 +62,7 @@ import {Deeplinks} from "@ionic-native/deeplinks";
     Diagnostic,
     Calendar,
     Deeplinks,
+    SocialSharing,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
