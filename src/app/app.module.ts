@@ -20,7 +20,7 @@ import { ProfilePage } from "../pages/profile/profile";
 import { AboutPage } from "../pages/about/about";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Time } from './pipes/time';
 
 @NgModule({
@@ -60,6 +60,7 @@ import { Time } from './pipes/time';
     Geofence,
     Diagnostic,
     Calendar,
+    SocialSharing,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

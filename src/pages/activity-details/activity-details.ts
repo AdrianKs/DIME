@@ -5,6 +5,7 @@ import { ProfilePage } from '../profile/profile';
 import { Utilities } from "../../app/utilities";
 import firebase from 'firebase';
 import {LoginPage} from "../login/login";
+import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Generated class for the LoginPage page.
  *
@@ -59,7 +60,7 @@ export class ActivityDetailsPage {
 
   private actionSheet: any = null;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities, public actionController: ActionSheetController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities, public actionController: ActionSheetController, public socialSharer: SocialSharing) {
     if (!this.utilities.user || this.utilities.user == {}) {
       this.navCtrl.setRoot(LoginPage);
     } else {
@@ -283,15 +284,27 @@ export class ActivityDetailsPage {
   }
 
   shareViaWhatsApp(){
-    console.log("Share via WhatsApp");
+    this.socialSharer.canShareVia('WhatsApp').then(()=>{
+      this.socialSharer.shareViaWhatsApp('Hi! Ich möchte eine Aktivität mit dir teilen:', '', 'dime://app/activity/'+this.activityID);
+    }).catch((error)=>{
+      console.log("not possible, error: " + error);
+    })
   }
 
   shareViaFacebook(){
-    console.log("Share via Facebook");
+    this.socialSharer.canShareVia('WhatsApp').then(()=>{
+      this.socialSharer.shareViaFacebook('Hi! Ich möchte eine Aktivität mit euch teilen:', '', 'dime://app/activity/'+this.activityID);
+    }).catch((error)=>{
+      console.log("not possible, error: " + error);
+    })
   }
 
   shareViaTwitter(){
-    console.log("Share via Twitter");
+    this.socialSharer.canShareVia('WhatsApp').then(()=>{
+      this.socialSharer.shareViaTwitter('Hi! Ich möchte eine Aktivität mit euch teilen:', '', 'dime://app/activity/'+this.activityID);
+    }).catch((error)=>{
+      console.log("not possible, error: " + error);
+    })
   }
 
   ionViewDidLoad() {
