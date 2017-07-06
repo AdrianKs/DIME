@@ -4,6 +4,7 @@ import { DetailsProvider } from '../../providers/details-provider';
 import { ProfilePage } from '../profile/profile';
 import { Utilities } from "../../app/utilities";
 import firebase from 'firebase';
+import {LoginPage} from "../login/login";
 /**
  * Generated class for the LoginPage page.
  *
@@ -58,13 +59,15 @@ export class ActivityDetailsPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities) {
-    let thatIs = this;
-    this.activityID = this.navParams.get('id');
-    this.getActivityData(this.activityID).then(function() {
-      thatIs.prepareItemData();
-    })
-
-    
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
+    } else {
+      let thatIs = this;
+      this.activityID = this.navParams.get('id');
+      this.getActivityData(this.activityID).then(function() {
+        thatIs.prepareItemData();
+      })
+    }
   }
 
   getActivityData(id){

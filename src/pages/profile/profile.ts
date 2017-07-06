@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Utilities} from "../../app/utilities";
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the ProfilePage page.
@@ -18,13 +19,18 @@ export class ProfilePage {
   private userId: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities) {
-    if(!navParams.get('user')){
-      this.user=this.utilities.userData;
-      this.userId = this.utilities.user.uid;
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
     } else {
-      this.user = navParams.get('user');
-      this.userId = navParams.get('userId');
+      if(!navParams.get('user')){
+        this.user=this.utilities.userData;
+        this.userId = this.utilities.user.uid;
+      } else {
+        this.user = navParams.get('user');
+        this.userId = navParams.get('userId');
+      }
     }
+
   }
 
 
