@@ -56,6 +56,7 @@ export class AuthData {
       console.log(result);
       //this.writeBrowserLoginDataToDB(result);
       this.writeInDBWithPlatformCheck(result.user, result.additionalUserInfo.profile);
+      this.menuCtrl.enable(true, 'mainMenu');
     }).catch(function(error) {
       console.log(error);
     });
@@ -77,6 +78,7 @@ export class AuthData {
             user = firebase.auth().currentUser;
             //console.log(returnMessage);
             this.getdetails(user);
+            this.menuCtrl.enable(true, 'mainMenu');
           })
           .catch((error) => {
             console.log("hier kommt der firebase error");
@@ -196,8 +198,6 @@ export class AuthData {
           this.fb.logout()
             .then(response => {
               console.log(JSON.stringify(response));
-              this.menuCtrl.close('mainMenu');
-              console.log("nach menu close");
               return this.fireAuth.signOut();
             })
         }
@@ -205,6 +205,10 @@ export class AuthData {
     } else {
       this.fireAuth.signOut();
     }
+    this.menuCtrl.close('mainMenu');
+    this.menuCtrl.enable(false, 'mainMenu');
+    this.utilities.userData = {};
+    this.utilities.user = {};
   }
 
   deleteUser(password: string): any{

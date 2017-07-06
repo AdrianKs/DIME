@@ -1,5 +1,5 @@
 import { Component, ViewChild, } from '@angular/core';
-import { Nav, Platform, AlertController } from 'ionic-angular';
+import {Nav, Platform, AlertController, MenuController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geofence } from '@ionic-native/geofence';
@@ -53,6 +53,7 @@ export class MyApp {
               public splashScreen: SplashScreen,
               public geofence: Geofence,
               public deeplinks: Deeplinks,
+              public menuCtrl: MenuController,
               public authData: AuthData,
               public utilities: Utilities) {
     this.initializeApp();
@@ -72,7 +73,10 @@ export class MyApp {
       }
       if (!user) {
         this.rootPage = LoginPage;
+        this.menuCtrl.enable(false, 'mainMenu');
         this.utilities.user = {};
+      } else {
+        this.menuCtrl.enable(true, 'mainMenu');
       }
     });
 

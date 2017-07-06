@@ -60,7 +60,7 @@ export class ActivityDetailsPage {
   private actionSheet: any = null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dProvider: DetailsProvider, public utilities: Utilities, public actionController: ActionSheetController) {
-    if (!this.utilities.user || this.utilities.user == {}) {
+    if (!this.utilities.user.uid || this.utilities.user == {}) {
       this.navCtrl.setRoot(LoginPage);
     } else {
       let thatIs = this;

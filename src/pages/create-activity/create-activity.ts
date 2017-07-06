@@ -34,7 +34,7 @@ export class CreateActivityPage {
   //possibleAttendees: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public geolocation: Geolocation, public geofence: Geofence, public utilities: Utilities) {
-    if (!this.utilities.user || this.utilities.user == {}) {
+    if (!this.utilities.user.uid || this.utilities.user == {}) {
       this.navCtrl.setRoot(LoginPage);
     } else {
       this.myDate.setHours(this.myDate.getHours() + 2);

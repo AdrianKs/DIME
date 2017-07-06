@@ -36,7 +36,7 @@ export class SelectCategoryPage {
               private utilities: Utilities,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController){
-    if (!this.utilities.user || this.utilities.user == {}) {
+    if (!this.utilities.user.uid || this.utilities.user == {}) {
       this.navCtrl.setRoot(LoginPage);
     }
   }

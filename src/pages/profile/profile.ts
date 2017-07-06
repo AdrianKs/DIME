@@ -19,7 +19,7 @@ export class ProfilePage {
   private userId: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public utilities: Utilities) {
-    if (!this.utilities.user || this.utilities.user == {}) {
+    if (!this.utilities.user.uid || this.utilities.user == {}) {
       this.navCtrl.setRoot(LoginPage);
     } else {
       if(!navParams.get('user')){

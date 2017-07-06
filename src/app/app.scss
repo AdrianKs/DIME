@@ -83,7 +83,7 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
   left: 16px;
   z-index: 1;
 }
-    
+
 
 .mainDetails {
   color: dimgray;
@@ -171,6 +171,17 @@ ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
     background: dimgray;
     padding: 2px;
   }
+}
+
+.menuHeaderPic {
+  position: absolute;
+  top: 26px;
+  left: 15px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: dimgray;
+  padding: 2px;
 }
 
 .menuHeader {

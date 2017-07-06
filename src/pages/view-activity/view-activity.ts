@@ -52,7 +52,7 @@ export class ViewActivityPage {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     public geofence: Geofence) {
-    if (!this.utilities.user || this.utilities.user == {}) {
+    if (!this.utilities.user.uid || this.utilities.user == {}) {
       this.navCtrl.setRoot(LoginPage);
     }
   }
