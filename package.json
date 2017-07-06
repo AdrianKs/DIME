@@ -95,7 +95,7 @@
             "ionic-plugin-deeplinks": {
                 "URL_SCHEME": "dime",
                 "DEEPLINK_SCHEME": "https",
-                "DEEPLINK_HOST": "https://batmanton-f8643.firebaseapp.com/",
+                "DEEPLINK_HOST": "https://dime-ce246.firebaseapp.com/",
                 "ANDROID_PATH_PREFIX": "/",
                 "ANDROID_2_PATH_PREFIX": "/",
                 "ANDROID_3_PATH_PREFIX": "/",
