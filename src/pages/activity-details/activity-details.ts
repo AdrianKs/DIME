@@ -292,7 +292,7 @@ export class ActivityDetailsPage {
   }
 
   shareViaFacebook(){
-    this.socialSharer.canShareVia('WhatsApp').then(()=>{
+    this.socialSharer.canShareVia('Facebook').then(()=>{
       this.socialSharer.shareViaFacebook('Hi! Ich möchte eine Aktivität mit euch teilen:', '', 'dime://app/activity/'+this.activityID);
     }).catch((error)=>{
       console.log("not possible, error: " + error);
@@ -300,7 +300,7 @@ export class ActivityDetailsPage {
   }
 
   shareViaTwitter(){
-    this.socialSharer.canShareVia('WhatsApp').then(()=>{
+    this.socialSharer.canShareVia('Twitter').then(()=>{
       this.socialSharer.shareViaTwitter('Hi! Ich möchte eine Aktivität mit euch teilen:', '', 'dime://app/activity/'+this.activityID);
     }).catch((error)=>{
       console.log("not possible, error: " + error);
