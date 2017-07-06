@@ -7,6 +7,7 @@ import { ActivityDetailsPage } from '../activity-details/activity-details';
 import { Geofence } from '@ionic-native/geofence';
 import * as _ from 'lodash';
 import firebase from 'firebase';
+import {LoginPage} from "../login/login";
 /**
  * Generated class for the ViewActivityPage page.
  *
@@ -51,6 +52,9 @@ export class ViewActivityPage {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     public geofence: Geofence) {
+    if (!this.utilities.user || this.utilities.user == {}) {
+      this.navCtrl.setRoot(LoginPage);
+    }
   }
 
   loadData(showLoading: boolean, event): void {
@@ -215,7 +219,7 @@ export class ViewActivityPage {
           }
         }
       }
-      
+
     }
   }
 
