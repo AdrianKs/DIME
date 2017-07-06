@@ -16,7 +16,6 @@ export class AuthData {
   public fireAuth: any;
   fbAccessToken: any;
   public userProfile = firebase.database().ref('user');
-  firebaseCallback: any;
 
   constructor(public menuCtrl: MenuController, public fb: Facebook, public platform: Platform, public utilities: Utilities) {
     this.fireAuth = firebase.auth();
@@ -53,7 +52,7 @@ export class AuthData {
             console.log("firebase error: ", error);
           })
       })
-      .catch(e => console.log('Error logging into Facebook', e))
+      .catch(e => console.log('Error logging into Facebook', e));
 
     //this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
   }
@@ -157,7 +156,7 @@ export class AuthData {
       this.fb.getLoginStatus().then((response) => {
         if(response.status == 'connected'){
           this.fb.logout()
-            .then(response => {
+            .then(() => {
               return this.fireAuth.signOut();
             })
         }
