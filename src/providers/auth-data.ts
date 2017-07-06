@@ -23,28 +23,6 @@ export class AuthData {
     this.userProfile = firebase.database().ref('user');
   }
 
-  firebaseLogin() {
-    let provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithRedirect(provider)
-      .then(() => {
-      return firebase.auth().getRedirectResult()
-    })
-      .then((result) => {
-        // This gives you a Google Access Token.
-        // You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        this.userProfile.push(result);
-        this.firebaseCallback = result;
-        alert(JSON.stringify(result));
-        // The signed-in user info.
-        var user = result.user;
-        // ...
-      }).catch(function(error) {
-      // Handle Errors here.
-      var errorMessage = error.message;
-    });
-  }
-
   browserFacebookLogin() {
     let provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then((result) => {
