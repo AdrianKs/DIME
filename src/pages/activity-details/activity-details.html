@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>{{category}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="showActionSheet()">
+      <button ion-button icon-only (click)="shareWithOptions()">
         <ion-icon name="share"></ion-icon>
       </button>
     </ion-buttons>
@@ -33,7 +33,7 @@
   <div class="center-contents participate-button" *ngIf="!participating">
     <button ion-button outline color="secondary" type="button" (click)="participateOnEvent()">Teilnehmen</button>
   </div>
-  <div class="center-contents participate-button" *ngIf="participating"> 
+  <div class="center-contents participate-button" *ngIf="participating">
     <button ion-button outline color="danger" type="button" (click)="declineEvent()">Absagen</button>
   </div>
   </div>
