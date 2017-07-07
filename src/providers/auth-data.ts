@@ -16,33 +16,10 @@ export class AuthData {
   public fireAuth: any;
   fbAccessToken: any;
   public userProfile = firebase.database().ref('user');
-  firebaseCallback: any;
 
   constructor(public menuCtrl: MenuController, public fb: Facebook, public platform: Platform, public utilities: Utilities) {
     this.fireAuth = firebase.auth();
     this.userProfile = firebase.database().ref('user');
-  }
-
-  firebaseLogin() {
-    let provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithRedirect(provider)
-      .then(() => {
-      return firebase.auth().getRedirectResult()
-    })
-      .then((result) => {
-        // This gives you a Google Access Token.
-        // You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        this.userProfile.push(result);
-        this.firebaseCallback = result;
-        alert(JSON.stringify(result));
-        // The signed-in user info.
-        var user = result.user;
-        // ...
-      }).catch(function(error) {
-      // Handle Errors here.
-      var errorMessage = error.message;
-    });
   }
 
   browserFacebookLogin() {
@@ -75,7 +52,7 @@ export class AuthData {
             console.log("firebase error: ", error);
           })
       })
-      .catch(e => console.log('Error logging into Facebook', e))
+      .catch(e => console.log('Error logging into Facebook', e));
 
     //this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
   }
@@ -179,7 +156,7 @@ export class AuthData {
       this.fb.getLoginStatus().then((response) => {
         if(response.status == 'connected'){
           this.fb.logout()
-            .then(response => {
+            .then(() => {
               return this.fireAuth.signOut();
             })
         }

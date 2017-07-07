@@ -79,7 +79,6 @@ export class ActivityDetailsPage {
   }
 
   prepareItemData() {
-    this.createActionSheet();
     this.userID = this.utilities.user.uid;
     console.log("my userID: " + this.userID);
     this.creatorID = this.activityData.creator;
@@ -240,71 +239,18 @@ export class ActivityDetailsPage {
     }
   }
 
-  createActionSheet(){
-    this.actionSheet = this.actionController.create({
-      title: 'Teilen über...',
-      buttons: [
-        {
-          text: 'WhatsApp',
-          handler: () => {
-            this.shareViaWhatsApp();
-          }
-        },
-        {
-          text: 'Facebook',
-          handler: () => {
-            this.shareViaFacebook();
-          }
-        },
-        {
-          text: 'Twitter',
-          handler: () => {
-            this.shareViaTwitter();
-          }
-        }
-      ]
-    })
-  }
-
-  showActionSheet(){
-    if(this.actionSheet!=null){
-      try{
-      this.actionSheet.present();
-      }catch(error){
-        console.log("View Error caught");
-      }
-    }else{
-      this.createActionSheet();
-      try{
-      this.actionSheet.present();
-      }catch(error){
-        console.log("View Error caught");
-      }
+  shareWithOptions(){
+    if(this.utilities.platform === 'dom'){
+      alert("Diese Option ist nur auf nativen Geräten verfügbar");
+    } else {
+      let options = {
+        message: 'Nehmen Sie mit mir an der Aktivität ' + this.category + ' des Veranstalters ' + this.creatorName + ' teil.', // not supported on some apps (Facebook, Instagram)
+        subject: 'Nehmen Sie mit mir an dieser Aktivität teil', // fi. for email
+        url: 'dime://app/activity/' + this.activityID,
+        chooserTitle: 'Wählen Sie eine App' // Android only, you can override the default share sheet title
+      };
+      this.socialSharer.shareWithOptions(options);
     }
-  }
-
-  shareViaWhatsApp(){
-    this.socialSharer.canShareVia('WhatsApp').then(()=>{
-      this.socialSharer.shareViaWhatsApp('Hi! Ich möchte eine Aktivität mit dir teilen:', '', 'dime://app/activity/'+this.activityID);
-    }).catch((error)=>{
-      console.log("not possible, error: " + error);
-    })
-  }
-
-  shareViaFacebook(){
-    this.socialSharer.canShareVia('Facebook').then(()=>{
-      this.socialSharer.shareViaFacebook('Hi! Ich möchte eine Aktivität mit euch teilen:', '', 'dime://app/activity/'+this.activityID);
-    }).catch((error)=>{
-      console.log("not possible, error: " + error);
-    })
-  }
-
-  shareViaTwitter(){
-    this.socialSharer.canShareVia('Twitter').then(()=>{
-      this.socialSharer.shareViaTwitter('Hi! Ich möchte eine Aktivität mit euch teilen:', '', 'dime://app/activity/'+this.activityID);
-    }).catch((error)=>{
-      console.log("not possible, error: " + error);
-    })
   }
 
   ionViewDidLoad() {
