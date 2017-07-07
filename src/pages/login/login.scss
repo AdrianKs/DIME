@@ -1,10 +1,22 @@
 page-login {
 
   .centerButton{
-    button: 50%;
-    top: 50%;
+    bottom: 50%;
+    top: 15%;
     position: relative;
     text-align: center;
+  }
+
+  .my-login-text{
+    text-align: center;
+    position: relative;
+    top: 10%;
+    bottom: 50%;
+  }
+
+  .my-icon-center{
+    width: 120px;
+    height: 120px;
   }
 
 }
