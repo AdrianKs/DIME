@@ -36,3 +36,22 @@
     font-size: 18px !important;
     color: #cccccc;
 }
+
+.my-table-style{
+    width: 800px;
+    overflow: hidden;
+}
+
+.left-container{
+    width: 300px;
+    float: left;
+}
+
+.right-container{
+    width: 400px;
+    float: right;
+    overflow: hidden;
+    font-size: 18px !important;
+    text-align: left;
+    margin-left: 50px !important;
+}
