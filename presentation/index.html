@@ -47,6 +47,8 @@
 						<li>Was wurde entwickelt?</li>
 						<li>Warum?</li>
 						<li>Wie wurde es entwickelt?</li>
+						<li>Ergebnis</li>
+						<li>Produktvideo</li>
 					</ol>
 				</div>
 			</section>
@@ -55,7 +57,15 @@
 					<h2>Was wurde entwickelt?</h2>
 				</div>
 				<div class="my-content">
-
+					<div class="my-text">
+						<p>Es wurde eine plattformübergreifende App entwickelt, welche es ermöglicht Aktivitäten mit Freunden, aber auch anderen
+							Personen zu planen und an diesen teilzunehmen. Die Benutzerverwaltung wird dabei durch Facebook unterstützt, wodurch
+							jeder Anwender die Möglichkeit hat über Facebook mit Personen zu interagieren. Die App pflegt dabei den eigenen Kalender
+							und benachrichtigt den Anwender, sobald er sich einer bevorstehenden Aktivität nähert oder eine neue Aktivität erstellt
+							wird.
+						</p>
+						<img src="images/platform.PNG" style="border: 0; background-color: #000">
+					</div>
 				</div>
 			</section>
 			<section>
@@ -63,7 +73,13 @@
 					<h2>Warum?</h2>
 				</div>
 				<div class="my-content">
-
+					<div class="my-text">
+						<p>Die App soll grundsätzlich eine Möglichkeit bieten, um auf einfachem Weg Aktivitäten mit Freunden zu organisieren oder
+							neue Leute in Verbindung mit Facebook zu treffen. Aufwändig Gruppenorganisationen in WhatsApp sollen dank DIME der
+							Vergangenheit angehören. Zudem soll DIME jedem eine Möglichkeit bieten, beim Besuch einer neuen Stadt auf Anhieb neue
+							Kontakte zu knüpfen und an Aktivitäten teilzunehmen.
+						</p>
+					</div>
 				</div>
 			</section>
 			<section>
@@ -121,13 +137,11 @@
 								</div>
 							</tr>
 							<tr>
-								<div class="my-table-content">
-									<td>cordova-plugin-calendar</td>
-									<td>
-										<p>Prüft ob der Calendar zu einem Termin frei ist</p>
-										<p>Trägt das Event in den Kalender des jeweiligen Nutzer ein</p>
-									</td>
-								</div>
+								<td>cordova-plugin-calendar</td>
+								<td>
+									<p>Prüft, ob der Calendar zu einem Termin frei ist</p>
+									<p>Trägt das Event in den Kalender des jeweiligen Nutzer ein</p>
+								</td>
 							</tr>
 							<tr>
 								<td>cordova-plugin-facebook4</td>
@@ -139,7 +153,7 @@
 								<td>cordova-plugin-geolocation</td>
 								<td>
 									<p>Liest den aktuellen Standort des Users aus</p>
-									<p>Ermgölicht die Berechnung der Entfernung zu einem Event</p>
+									<p>Ermöglicht die Berechnung der Entfernung zu einem Event</p>
 								</td>
 							</tr>
 							<tr>
@@ -151,7 +165,7 @@
 							<tr>
 								<td>cordova.plugins.diagnostic</td>
 								<td>
-									<p>Ermöglicht die Überprüfung ob ein User seine Standortdienste aktiviert hat</p>
+									<p>Ermöglicht die Überprüfung, ob ein User seine Standortdienste aktiviert hat</p>
 								</td>
 							</tr>
 							<tr>
@@ -163,6 +177,162 @@
 						</table>
 					</div>
 				</section>
+			</section>
+			<section>
+				<section>
+					<div class="my-headline">
+						<h2>Ergebnis</h2>
+					</div>
+					<div class="my-content">
+						<p>Nachfolgend werden die Resultate der Entwicklung aufgezeigt:</p>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Login</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/login.png">
+							</div>
+							<div class="right-container">
+								<p>Bevor die App verwendet werden kann, muss sich der Anwender zunächst einloggen. Hierfür wurde ein Facebook-Login
+									implementiert. Dies bietet den Vorteil, dass Benutzerdaten über das Facebook-Profil bereitgestellt werden und so
+									ein gewisser Grad an Seriösität garantiert wird. Die technische Umsetzung erfolgt dabei mit dem bereits vorgestellten
+									Facebook-Plugin.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Aktivität erstellen</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/create.png">
+							</div>
+							<div class="right-container">
+								<p>Die Idee der Anwendung ist darauf ausgerichtet, dass Anwender Aktivitäten erstellen und weitere Anwender daran teilnehmen
+									können. Hierfür muss der Ersteller zunächst die Kategorie für die Aktivität bestimmen, den Ort auswählen (überfolgt
+									mit Hilfe von Google Maps), die Teilnehmeranzahl festlegen, das Datum und die Dauer bestimmen sowie zusätzliche
+									Informationen angeben. Andere Anwender erhalten anschließend eine Push-Benachrichtung, sollten sie sich für die
+									ausgewählte Kategorie interessieren und sich in der entsprechenden Entfernung zur Aktivität befinden. Beim Ersteller
+									wird zusätzlich im Kalender des Betriebssystems ein Termin für die Aktivität eingetragen.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Aktivitäten</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/aktivitaeten.png">
+							</div>
+							<div class="right-container">
+								<p>Startseite der Anwendung ist die Übersicht über die bereits erstellten Aktivitäten. Hier wird grundsätzlich zwischen
+									erstellten Aktivitäten von Freunden und anderer Personen unterschieden. Diese Aktivitäten können über eine Reichweite
+									gefiltert und somit die Anzeige aktualisiert werden. Wird eine Aktivität ausgewählt so kann hier entsprechend teilgenommen
+									werden. Diese Funktion wird im Folgenden noch im Detail vorgestellt.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Meine Aktivitäten</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/meine.png">
+							</div>
+							<div class="right-container">
+								<p>Damit der Anwender einen Überblick über seine eigenen Aktivitäten und zusätzliche über die Aktivitäten, an denen
+									er teilnehmen wird bzw. teilgenommen hat, erhält, wurde ein Übersichts-Screen für die eigenen Aktivitäten entwickelt.
+									Dieser ist, wie bereits angedeutet, in "Eigene", "Bevorstehende" und "Vergangene" Aktivitäten unterteilt. Hier besteht
+									für den Anwender auch die Möglichkeit seine eigenen Aktivitäten wieder zu löschen.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Aktivitäten Details</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/details.png">
+							</div>
+							<div class="right-container">
+								<p>Wählt der Anwender eine Aktivität aus, so wird dieser auf die Details zur Aktivität weitergeleitet. Hier hat er die
+									Möglichkeit der Aktivität zuzusagen, aber auch wieder abzusagen. Zusätzlich hat er hier einen Überblick, welche
+									Anwender bereits an der Aktivität teilnehmen und wann und wo diese stattfindet. Des Weiteren kann der Anwender die
+									Aktivität mit Freunden bspw. über WhatsApp teilen. Hierdurch ensteht ein sogenannter Deep-Link.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Kategorien</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/kategorien.png">
+							</div>
+							<div class="right-container">
+								<p>Mithilfe von Kategorien soll dem Anwender ermöglicht werden, dass er auswählen kann, für welche Kategorien er sich
+									interessiert und für welche nicht. Somit bekommt der Anwender auch nur über die ausgewählten Kategorien eine Benachrichtigung
+									(Push-Benachrichtung und Geofence-Areas) über neue Aktivitäten. Ändert der Anwender seine Kategorien-Auswahl, so
+									werden die Benachrichtigungseinstellungen entsprechend aktualisiert.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="my-headline">
+						<h2>Profil</h2>
+					</div>
+					<div class="my-content">
+						<div class="my-table-style">
+							<div class="left-container">
+								<img src="images/profil.png">
+							</div>
+							<div class="right-container">
+								<p>Damit der Anwender sich vorab einer erstellten Aktivität über den Organisator informieren kann, wurde ein Profil-Screen
+									entwickelt, welcher zudem einen Link auf das Facebook-Profil des Organisators enthält. Zusätzlich ist es dem Anwender
+									möglich im Anschluss an einer Aktivität den Organisator und die anderen Teilnehmer zu bewerten. Somit ergibt sich
+									ein Bewertungssystem für einzelne Anwender. Dies soll ebenfalls zur Seriösität beitragen.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section>
+				<div class="my-headline">
+					<h2>Produktvideo</h2>
+				</div>
+				<div class="my-content">
+					<video controls height="360" width="640" poster="images/d-logo.png">
+						<source src="video/Test2.mp4" type="video/mp4" />	
+						Ihr Browser kann dieses Video nicht wiedergeben.<br/>
+					</video>
+				</div>
 			</section>
 			<section>
 				<div class="my-headline">
@@ -179,9 +349,6 @@
 	<script src="js/reveal.js"></script>
 
 	<script>
-		// More info about config & dependencies:
-		// - https://github.com/hakimel/reveal.js#configuration
-		// - https://github.com/hakimel/reveal.js#dependencies
 		Reveal.initialize({
 			dependencies: [
 				{ src: 'plugin/markdown/marked.js' },
