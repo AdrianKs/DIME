@@ -22,11 +22,19 @@ export class Utilities {
     myActivitesFromOther: any[] = [];
     picture: any;
     platform: string;
+    LOCAL_TOKEN_KEY: string = 'DIME';
+    allGeofenceAreas: any[] = [];
+    storedLocalAreas: any[] = [];
 
     constructor(public geofence: Geofence,
         public geolocation: Geolocation,
         public calendar: Calendar,
         public alertCtrl: AlertController) {
+        if (localStorage.getItem("DIME") == null) {
+            console.log("War null");
+            window.localStorage.setItem(this.LOCAL_TOKEN_KEY, JSON.stringify(this.allGeofenceAreas));
+        }
+        this.storedLocalAreas = JSON.parse(localStorage.getItem("DIME"));
         this.getCategories();
         //this.getUserPosition();
         this.getSpecificUserActivites();
@@ -104,7 +112,8 @@ export class Utilities {
                                 this.removeGeofence(this.userActivitesArray[i].id);
                             } else {
                                 if (this.checkCalendar(this.userActivitesArray[i].date, this.userActivitesArray[i].duration) == true) {
-                                    this.createGeofence(this.userActivitesArray[i], this.userActivitesArray[i].id);
+                                    this.addToGeofenceArray(this.userActivitesArray[i], this.userActivitesArray[i].id);
+                                    //this.createGeofence(this.userActivitesArray[i], this.userActivitesArray[i].id);
                                 }
                             }
                         }
@@ -112,6 +121,22 @@ export class Utilities {
                 }
             }
         });
+    }
+
+    addToGeofenceArray(activity, id) {
+        console.log(this.storedLocalAreas);
+        let tmpCheck = false;
+        for (let i = 0; i < this.storedLocalAreas.length; i++) {
+            if (this.storedLocalAreas[i] == id) {
+                tmpCheck = true;
+            }
+        }
+        if (tmpCheck == false) {
+            console.log("neue Area hinzugefügt");
+            this.allGeofenceAreas.push(id);
+            window.localStorage.setItem(this.LOCAL_TOKEN_KEY, JSON.stringify(this.allGeofenceAreas));
+            this.createGeofence(activity, id);
+        }
     }
 
     calculateDistanceToActivities(lat, lng) {
@@ -158,7 +183,7 @@ export class Utilities {
             id: id, //any unique ID
             latitude: lat, //center of geofence radius
             longitude: lng,
-            radius: 1000, //radius to edge of geofence in meters
+            radius: 500, //radius to edge of geofence in meters
             transitionType: 1, //see 'Transition Types' below
             notification: { //notification settings
                 id: notificationId, //any unique ID
@@ -199,7 +224,8 @@ export class Utilities {
                         let customDate = currentDate.toISOString();
                         console.log(customDate);
                         if (customDate <= snapshot.val()[i].date && snapshot.val()[i].date != this.user.uid) {
-                            this.createGeofence(snapshot.val()[i], i);
+                            // this.createGeofence(snapshot.val()[i], i);
+                            this.addToGeofenceArray(snapshot.val()[i], i);
                         }
                     }
                 }
