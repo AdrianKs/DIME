@@ -33,6 +33,14 @@ src/app/firebaseAppData.ts
 individualanteile/KochsiekAdrian/mobileFramework7/platforms
 individualanteile/KochsiekAdrian/mobileFramework7/plugins
 individualanteile/KochsiekAdrian/ReactNative_AwesomeProject/node_modules
+individualanteile/EntenmannManuel/reactNativeFirstApp/AwesomeProject/node_modules
+individualanteile/EntenmannManuel/MyApp/platforms
+individualanteile/EntenmannManuel/MyApp/plugins
+individualanteile/EntenmannManuel/framework7firstApp/node_modules
+individualanteile/EntenmannManuel/framework7firstApp/platforms
+individualanteile/EntenmannManuel/framework7firstApp/plugins
+
+
 
 .DS_Store
 Thumbs.db
