@@ -1,1 +1,1 @@
-Die Presentation ist abrufbar über die index.html
+Die Präsentation ist abrufbar über die index.html
