@@ -1,0 +1,155 @@
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+   <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: ms-appdata: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src * blob:">!-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Your app title -->
+    <title>My App</title>
+    <!-- Path to Framework7 iOS CSS theme styles-->
+    <link rel="stylesheet" href="bower_components/framework7/dist/css/framework7.ios.min.css">
+    <!-- Path to Framework7 iOS related color styles -->
+    <link rel="stylesheet" href="bower_components/framework7/dist/css/framework7.ios.colors.min.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="bower_components/framework7/dist/css/my-app.css">
+    <link rel="stylesheet" href="css/myApp.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-auth.js"></script>
+</head>
+
+<body>
+    <!-- Status bar overlay for full screen mode (PhoneGap) -->
+    <div class="statusbar-overlay"></div>
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-left panel-reveal">
+        <div class="content-block">
+            <p>Left panel content goes here</p>
+        </div>
+    </div>
+    <!-- Views -->
+    <div class="views">
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+                    <div class="center sliding">Awesome App</div>
+                    <div class="right">
+                        <!-- 
+                Right link contains only icon - additional "icon-only" class
+                Additional "open-panel" class tells app to open panel when we click on this link
+              -->
+                        <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, "data-page" contains page name -->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content -->
+                    <div class="page-content myContent">
+                        <div class="buttonContainer">
+                            <p>Open Camera here</p>
+                            <input type="button" class="btnTest" value="Test" />
+                            <img id="myImage" src="" />
+                        </div>
+                        <div class="list-block myBlock">
+                            <p>Store, Load and Delete Data</p>
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">Name</div>
+                                            <div class="item-input">
+                                                <input type="text" name="name" id="name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="dlsContainer">
+                                <input type="button" id="btnStore" class="btnStore" value="Store data"></input>
+                                <input type="button" class="btnLoad" value="Load data"></input>
+                                <input type="button" class="btnDelete" value="Delete data"></input>
+                            </div>
+                        </div>
+                        <div class="myBattery">
+                            <p>Battery status</p>
+                            <div>
+                                <p id="pBatteryStat"></p>
+                            </div>
+                        </div>
+                        <div class="myAppStart">
+                            <p>Start other App</p>
+                            <input type="button" class="btnOpenApp" value="Open Google Maps"></input>
+                        </div>
+                        <div class="mySocial">
+                            <p>Send Messages</p>
+                            <input type="button" class="btnSendMessage" value="Send Message"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom Toolbar-->
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <!-- Toolbar links -->
+                    <a href="#" class="link" id="myUser"></a>
+                    <a href="#" class="link open-login-screen" id="btnLogout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="login-screen modal-in">
+        <div class="view">
+            <div class="page">
+                <div class="page-content login-screen-content">
+                    <div class="login-screen-title">Login Here</div>
+                    <form>
+                        <div class="list-block">
+                            <ul>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">E-Mail</div>
+                                        <div class="item-input">
+                                            <input type="text" name="email" id="txtEmail" placeholder="Enter your email">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">Password</div>
+                                        <div class="item-input">
+                                            <input type="password" name="password" id="txtPassword" placeholder="Enter the password">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">
+                            <ul>
+                                <li><a href="#" class="item-link list-button" id="btnLogin">Log In</a></li>
+                            </ul>
+                            <div class="list-block-label">
+                                <p><a href="#" class="close-login-screen" id="btnSignUp">Sign Up</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Path to Framework7 Library JS-->
+        <script type="text/javascript" src="bower_components/framework7/dist/js/framework7.min.js"></script>
+        <!-- Path to your app js-->
+        <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
