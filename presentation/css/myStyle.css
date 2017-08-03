@@ -10,10 +10,6 @@
     color: white;
 }
 
-.my-headline {
-    
-}
-
 .my-list-header{
     font-size: 28px !important;
 }
@@ -60,4 +56,8 @@
 .my-text{
     font-size: 22px !important;
     color: #cccccc;
+}
+
+video[poster]{
+   
 }
