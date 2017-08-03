@@ -17,7 +17,7 @@ Die Inhalte sind wie folgt abrufbar:
 
 Sourcecode - Direkt über die Startseite des Repository
 
-Gruppen-Präsentation - [Präsentation](https://github.com/AdrianKs/DIME/tree/master/presentation)
+Gruppen-Präsentation - [Präsentation](http://htmlpreview.github.io/?https://github.com/AdrianKs/DIME/blob/master/presentation/index.html)
 
 Individualanteile aus dem 5. Semester - [Individualanteile](https://github.com/AdrianKs/DIME/tree/master/individualanteile)
 
