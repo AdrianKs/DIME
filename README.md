@@ -12,7 +12,7 @@ sobald er sich einer bevorstehenden Aktivität nähert oder eine neue Aktivität
 ## Aufbau des Repositories:
 
 Dieses Repository enthält den Sourcecode der App, die dazugehörige Gruppen-Präsentation inklusive Produktvideo
-sowie den Individualanteilen aus dem 5. Semester.
+sowie die Individualanteile aller Gruppenmitglieder aus dem 5. Semester.
 Die Inhalte sind wie folgt abrufbar:
 
 Sourcecode - Direkt über die Startseite des Repository
