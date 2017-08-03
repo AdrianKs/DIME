@@ -1,6 +1,6 @@
 # DIME - DISCOVER - INVITE - MEET - ENGAGE
 
-## Beschreibung:
+## Beschreibung
 
 Es wurde eine plattformübergreifende App entwickelt, welche es ermöglicht Aktivitäten mit Freunden, 
 aber auch anderen Personen zu planen und an diesen teilzunehmen.
@@ -9,7 +9,7 @@ wodurch jeder Anwender die Möglichkeit hat über Facebook mit Personen zu inter
 Die App pflegt dabei den eigenen Kalender und benachrichtigt den Anwender, 
 sobald er sich einer bevorstehenden Aktivität nähert oder eine neue Aktivität erstellt wird.
 
-## Aufbau des Repositories:
+## Aufbau des Repositories
 
 Dieses Repository enthält den Sourcecode der App, die dazugehörige Gruppen-Präsentation inklusive Produktvideo
 sowie die Individualanteile aller Gruppenmitglieder aus dem 5. Semester.
