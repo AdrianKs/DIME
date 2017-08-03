@@ -11,6 +11,16 @@ sobald er sich einer bevorstehenden Aktivität nähert oder eine neue Aktivität
 
 ## Aufbau des Repositories:
 
+Dieses Repository enthält den Sourcecode der App, die dazugehörige Gruppen-Präsentation inklusive Produktvideo
+sowie den Individualanteilen aus dem 5. Semester.
+Die Inhalte sind wie folgt abrufbar:
+
+Sourcecode - Direkt über die Startseite des Repository
+
+Gruppen-Präsentation - [Präsentation](https://github.com/AdrianKs/DIME/tree/master/presentation)
+
+Individualanteile aus dem 5. Semester - [Individualanteile](https://github.com/AdrianKs/DIME/tree/master/individualanteile)
+
 ## Autoren
 
 * **André Ho**
