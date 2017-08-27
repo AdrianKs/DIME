@@ -7,12 +7,39 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Profile</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profil</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <div>
+    <div class="picture-container">
+      <img class="profile-image picture-click picture-border" src="{{this.user.picURL}}"
+           onError="this.src='assets/images/user-shape-256.png'">
+    </div>
+    <div class="name-container">
+      {{this.user.name}}
+    </div>
+    <div class="moreInformation-container">
+      <div clase="moreInformationHeading">
+        Mehr Informationen hier:
+      </div>
+      <div class="facebookLink">
+        <div class="centerButton">
+          <button ion-button icon-left (click)="openFacebookProfile()"><ion-icon name="logo-facebook"></ion-icon>Facebook Profil</button>
+        </div>
+      </div>
+    </div>
+    <div class="rating-container">
+      <ion-icon name="thumbs-down" (click)="downvote()" class="ratingNeg-button" large></ion-icon>
+      {{calculateRating()}}
+      <ion-icon name="thumbs-up" (click)="upvote()" class="ratingPos-button" large></ion-icon>
+    </div>
+  </div>
 
 </ion-content>

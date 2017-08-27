@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="dialog_fire_missiles">Would you like to enable your GPS?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="dialog_title">GPS</string>
+    <string name="button_caption">Find Flights</string>
+    <string name="button_save">Save</string>
+    <string name="button_save_external">Save extern</string>
+
+    <string-array name="origins">
+        <item>Cork</item>
+        <item>London</item>
+        <item>Paris</item>
+        <item>Dortmund</item>
+        <item>Manchester</item>
+        <item>Hamburg</item>
+    </string-array>
+
+    <string-array name="destinations">
+        <item>New York</item>
+        <item>San Francisco</item>
+        <item>Boston</item>
+        <item>Toronto</item>
+        <item>Mannheim</item>
+        <item>Stuttgart</item>
+    </string-array>
+</resources>

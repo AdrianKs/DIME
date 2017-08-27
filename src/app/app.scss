@@ -14,3 +14,211 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-app.ios [padding], ion-app.ios [padding] .scroll-content{
+    padding: 0px;
+}
+
+.ion-app.md [padding], ion-app.md [padding] .scroll-content{
+    padding: 0px;
+}
+
+.menuBottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.menuBtnAbout .item-inner {
+  border-top: 1px solid #cccccc;
+}
+
+.menuIcons {
+  margin-right: 10px;
+}
+
+.itemLeft {
+  float: left;
+  margin-top: 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 3px;
+}
+
+.iconLeft {
+  font-size: 4.0rem;
+  margin-top: 6px;
+  padding-left: 20px;
+}
+
+.itemRight{
+  padding: 12px 8px 8px 15px;
+  margin-left: 77px;
+  font-size: 14px;
+}
+
+.distanceToUser{
+  float: right;
+  position: relative;
+  bottom: 33px;
+  left: 9px;
+  font-size: 10px;
+}
+
+.no-items{
+  color: dimgray;
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rangeBackground{
+  background: #f8f8f8;
+}
+
+.rangeLabel{
+  background: #f8f8f8;
+  position: relative;
+  top: 27px;
+  left: 16px;
+  z-index: 1;
+}
+
+
+.mainDetails {
+  color: dimgray;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.secondaryDetails{
+  color: dimgrey;
+  word-wrap: break-word;
+  font-size: 14px;
+}
+
+
+.categoryField{
+  width: 50%;
+  float: left;
+}
+
+.player-item-image {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  background-color: grey;
+  padding: 2px;
+}
+
+@media (max-width: 320px) {
+  /* CSS that should be displayed if width is equal to or less than 800px goes here */
+  .platform-android .menuHeaderPic{
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: dimgray;
+    padding: 2px;
+  }
+
+  .platform-ios .menuHeaderPic {
+    position: absolute;
+    top: 26px;
+    left: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: dimgray;
+    padding: 2px;
+  }
+}
+
+@media (min-width: 321px){
+  .platform-android .menuHeaderPic{
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: dimgray;
+    padding: 2px;
+  }
+
+  .platform-ios .menuHeaderPic {
+    position: absolute;
+    top: 26px;
+    left: 15px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: dimgray;
+    padding: 2px;
+  }
+}
+
+@media (min-width: 1024px){
+  .platform-ios .menuHeaderPic {
+    position: absolute;
+    top: 26px;
+    left: 15px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: dimgray;
+    padding: 2px;
+  }
+}
+
+.menuHeaderPic {
+  position: absolute;
+  top: 26px;
+  left: 15px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: dimgray;
+  padding: 2px;
+}
+
+.menuHeader {
+  background-color: #cccccc;
+  height: 19%;
+}
+
+.menuHeaderContent{
+  width: 100%;
+  height: 100%;
+}
+
+.menuToolbar{
+  height: 100% !important;
+}
+
+.menuBtnLogout {
+  position: absolute;
+  right: 0px;
+  bottom: 2px;
+  margin-right: 6px;
+  color: orange;
+}
+
+.menuBtnHeader {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+}
+
+.mainPlayerContent {
+  font-size: 15px;
+  color: black !important;
+}
+
+.secPlayerContent {
+  font-size: 11px;
+  color: dimgray;
+}
+

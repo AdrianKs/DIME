@@ -1,3 +1,56 @@
 page-profile {
+  .profile-image{
+    border-radius: 10rem;
+    width: 12em;
+    height: 12em;
+  }
+
+  .picture-border{
+    background-color: dimgray;
+    padding: 3px;
+  }
+
+  .picture-container{
+    text-align: center;
+    margin-top: 35px;
+  }
+
+  .name-container{
+    text-align: center;
+    margin-top: 30px;
+    font-size: 140%;
+    font-weight: 400;
+  }
+
+  .moreInformation-container{
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .moreInformationHeading{
+    font-size: 110%;
+    font-weight: 200;
+    font-color: dimgray;
+  }
+
+  .facebookLink{
+    font-size: 120%;
+    font-weight: 300;
+  }
+
+  .rating-container{
+    margin-top:60px;
+    font-size: 160%;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .ratingPos-button{
+    color: olivedrab;
+  }
+
+  .ratingNeg-button{
+    color: firebrick;
+  }
 
 }

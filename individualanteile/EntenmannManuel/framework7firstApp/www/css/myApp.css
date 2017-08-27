@@ -1,0 +1,64 @@
+input[type=button]{
+    padding: 10px;
+    border-radius: 12px;
+    background-color: lightgray;
+    border: 2px solid darkgray;
+    width: 100px;
+}
+
+.btnTest{
+    margin-bottom: 5px;
+}
+
+.buttonContainer{
+    text-align: center;
+}
+
+.linkSection{
+    text-align: center;
+    position: absolute;
+    bottom: 50px;
+}
+
+.cordova-camera-capture{
+    position: absolute;
+    bottom: 500px;
+}
+
+.list-block.myBlock {
+    border-top: 2px solid lightgray;
+    padding: 5px;
+    text-align: center;
+}
+
+.list-block.myBlock p{
+    font-size: 14px;
+}
+
+.myBattery {
+    border-top: 2px solid lightgray;
+    text-align: center;
+}
+
+.dlsContainer{
+    margin-top: 10px;
+}
+
+.myAppStart{
+    border-top: 2px solid lightgray;
+    text-align: center;
+    margin-bottom: 19px;
+}
+
+.btnOpenApp {
+    width: 150px !important;
+}
+
+.mySocial{
+    border-top: 2px solid lightgray;
+    text-align: center;
+}
+
+.btnSendMessage{
+    width: 150px !important;
+}
